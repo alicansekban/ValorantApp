@@ -33,7 +33,7 @@ data class AgentResponse(
 	val uuid: String? = null,
 
 	@Json(name="characterTags")
-	val characterTags: Any? = null,
+	val characterTags: String? = null,
 
 	@Json(name="displayIconSmall")
 	val displayIconSmall: String? = null,
