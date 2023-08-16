@@ -48,7 +48,16 @@ class MainActivity : ComponentActivity() {
                     if (route == "-1") {
                         navController.popBackStack()
                     } else {
-                        navController.navigate(route)
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
+                        }
                     }
                 }
 
@@ -88,17 +97,8 @@ class MainActivity : ComponentActivity() {
                                         selected = selectedItemIndex == index,
                                         onClick = {
                                             selectedItemIndex = index
-                                       //     navigation(item.route)
-                                            navController.navigate(item.route) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
-                                                // Avoid multiple copies of the same destination when
-                                                // reselecting the same item
-                                                launchSingleTop = true
-                                                // Restore state when reselecting a previously selected item
-                                                restoreState = true
-                                            }
+                                           navigation(item.route)
+
 
                                         },
                                         label = {
