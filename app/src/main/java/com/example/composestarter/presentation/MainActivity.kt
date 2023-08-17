@@ -1,5 +1,6 @@
 package com.example.composestarter.presentation
 
+import SkinsScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,10 +33,14 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.composestarter.presentation.agents.AgentsScreen
+import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.theme.ComposeStarterTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,32 +142,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun AgentsScreen() {
-    Box(
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Agent Screen")
-    }
-}
-
-@Composable
-fun MapsScreen() {
-    Box(
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Maps Screen")
-    }
-}
-
-@Composable
-fun SkinsScreen() {
-    Box(
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Skins Screen")
     }
 }

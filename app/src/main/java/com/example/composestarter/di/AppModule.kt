@@ -3,8 +3,7 @@ package com.example.composestarter.di
 import android.content.Context
 import androidx.room.Room
 import com.example.composestarter.data.local.AppDatabase
-import com.example.composestarter.data.remote.webservice.WebService
-import com.example.composestarter.utils.Constant
+import com.example.composestarter.data.remote.ValorantService
 import com.example.composestarter.utils.Constant.BASE_URL
 import com.example.composestarter.utils.Constant.ROOM_DATA_BASE_NAME
 import dagger.Module
@@ -62,12 +61,12 @@ object AppModule {
     @Singleton
     fun provideWebService(
         callFactory: okhttp3.Call.Factory
-    ): WebService = Retrofit.Builder()
+    ): ValorantService = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .callFactory(callFactory)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(WebService::class.java)
+        .create(ValorantService::class.java)
 
     @Provides
     @Singleton

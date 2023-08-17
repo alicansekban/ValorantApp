@@ -1,10 +1,10 @@
-package com.example.composestarter.data.remote.webservice
+package com.example.composestarter.data.remote
 
 import com.example.composestarter.data.base.BaseResponse
 import com.example.composestarter.data.model.AgentResponse
 import retrofit2.http.GET
 
-interface WebService {
+interface ValorantService {
 
     @GET("agents")
     suspend fun getAgents() : BaseResponse<AgentResponse>

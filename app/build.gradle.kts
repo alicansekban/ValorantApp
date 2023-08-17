@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
 
 }
 
@@ -95,7 +97,7 @@ dependencies {
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.46")
-    ksp("com.google.dagger:hilt-compiler:2.46")
+    kapt("com.google.dagger:hilt-compiler:2.46")
 
     // networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
