@@ -30,12 +30,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.composestarter.presentation.agents.AgentsScreen
+import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.utils.BottomNavigationItem
+import com.example.composestarter.utils.ScreenRoutes
 import com.example.composestarter.utils.theme.ComposeStarterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -102,7 +106,7 @@ class MainActivity : ComponentActivity() {
                                         selected = selectedItemIndex == index,
                                         onClick = {
                                             selectedItemIndex = index
-                                           navigation(item.route)
+                                            navigation(item.route)
 
 
                                         },
@@ -127,10 +131,29 @@ class MainActivity : ComponentActivity() {
                             startDestination = "Agents",
                             modifier = Modifier.padding(paddingValues)
                         ) {
-                            composable("Agents") {
-                                AgentsScreen()
+                            composable(
+                                route = ScreenRoutes.AgentsRoute
+                            ) { entry ->
+
+                                AgentsScreen(openDetail = {
+                                    navigation(it)
+                                })
                             }
-                            composable("Maps") {
+                            composable(ScreenRoutes.AgentsDetailRoute, arguments = listOf(
+                                navArgument("id") {
+                                    type = NavType.StringType
+                                }
+                            )) { entry ->
+                                val id = entry.arguments?.getString("id")
+                                if (id?.isNotEmpty() == true) {
+                                    AgentDetailScreen(
+                                        onBackPressed =  {
+                                            navigation(it)
+                                        }
+                                    )
+                                }
+                            }
+                            composable(ScreenRoutes.MapsRoute) {
                                 MapsScreen()
                             }
                             composable("Skins") {

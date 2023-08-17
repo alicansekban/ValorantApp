@@ -43,11 +43,13 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.AgentsUIModel
+import com.example.composestarter.utils.ScreenRoutes
 
 
 @Composable
 fun AgentsScreen(
-    viewModel: AgentsViewModel = hiltViewModel()
+    viewModel: AgentsViewModel = hiltViewModel(),
+    openDetail: (String) -> Unit
 ) {
 
     val agents by viewModel.agents.collectAsStateWithLifecycle()
@@ -65,7 +67,7 @@ fun AgentsScreen(
             LoadingDialog(isShowingDialog = { false })
             val response = (agents as Success<List<AgentsUIModel>>).response
 
-            StatelessAgentsScreen(response)
+            StatelessAgentsScreen(response, openDetail = openDetail)
         }
     }
 
@@ -74,7 +76,8 @@ fun AgentsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatelessAgentsScreen(
-    agents: List<AgentsUIModel>
+    agents: List<AgentsUIModel>,
+    openDetail: (String) -> Unit
 ) {
     Scaffold { padding ->
         Column(modifier = Modifier.padding(padding)) {
@@ -95,7 +98,12 @@ fun StatelessAgentsScreen(
                         key = { agents -> agents.uuid!! })
                     { value ->
                         NewsItem(value, openDetail = {
-
+                            openDetail(
+                                ScreenRoutes.AgentsDetailRoute.replace(
+                                    oldValue = "{id}",
+                                    newValue = it
+                                )
+                            )
                         }
                         )
                     }
@@ -122,7 +130,7 @@ fun NewsItem(agents: AgentsUIModel, openDetail: (String) -> Unit) {
                 .fillMaxWidth()
         ) {
             loadImage(
-                url = agents.displayIcon ?: "",
+                url = agents.fullPortrait ?: "",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
@@ -182,8 +190,7 @@ fun loadImage(
         GlideImage(
             model = url,
             contentDescription = "loadImage",
-            modifier = modifier,
-            contentScale = ContentScale.FillBounds
+            modifier = modifier
         ) {
             it.error(R.drawable.ic_launcher_foreground)
                 .placeholder(R.drawable.ic_launcher_foreground)

@@ -1,4 +1,4 @@
-package com.example.composestarter.data.model
+package com.example.composestarter.data.model.agent
 
 import kotlinx.parcelize.Parcelize
 import com.squareup.moshi.JsonClass

@@ -1,6 +1,6 @@
 package com.example.composestarter.domain.mapper
 
-import com.example.composestarter.data.model.AgentResponse
+import com.example.composestarter.data.model.agent.AgentResponse
 import com.example.composestarter.domain.model.AbilitiesUIModel
 import com.example.composestarter.domain.model.AgentsUIModel
 import com.example.composestarter.domain.model.MediaListItemUIModel
