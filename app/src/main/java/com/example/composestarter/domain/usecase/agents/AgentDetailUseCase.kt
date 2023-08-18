@@ -1,4 +1,4 @@
-package com.example.composestarter.domain.usecase
+package com.example.composestarter.domain.usecase.agents
 
 import com.example.composestarter.data.repository.AgentsRepository
 import com.example.composestarter.domain.BaseUIModel

@@ -17,4 +17,7 @@ interface ValorantService {
 
     @GET("maps")
     suspend fun getMaps() : BaseListResponse<MapsResponse>
+
+    @GET("maps/{mapUuid}")
+    suspend fun getMapDetail(@Path("mapUuid") id: String) : BaseResponse<MapsResponse>
 }
