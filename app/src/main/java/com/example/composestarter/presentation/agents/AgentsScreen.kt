@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.example.composestarter.presentation.agents
 
-import android.widget.Toast
-import androidx.compose.foundation.background
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,17 +14,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,7 +35,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
+import com.example.composestarter.customViews.DotsIndicator
 import com.example.composestarter.customViews.LoadingDialog
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
@@ -44,6 +53,8 @@ import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.AgentsUIModel
 import com.example.composestarter.utils.ScreenRoutes
+import kotlin.math.absoluteValue
+import kotlin.math.min
 
 
 @Composable
@@ -53,6 +64,7 @@ fun AgentsScreen(
 ) {
 
     val agents by viewModel.agents.collectAsStateWithLifecycle()
+
 
     when (agents) {
         is Error -> {
@@ -79,6 +91,7 @@ fun StatelessAgentsScreen(
     agents: List<AgentsUIModel>,
     openDetail: (String) -> Unit
 ) {
+
     Scaffold { padding ->
         Column(modifier = Modifier.padding(padding)) {
             TopBarView(
@@ -88,16 +101,20 @@ fun StatelessAgentsScreen(
             )
 
             if (agents.isNotEmpty()) {
+                val state = rememberLazyListState()
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp)
+                        .padding(16.dp),
+                    state = state
                 ) {
                     items(
-                        items = agents,
+                        items = agents.sortedByDescending { it.role?.displayName },
                         key = { agents -> agents.uuid!! })
                     { value ->
-                        NewsItem(value, openDetail = {
+                       val images = listOfNotNull(value.fullPortrait,value.fullPortraitV2)
+
+                        AgentsItem(value, images = images, openDetail = {
                             openDetail(
                                 ScreenRoutes.AgentsDetailRoute.replace(
                                     oldValue = "{id}",
@@ -116,40 +133,49 @@ fun StatelessAgentsScreen(
 
 
 @Composable
-fun NewsItem(agents: AgentsUIModel, openDetail: (String) -> Unit) {
+fun AgentsItem(agents: AgentsUIModel, openDetail: (String) -> Unit,images: List<String?>?) {
+
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { openDetail(agents.uuid.toString()) }
-            .padding(vertical = 8.dp),
+            .padding(8.dp),
         shape = RoundedCornerShape(5.dp),
-        elevation = CardDefaults.cardElevation(2.dp)
+        elevation = CardDefaults.cardElevation(2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            loadImage(
-                url = agents.fullPortrait ?: "",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-                    .background(MaterialTheme.colorScheme.secondary)
-            )
+
+            if (images != null) {
+                AgentsPager(images = images)
+            }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = agents.displayName ?: "",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    text = "Name : ${agents.displayName}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                )
+                Text(
+                    text = "Role : ${agents.role?.displayName}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                )
+            }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = agents.description ?: "",
-                maxLines = 4,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
@@ -157,23 +183,77 @@ fun NewsItem(agents: AgentsUIModel, openDetail: (String) -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(
+            LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
+
 
             }
 
             Spacer(modifier = Modifier.height(16.dp))
         }
+    }
+}
+
+@Composable
+fun AgentsPager(images : List<String?>) {
+    val pagerState = rememberPagerState()
+
+    HorizontalPager(
+        pageCount = images.size,
+        state = pagerState,
+        pageSize = PageSize.Fill,
+    ) { index ->
+        Box(modifier = Modifier
+            .graphicsLayer {
+                val pageOffset =
+                    pagerState.calculateCurrentOffsetForPage(index)
+                val offScreenRight = pageOffset < 0f
+                val deg = 105f
+                val interpolated =
+                    FastOutLinearInEasing.transform(pageOffset.absoluteValue)
+                rotationY =
+                    min(
+                        interpolated * if (offScreenRight) deg else -deg,
+                        90f
+                    )
+
+                transformOrigin = TransformOrigin(
+                    pivotFractionX = if (offScreenRight) 0f else 1f,
+                    pivotFractionY = .5f
+                )
+            }
+            .fillMaxSize()) {
+            loadImage(
+                url = images[index].toString(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .height(200.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 8.dp)
+            ) {
+                DotsIndicator(
+                    totalDots = images.size,
+                    selectedIndex = pagerState.currentPage,
+                    selectedColor = Color.White,
+                    unSelectedColor = Color.Black,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight()
+                )
+            }
+
+        }
+
+
     }
 }
 
@@ -198,4 +278,9 @@ fun loadImage(
 
         }
     }
+}
+// extension method for current page offset
+@OptIn(ExperimentalFoundationApi::class)
+fun PagerState.calculateCurrentOffsetForPage(page: Int): Float {
+    return (currentPage - page) + currentPageOffsetFraction
 }

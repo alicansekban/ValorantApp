@@ -9,7 +9,7 @@ import retrofit2.http.Path
 
 interface ValorantService {
 
-    @GET("agents")
+    @GET("agents?isPlayableCharacter=true")
     suspend fun getAgents() : BaseListResponse<AgentResponse>
 
     @GET("agents/{agentUuid}")

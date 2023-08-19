@@ -14,7 +14,7 @@ data class AgentsUIModel(
     val displayIconSmall: String? = null,
     val fullPortrait: String? = null,
     val fullPortraitV2: String? = null,
-    val abilities: List<AbilitiesUIModel?>? = null,
+    val abilities: List<AbilitiesUIModel>,
     val displayIcon: String? = null,
     val bustPortrait: String? = null,
     val background: String? = null,

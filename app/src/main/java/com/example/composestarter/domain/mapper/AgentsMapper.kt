@@ -58,7 +58,7 @@ class AgentsMapper @Inject constructor() {
             displayIconSmall = agentResponse.displayIconSmall,
             fullPortrait = agentResponse.fullPortrait,
             fullPortraitV2 = agentResponse.fullPortraitV2,
-            abilities = abilitiesUIModels,
+            abilities = abilitiesUIModels!!,
             displayIcon = agentResponse.displayIcon,
             bustPortrait = agentResponse.bustPortrait,
             background = agentResponse.background,
