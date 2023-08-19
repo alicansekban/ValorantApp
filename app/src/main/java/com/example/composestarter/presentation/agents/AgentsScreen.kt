@@ -3,6 +3,8 @@
 package com.example.composestarter.presentation.agents
 
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -70,6 +72,7 @@ fun AgentsScreen(
         is Error -> {
 
         }
+
         is Loading -> {
             LoadingDialog(isShowingDialog = { true })
 
@@ -204,12 +207,18 @@ fun AgentsItem(agents: AgentsUIModel, openDetail: (String) -> Unit, images: List
 @Composable
 fun AgentsPager(images: List<String?>) {
     val pagerState = rememberPagerState()
-
     HorizontalPager(
         pageCount = images.size,
         state = pagerState,
         pageSize = PageSize.Fill,
     ) { index ->
+
+        val pageOffset = (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
+        val imageSize by animateFloatAsState(
+            targetValue = if (pageOffset != 0.0f) 0.75f else 1f,
+            label = "",
+            animationSpec = tween(durationMillis = 300)
+        )
         Box(modifier = Modifier
             .graphicsLayer {
                 val pageOffset =
@@ -236,6 +245,10 @@ fun AgentsPager(images: List<String?>) {
                     .fillMaxSize()
                     .fillMaxWidth()
                     .height(200.dp)
+                    .graphicsLayer {
+                        scaleX  = imageSize
+                        scaleY = imageSize
+                    }
             )
 
             Row(
@@ -273,7 +286,7 @@ fun loadImage(
         GlideImage(
             model = url,
             contentDescription = "loadImage",
-            modifier = modifier
+            modifier = modifier,
         ) {
             it.error(R.drawable.ic_launcher_foreground)
                 .placeholder(R.drawable.ic_launcher_foreground)
