@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.caseapp"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -83,15 +83,12 @@ dependencies {
     implementation ("androidx.activity:activity-compose:1.7.2")
     // Optional - Integration with ViewModels
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    // Optional - Integration with LiveData
-    implementation ("androidx.compose.runtime:runtime-livedata:1.5.0-beta02")
     // Optional - Integration with RxJava
     implementation ("androidx.compose.runtime:runtime-rxjava2")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1.")
     implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     implementation ("androidx.navigation:navigation-compose:2.6.0")
 
-    implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
 
 
@@ -117,9 +114,9 @@ dependencies {
 
 
     // Moshi
-    implementation("com.squareup.moshi:moshi:1.13.0")
+    implementation("com.squareup.moshi:moshi:1.14.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
 
 
     // Generic Utils
@@ -131,10 +128,8 @@ dependencies {
 
     // Glide
     val glideVersion = "4.12.0"
-    implementation("com.github.bumptech.glide:glide:$glideVersion")
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
     ksp("com.github.bumptech.glide:compiler:$glideVersion")
-    ksp("com.github.bumptech.glide:annotations:$glideVersion")
 
 
     // Room
