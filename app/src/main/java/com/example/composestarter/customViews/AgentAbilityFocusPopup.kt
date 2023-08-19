@@ -2,13 +2,16 @@ package com.example.composestarter.customViews
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,12 +19,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
+import com.example.composestarter.domain.model.AbilitiesUIModel
 import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.utils.heightPercent
 
 @Composable
-fun ImageFocusPopup(
-    image: String,
+fun AgentSkillPopup(
+    ability: AbilitiesUIModel,
     onDismissRequest: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
@@ -35,25 +39,41 @@ fun ImageFocusPopup(
         Surface(
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
-                .heightPercent(0.70f, configuration)
+                .heightPercent(0.50f, configuration)
         ) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(5.dp),
-                colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)
+                colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
+                elevation = CardDefaults.cardElevation(2.dp)
             ) {
 
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.Center
             ) {
 
-                loadImage(
-                    url = image,
-                    modifier = Modifier.fillMaxSize()
+                Text(
+                    text = ability.displayName.toString(),
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(top = 12.dp)
                 )
+                loadImage(
+                    url = ability.displayIcon.toString(),
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .height(100.dp)
+                        .width(100.dp)
+                )
+                Text(
+                    text = ability.description.toString(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+
 
             }
 

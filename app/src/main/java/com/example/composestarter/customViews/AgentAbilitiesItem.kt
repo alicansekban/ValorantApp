@@ -1,14 +1,10 @@
 package com.example.composestarter.customViews
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,9 +18,12 @@ import com.example.composestarter.presentation.agents.loadImage
 
 @Composable
 fun AgentAbilitiesItem(
-    ability : AbilitiesUIModel
+    ability : AbilitiesUIModel,
+    onAbilityClicked : () -> Unit
 ) {
-    Column {
+    Column(modifier = Modifier.clickable {
+        onAbilityClicked()
+    }) {
         loadImage(
             url = ability.displayIcon.toString(),
             modifier = Modifier
@@ -43,26 +42,5 @@ fun AgentAbilitiesItem(
                 .width(72.dp)
                 .padding(top = 6.dp),
         )
-    }
-}
-
-@Composable
-fun AgentAbilities(
-    list : List<AbilitiesUIModel>
-) {
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp)
-    ) {
-        itemsIndexed(list) { index, subCategory ->
-            Row(modifier = Modifier) {
-                if (index == 0) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                }
-                AgentAbilitiesItem(subCategory)
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-        }
     }
 }

@@ -112,7 +112,7 @@ fun StatelessAgentsScreen(
                         items = agents.sortedByDescending { it.role?.displayName },
                         key = { agents -> agents.uuid!! })
                     { value ->
-                       val images = listOfNotNull(value.fullPortrait,value.fullPortraitV2)
+                        val images = listOfNotNull(value.fullPortrait, value.fullPortraitV2)
 
                         AgentsItem(value, images = images, openDetail = {
                             openDetail(
@@ -133,7 +133,7 @@ fun StatelessAgentsScreen(
 
 
 @Composable
-fun AgentsItem(agents: AgentsUIModel, openDetail: (String) -> Unit,images: List<String?>?) {
+fun AgentsItem(agents: AgentsUIModel, openDetail: (String) -> Unit, images: List<String?>?) {
 
 
     Card(
@@ -157,7 +157,10 @@ fun AgentsItem(agents: AgentsUIModel, openDetail: (String) -> Unit,images: List<
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = "Name : ${agents.displayName}",
                     style = MaterialTheme.typography.bodyMedium,
@@ -199,7 +202,7 @@ fun AgentsItem(agents: AgentsUIModel, openDetail: (String) -> Unit,images: List<
 }
 
 @Composable
-fun AgentsPager(images : List<String?>) {
+fun AgentsPager(images: List<String?>) {
     val pagerState = rememberPagerState()
 
     HorizontalPager(
@@ -279,6 +282,7 @@ fun loadImage(
         }
     }
 }
+
 // extension method for current page offset
 @OptIn(ExperimentalFoundationApi::class)
 fun PagerState.calculateCurrentOffsetForPage(page: Int): Float {

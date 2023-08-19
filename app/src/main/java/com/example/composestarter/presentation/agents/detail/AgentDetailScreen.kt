@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composestarter.customViews.AgentAbilitiesItem
+import com.example.composestarter.customViews.AgentSkillPopup
 import com.example.composestarter.customViews.ImageFocusPopup
 import com.example.composestarter.customViews.LoadingDialog
 import com.example.composestarter.customViews.TopBarView
@@ -67,6 +68,18 @@ fun StateLessAgentDetail(
     onBackPressed: (String) -> Unit
 ) {
     var isProductLongClicklable by remember { mutableStateOf(false) }
+    var isSkillPopUpClickable by remember {
+        mutableStateOf(false)
+    }
+    var skillModelIndex by remember {
+        mutableStateOf(0)
+    }
+
+    if (isSkillPopUpClickable) {
+        AgentSkillPopup(agent.abilities[skillModelIndex] ) {
+            isSkillPopUpClickable = false
+        }
+    }
 
     if (isProductLongClicklable) {
         ImageFocusPopup(image = agent.fullPortrait.toString()) {
@@ -77,7 +90,7 @@ fun StateLessAgentDetail(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .blur(if (isProductLongClicklable) 15.dp else 0.dp)
+            .blur(if (isProductLongClicklable || isSkillPopUpClickable) 15.dp else 0.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -144,12 +157,15 @@ fun StateLessAgentDetail(
                 .fillMaxWidth()
                 .padding(top = 8.dp, bottom = 8.dp)
         ) {
-            itemsIndexed(agent.abilities) { index, subCategory ->
+            itemsIndexed(agent.abilities) { index, ability ->
                 Row(modifier = Modifier) {
                     if (index == 0) {
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                    AgentAbilitiesItem(subCategory)
+                    AgentAbilitiesItem(ability) {
+                        skillModelIndex = index
+                        isSkillPopUpClickable = true
+                    }
                     Spacer(modifier = Modifier.width(10.dp))
                 }
             }
