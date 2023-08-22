@@ -1,8 +1,8 @@
 package com.example.composestarter.data.model.map
 
-import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MapsResponse(
@@ -23,7 +23,7 @@ data class MapsResponse(
 	val yScalarToAdd: Double? = null,
 
 	@Json(name="yMultiplier")
-	val yMultiplier: Int? = null,
+	val yMultiplier: Double? = null,
 
 	@Json(name="uuid")
 	val uuid: String? = null,
@@ -32,7 +32,7 @@ data class MapsResponse(
 	val displayIcon: String? = null,
 
 	@Json(name="xMultiplier")
-	val xMultiplier: Int? = null,
+	val xMultiplier: Double? = null,
 
 	@Json(name="xScalarToAdd")
 	val xScalarToAdd: Double? = null,
@@ -58,7 +58,7 @@ data class Location(
 ) : Parcelable
 
 @Parcelize
-data class CalloutsItem(
+data class 	CalloutsItem(
 
 	@Json(name="superRegionName")
 	val superRegionName: String? = null,

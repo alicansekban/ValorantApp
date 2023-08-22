@@ -30,4 +30,8 @@ class MapsViewModel @Inject constructor(private val useCase: MapsUseCase) : View
             }
         }
     }
-}
+
+    fun updateMaps() {
+
+    }
+ }
