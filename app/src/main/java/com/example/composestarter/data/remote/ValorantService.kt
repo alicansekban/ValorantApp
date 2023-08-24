@@ -4,6 +4,7 @@ import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.base.BaseResponse
 import com.example.composestarter.data.model.agent.AgentResponse
 import com.example.composestarter.data.model.map.MapsResponse
+import com.example.composestarter.data.model.weapons.WeaponsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -20,4 +21,7 @@ interface ValorantService {
 
     @GET("maps/{mapUuid}")
     suspend fun getMapDetail(@Path("mapUuid") id: String) : BaseResponse<MapsResponse>
+
+    @GET("weapons")
+    suspend fun getWeapons() : BaseListResponse<WeaponsResponse>
 }

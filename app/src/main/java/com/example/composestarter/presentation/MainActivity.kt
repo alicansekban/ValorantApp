@@ -1,6 +1,6 @@
 package com.example.composestarter.presentation
 
-import SkinsScreen
+import WeaponsScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,6 +35,7 @@ import androidx.navigation.navArgument
 import com.example.composestarter.presentation.agents.AgentsScreen
 import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.presentation.maps.MapsScreen
+import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.ScreenRoutes
 import com.example.composestarter.utils.theme.ComposeStarterTheme
@@ -72,20 +73,20 @@ class MainActivity : ComponentActivity() {
                         title = "Agents",
                         selectedIcon = Icons.Filled.Home,
                         unSelectedIcon = Icons.Outlined.Home,
-                        route = "Agents"
+                        route = ScreenRoutes.AgentsRoute
 
                     ),
                     BottomNavigationItem(
                         title = "Maps",
                         selectedIcon = Icons.Filled.Album,
                         unSelectedIcon = Icons.Outlined.Album,
-                        route = "Maps"
+                        route = ScreenRoutes.MapsRoute
                     ),
                     BottomNavigationItem(
-                        title = "Skins",
+                        title = "Weapons",
                         selectedIcon = Icons.Filled.More,
                         unSelectedIcon = Icons.Outlined.More,
-                        route = "Skins"
+                        route = ScreenRoutes.WeaponsRoute
                     ),
                 )
                 var selectedItemIndex by rememberSaveable {
@@ -125,7 +126,7 @@ class MainActivity : ComponentActivity() {
 
                         NavHost(
                             navController = navController,
-                            startDestination = "Agents",
+                            startDestination = ScreenRoutes.AgentsRoute,
                             modifier = Modifier.padding(paddingValues)
                         ) {
                             composable(
@@ -157,8 +158,26 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
-                            composable("Skins") {
-                                SkinsScreen()
+                            composable(ScreenRoutes.MapsDetailRoute, arguments = listOf(
+                                navArgument("id") {
+                                    type = NavType.StringType
+                                }
+                            )) { entry ->
+                                val id = entry.arguments?.getString("id")
+                                if (id?.isNotEmpty() == true) {
+                                    MapsDetailScreen(
+                                        onBackPressed =  {
+                                            navigation(it)
+                                        }
+                                    )
+                                }
+                            }
+                            composable(ScreenRoutes.WeaponsRoute) {
+                                WeaponsScreen(
+                                    openDetail =  {
+
+                                    }
+                                )
                             }
                         }
                     }

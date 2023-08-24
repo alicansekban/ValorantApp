@@ -281,12 +281,11 @@ fun loadImage(
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(10.dp)
     ) {
         GlideImage(
             model = url,
             contentDescription = "loadImage",
-            modifier = modifier,
+            modifier = modifier
         ) {
             it.error(R.drawable.ic_launcher_foreground)
                 .placeholder(R.drawable.ic_launcher_foreground)

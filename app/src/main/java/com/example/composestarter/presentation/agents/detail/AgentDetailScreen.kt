@@ -67,7 +67,7 @@ fun StateLessAgentDetail(
     agent: AgentsUIModel,
     onBackPressed: (String) -> Unit
 ) {
-    var isProductLongClicklable by remember { mutableStateOf(false) }
+    var isAgentImageZoomable by remember { mutableStateOf(false) }
     var isSkillPopUpClickable by remember {
         mutableStateOf(false)
     }
@@ -81,16 +81,16 @@ fun StateLessAgentDetail(
         }
     }
 
-    if (isProductLongClicklable) {
+    if (isAgentImageZoomable) {
         ImageFocusPopup(image = agent.fullPortrait.toString()) {
-            isProductLongClicklable = false
+            isAgentImageZoomable = false
         }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .blur(if (isProductLongClicklable || isSkillPopUpClickable) 15.dp else 0.dp)
+            .blur(if (isAgentImageZoomable || isSkillPopUpClickable) 15.dp else 0.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -112,9 +112,9 @@ fun StateLessAgentDetail(
                     .background(MaterialTheme.colorScheme.secondary)
                     .combinedClickable(onClick = {
                     }, onLongClick = {
-                        isProductLongClicklable = true
+                        isAgentImageZoomable = true
                     }, onDoubleClick = {
-                        isProductLongClicklable = true
+                        isAgentImageZoomable = true
                     })
             )
             Spacer(modifier = Modifier.height(16.dp))

@@ -77,7 +77,7 @@ fun StatelessMapScreen(
     Scaffold { padding ->
         Column(modifier = Modifier.padding(padding)) {
             TopBarView(
-                title = { "Agents" },
+                title = { "Maps" },
                 showBackButton = { false },
                 onBackClick = { },
             )
@@ -132,7 +132,9 @@ fun MapsItem(maps: MapsUIModel, openDetail: (String) -> Unit) {
                 .fillMaxWidth()
         ) {
 
-            loadImage(url = maps.splash.toString(), modifier = Modifier.height(200.dp) )
+            loadImage(url = maps.splash.toString(), modifier = Modifier
+                .height(200.dp)
+                .fillMaxWidth() )
 
             Spacer(modifier = Modifier.height(16.dp))
             
