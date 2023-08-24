@@ -1,6 +1,6 @@
 package com.example.composestarter.utils
+
 import com.example.composestarter.data.model.ErrorResponse
-import com.example.composestarter.data.model.ErrorsItem
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,17 +18,15 @@ suspend fun <T> safeApiCall(
         } catch (throwable: Throwable) {
             when (throwable) {
                 is IOException -> {
-                    val errorList = mutableListOf<ErrorsItem>()
-                    val error = ErrorsItem(null, "Check your internet connection")
-                    errorList.add(error)
-                    val errorResponse = ErrorResponse(errorList)
-                    ResultWrapper.GenericError(null, errorResponse)
+                    ResultWrapper.NetworkError
                 }
+
                 is HttpException -> {
                     val code = throwable.code()
                     val errorResponse = convertErrorBody(throwable)
                     ResultWrapper.GenericError(code, errorResponse)
                 }
+
                 else -> {
                     ResultWrapper.GenericError(null, null)
                 }
