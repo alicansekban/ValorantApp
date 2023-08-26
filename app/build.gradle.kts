@@ -124,6 +124,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 
+    implementation ("androidx.draganddrop:draganddrop:1.0.0")
+
 
 
     // Glide
