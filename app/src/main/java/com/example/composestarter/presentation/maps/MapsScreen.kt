@@ -76,20 +76,22 @@ fun StatelessMapScreen(
 
     Scaffold { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            TopBarView(
-                title = { "Maps" },
-                showBackButton = { false },
-                onBackClick = { },
-            )
+
 
             if (maps.isNotEmpty()) {
                 val state = rememberLazyListState()
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                        .fillMaxSize(),
                     state = state
                 ) {
+                    item {
+                        TopBarView(
+                            title = { "Maps" },
+                            showBackButton = { false },
+                            onBackClick = { },
+                        )
+                    }
                     items(
                         items = maps,
                         key = { agents -> agents.uuid!! })
@@ -122,7 +124,7 @@ fun MapsItem(maps: MapsUIModel, openDetail: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { openDetail(maps.uuid.toString()) }
-            .padding(8.dp),
+            .padding(16.dp),
         shape = RoundedCornerShape(5.dp),
         elevation = CardDefaults.cardElevation(2.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)

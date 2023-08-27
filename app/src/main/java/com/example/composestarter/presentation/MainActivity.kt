@@ -28,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -41,6 +42,7 @@ import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
 import com.example.composestarter.presentation.weapons.detail.WeaponDetailScreen
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.ScreenRoutes
+import com.example.composestarter.utils.heightPercent
 import com.example.composestarter.utils.theme.ComposeStarterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -111,15 +113,15 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         bottomBar = {
-                            NavigationBar {
+                            NavigationBar(
+                                modifier = Modifier.heightPercent(0.110f, LocalConfiguration.current)
+                            ) {
                                 items.forEachIndexed { index, item ->
                                     NavigationBarItem(
                                         selected = selectedItemIndex == index,
                                         onClick = {
                                             selectedItemIndex = index
                                             navigation(item.route)
-
-
                                         },
                                         label = {
                                             Text(

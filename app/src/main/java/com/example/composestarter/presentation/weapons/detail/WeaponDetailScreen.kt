@@ -101,24 +101,28 @@ fun StatelessWeaponDetail(
                 .padding(paddingValues)
         ) {
 
-            TopBarView(
-                title = { weapon.displayName ?: "Weapon Detail" },
-                showBackButton = { true },
-                onBackClick = { onBackPressed(ScreenRoutes.WeaponsRoute) })
+
             val state = rememberLazyListState()
 
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                    .fillMaxSize(),
                 state = state
             ) {
+
+                item {
+                    TopBarView(
+                        title = { weapon.displayName ?: "Weapon Detail" },
+                        showBackButton = { true },
+                        onBackClick = { onBackPressed(ScreenRoutes.WeaponsRoute) })
+                }
                 item {
 
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(150.dp),
+                            .height(150.dp)
+                            .padding(16.dp),
                         shape = RoundedCornerShape(5.dp),
                         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
                         elevation = CardDefaults.cardElevation(2.dp)
