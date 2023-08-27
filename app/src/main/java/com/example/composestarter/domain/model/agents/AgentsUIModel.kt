@@ -1,4 +1,4 @@
-package com.example.composestarter.domain.model
+package com.example.composestarter.domain.model.agents
 
 data class AgentsUIModel(
     val killfeedPortrait: String? = null,

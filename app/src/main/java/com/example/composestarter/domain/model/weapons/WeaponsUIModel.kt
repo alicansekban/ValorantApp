@@ -1,4 +1,4 @@
-package com.example.composestarter.domain.model
+package com.example.composestarter.domain.model.weapons
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

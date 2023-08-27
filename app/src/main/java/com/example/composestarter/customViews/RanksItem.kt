@@ -1,6 +1,7 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package com.example.composestarter.customViews
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,26 +21,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composestarter.domain.model.agents.AgentsUIModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.example.composestarter.domain.model.ranks.UIModelTiersItem
 import com.example.composestarter.presentation.agents.loadImage
 
 @Composable
-fun AgentInformationItem(
-    agents : AgentsUIModel,
-    onAgentClicked : (String) -> Unit
+fun RanksItemDetail(
+    rank: UIModelTiersItem
 ) {
-    Column(modifier = Modifier.clickable {
-        onAgentClicked(agents.uuid.toString())
-    }) {
+    Column(modifier = Modifier) {
+
+
         loadImage(
-            url = agents.displayIcon.toString(),
+            url = rank.largeIcon.toString(),
             modifier = Modifier
                 .clip(CircleShape)
-                .width(72.dp)
-                .height(72.dp)
+                .width(82.dp)
+                .height(82.dp)
+
         )
         Text(
-            text = agents.displayName.toString(),
+            text = rank.tierName.toString(),
             fontSize = 11.sp,
             lineHeight = 13.sp,
             maxLines = 2,
@@ -52,14 +54,13 @@ fun AgentInformationItem(
 }
 
 @Composable
-fun AgentsItem(
-    agents: List<AgentsUIModel>,
-    roleTitle : String,
-    onAgentClicked: (String) -> Unit
+fun RanksItem(
+    ranks: List<UIModelTiersItem>,
+    categoryTitle: String,
 ) {
 
     Text(
-        text = roleTitle,
+        text = categoryTitle,
         style = MaterialTheme.typography.bodyLarge,
         modifier = Modifier.padding(top = 8.dp, start = 16.dp)
     )
@@ -69,14 +70,12 @@ fun AgentsItem(
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 8.dp)
     ) {
-        itemsIndexed(agents) { index, ability ->
+        itemsIndexed(ranks) { index, weapon ->
             Row(modifier = Modifier) {
                 if (index == 0) {
                     Spacer(modifier = Modifier.width(16.dp))
                 }
-                AgentInformationItem(ability) {
-                    onAgentClicked(it)
-                }
+                RanksItemDetail(weapon)
                 Spacer(modifier = Modifier.width(10.dp))
             }
         }

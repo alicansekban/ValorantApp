@@ -1,4 +1,4 @@
-package com.example.composestarter.data.source
+package com.example.composestarter.data.source.ranks
 
 import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.model.ranks.RanksResponse

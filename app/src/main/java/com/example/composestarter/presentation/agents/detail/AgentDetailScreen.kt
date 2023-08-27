@@ -37,7 +37,7 @@ import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
-import com.example.composestarter.domain.model.AgentsUIModel
+import com.example.composestarter.domain.model.agents.AgentsUIModel
 import com.example.composestarter.presentation.agents.loadImage
 
 @Composable

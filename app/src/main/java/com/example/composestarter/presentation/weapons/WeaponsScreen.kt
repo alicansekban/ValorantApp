@@ -21,7 +21,7 @@ import com.example.composestarter.customViews.WeaponsItem
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
-import com.example.composestarter.domain.model.WeaponsUIModel
+import com.example.composestarter.domain.model.weapons.WeaponsUIModel
 import com.example.composestarter.presentation.weapons.WeaponsViewModel
 import com.example.composestarter.utils.ScreenRoutes
 

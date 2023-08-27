@@ -1,7 +1,7 @@
-package com.example.composestarter.domain.mapper
+package com.example.composestarter.domain.mapper.bundles
 
 import com.example.composestarter.data.model.bundles.BundleResponse
-import com.example.composestarter.domain.model.BundlesUIModel
+import com.example.composestarter.domain.model.bundles.BundlesUIModel
 import javax.inject.Inject
 
 class BundlesMapper @Inject constructor() {

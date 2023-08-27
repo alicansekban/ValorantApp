@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
-import com.example.composestarter.domain.model.AbilitiesUIModel
+import com.example.composestarter.domain.model.agents.AbilitiesUIModel
 import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.utils.heightPercent
 

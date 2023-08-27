@@ -37,8 +37,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.composestarter.presentation.agents.AgentsScreen
 import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
+import com.example.composestarter.presentation.bundles.BundlesScreen
 import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
+import com.example.composestarter.presentation.ranks.RanksScreen
 import com.example.composestarter.presentation.weapons.detail.WeaponDetailScreen
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.ScreenRoutes
@@ -211,14 +213,13 @@ class MainActivity : ComponentActivity() {
                             composable(
                                 route = ScreenRoutes.BundleRoute
                             ) { entry ->
-
+                                BundlesScreen()
 
                             }
                             composable(
                                 route = ScreenRoutes.RanksRoute
                             ) { entry ->
-
-
+                                RanksScreen()
                             }
                         }
                     }

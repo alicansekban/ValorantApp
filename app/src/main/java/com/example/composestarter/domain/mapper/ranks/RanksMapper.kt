@@ -1,8 +1,8 @@
-package com.example.composestarter.domain.mapper
+package com.example.composestarter.domain.mapper.ranks
 
 import com.example.composestarter.data.model.ranks.RanksResponse
-import com.example.composestarter.domain.model.RanksUIModel
-import com.example.composestarter.domain.model.UIModelTiersItem
+import com.example.composestarter.domain.model.ranks.RanksUIModel
+import com.example.composestarter.domain.model.ranks.UIModelTiersItem
 import javax.inject.Inject
 
 class RanksMapper @Inject constructor(){

@@ -1,9 +1,9 @@
-package com.example.composestarter.data.repository
+package com.example.composestarter.data.repository.maps
 
 import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.base.BaseResponse
 import com.example.composestarter.data.model.map.MapsResponse
-import com.example.composestarter.data.source.MapsRemoteDataSource
+import com.example.composestarter.data.source.maps.MapsRemoteDataSource
 import com.example.composestarter.utils.ResultWrapper
 import javax.inject.Inject
 

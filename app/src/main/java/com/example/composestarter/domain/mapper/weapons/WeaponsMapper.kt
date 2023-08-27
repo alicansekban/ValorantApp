@@ -1,4 +1,4 @@
-package com.example.composestarter.domain.mapper
+package com.example.composestarter.domain.mapper.weapons
 
 import com.example.composestarter.data.model.weapons.AdsStats
 import com.example.composestarter.data.model.weapons.AirBurstStats
@@ -10,17 +10,17 @@ import com.example.composestarter.data.model.weapons.LevelsItem
 import com.example.composestarter.data.model.weapons.SkinsItem
 import com.example.composestarter.data.model.weapons.WeaponStats
 import com.example.composestarter.data.model.weapons.WeaponsResponse
-import com.example.composestarter.domain.model.AdsStatsUIModel
-import com.example.composestarter.domain.model.AirBurstStatsUIModel
-import com.example.composestarter.domain.model.AltShotgunStatsUIModel
-import com.example.composestarter.domain.model.ChromasItemUIModel
-import com.example.composestarter.domain.model.DamageRangesItemUIModel
-import com.example.composestarter.domain.model.GridPositionUIModel
-import com.example.composestarter.domain.model.LevelsItemUIModel
-import com.example.composestarter.domain.model.ShopDataUIModel
-import com.example.composestarter.domain.model.SkinsItemUIModel
-import com.example.composestarter.domain.model.WeaponStatsUIModel
-import com.example.composestarter.domain.model.WeaponsUIModel
+import com.example.composestarter.domain.model.weapons.AdsStatsUIModel
+import com.example.composestarter.domain.model.weapons.AirBurstStatsUIModel
+import com.example.composestarter.domain.model.weapons.AltShotgunStatsUIModel
+import com.example.composestarter.domain.model.weapons.ChromasItemUIModel
+import com.example.composestarter.domain.model.weapons.DamageRangesItemUIModel
+import com.example.composestarter.domain.model.weapons.GridPositionUIModel
+import com.example.composestarter.domain.model.weapons.LevelsItemUIModel
+import com.example.composestarter.domain.model.weapons.ShopDataUIModel
+import com.example.composestarter.domain.model.weapons.SkinsItemUIModel
+import com.example.composestarter.domain.model.weapons.WeaponStatsUIModel
+import com.example.composestarter.domain.model.weapons.WeaponsUIModel
 import javax.inject.Inject
 import com.example.composestarter.data.model.weapons.ShopData as ShopData1
 

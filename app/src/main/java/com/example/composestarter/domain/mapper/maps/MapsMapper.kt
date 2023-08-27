@@ -1,11 +1,11 @@
-package com.example.composestarter.domain.mapper
+package com.example.composestarter.domain.mapper.maps
 
 import com.example.composestarter.data.model.map.CalloutsItem
 import com.example.composestarter.data.model.map.Location
 import com.example.composestarter.data.model.map.MapsResponse
-import com.example.composestarter.domain.model.CalloutsItemUIModel
-import com.example.composestarter.domain.model.LocationUIModel
-import com.example.composestarter.domain.model.MapsUIModel
+import com.example.composestarter.domain.model.maps.CalloutsItemUIModel
+import com.example.composestarter.domain.model.maps.LocationUIModel
+import com.example.composestarter.domain.model.maps.MapsUIModel
 import javax.inject.Inject
 
 class MapsMapper @Inject constructor() {

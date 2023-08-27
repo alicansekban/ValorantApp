@@ -41,7 +41,7 @@ import com.example.composestarter.customViews.VideoPlay
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
-import com.example.composestarter.domain.model.WeaponsUIModel
+import com.example.composestarter.domain.model.weapons.WeaponsUIModel
 import com.example.composestarter.utils.ScreenRoutes
 
 @Composable

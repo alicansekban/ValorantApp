@@ -1,9 +1,9 @@
-package com.example.composestarter.data.repository
+package com.example.composestarter.data.repository.agents
 
 import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.base.BaseResponse
 import com.example.composestarter.data.model.agent.AgentResponse
-import com.example.composestarter.data.source.AgentsRemoteDataSource
+import com.example.composestarter.data.source.agents.AgentsRemoteDataSource
 import com.example.composestarter.utils.ResultWrapper
 import javax.inject.Inject
 

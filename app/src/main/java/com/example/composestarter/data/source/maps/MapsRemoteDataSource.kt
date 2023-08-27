@@ -1,4 +1,4 @@
-package com.example.composestarter.data.source
+package com.example.composestarter.data.source.maps
 
 import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.base.BaseResponse

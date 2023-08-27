@@ -1,4 +1,4 @@
-package com.example.composestarter.domain.model
+package com.example.composestarter.domain.model.maps
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

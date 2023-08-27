@@ -1,4 +1,4 @@
-package com.example.composestarter.data.source
+package com.example.composestarter.data.source.agents
 
 import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.base.BaseResponse

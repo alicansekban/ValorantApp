@@ -1,4 +1,4 @@
-package com.example.composestarter.domain.model
+package com.example.composestarter.domain.model.bundles
 
 data class BundlesUIModel(
     val displayNameSubText: String? = null,

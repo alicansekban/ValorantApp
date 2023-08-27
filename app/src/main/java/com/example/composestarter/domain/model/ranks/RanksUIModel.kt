@@ -1,4 +1,4 @@
-package com.example.composestarter.domain.model
+package com.example.composestarter.domain.model.ranks
 
 data class RanksUIModel(
     val tiers: List<UIModelTiersItem>? = null,

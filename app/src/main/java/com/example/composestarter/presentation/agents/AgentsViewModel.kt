@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composestarter.domain.BaseUIModel
 import com.example.composestarter.domain.Loading
-import com.example.composestarter.domain.model.AgentsUIModel
+import com.example.composestarter.domain.model.agents.AgentsUIModel
 import com.example.composestarter.domain.usecase.agents.AgentsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

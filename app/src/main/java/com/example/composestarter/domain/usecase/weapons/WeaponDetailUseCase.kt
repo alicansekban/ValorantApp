@@ -1,12 +1,12 @@
 package com.example.composestarter.domain.usecase.weapons
 
-import com.example.composestarter.data.repository.WeaponsRepository
+import com.example.composestarter.data.repository.weapons.WeaponsRepository
 import com.example.composestarter.domain.BaseUIModel
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
-import com.example.composestarter.domain.mapper.WeaponsMapper
-import com.example.composestarter.domain.model.WeaponsUIModel
+import com.example.composestarter.domain.mapper.weapons.WeaponsMapper
+import com.example.composestarter.domain.model.weapons.WeaponsUIModel
 import com.example.composestarter.utils.ResultWrapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

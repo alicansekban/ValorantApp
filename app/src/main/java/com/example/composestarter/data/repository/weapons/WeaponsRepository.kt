@@ -1,9 +1,9 @@
-package com.example.composestarter.data.repository
+package com.example.composestarter.data.repository.weapons
 
 import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.base.BaseResponse
 import com.example.composestarter.data.model.weapons.WeaponsResponse
-import com.example.composestarter.data.source.WeaponsRemoteDataSource
+import com.example.composestarter.data.source.weapons.WeaponsRemoteDataSource
 import com.example.composestarter.utils.ResultWrapper
 import javax.inject.Inject
 

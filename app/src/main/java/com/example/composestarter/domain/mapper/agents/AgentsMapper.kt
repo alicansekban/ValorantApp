@@ -1,11 +1,11 @@
-package com.example.composestarter.domain.mapper
+package com.example.composestarter.domain.mapper.agents
 
 import com.example.composestarter.data.model.agent.AgentResponse
-import com.example.composestarter.domain.model.AbilitiesUIModel
-import com.example.composestarter.domain.model.AgentsUIModel
-import com.example.composestarter.domain.model.MediaListItemUIModel
-import com.example.composestarter.domain.model.RoleUIModel
-import com.example.composestarter.domain.model.VoiceLineUIModel
+import com.example.composestarter.domain.model.agents.AbilitiesUIModel
+import com.example.composestarter.domain.model.agents.AgentsUIModel
+import com.example.composestarter.domain.model.agents.MediaListItemUIModel
+import com.example.composestarter.domain.model.agents.RoleUIModel
+import com.example.composestarter.domain.model.agents.VoiceLineUIModel
 import javax.inject.Inject
 
 class AgentsMapper @Inject constructor() {

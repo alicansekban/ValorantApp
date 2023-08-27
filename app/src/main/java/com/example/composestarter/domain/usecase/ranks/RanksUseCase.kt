@@ -1,12 +1,12 @@
 package com.example.composestarter.domain.usecase.ranks
 
-import com.example.composestarter.data.repository.RanksRepository
+import com.example.composestarter.data.repository.ranks.RanksRepository
 import com.example.composestarter.domain.BaseUIModel
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
-import com.example.composestarter.domain.mapper.RanksMapper
-import com.example.composestarter.domain.model.RanksUIModel
+import com.example.composestarter.domain.mapper.ranks.RanksMapper
+import com.example.composestarter.domain.model.ranks.RanksUIModel
 import com.example.composestarter.utils.ResultWrapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

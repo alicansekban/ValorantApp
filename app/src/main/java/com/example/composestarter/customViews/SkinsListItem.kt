@@ -20,8 +20,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composestarter.domain.model.ChromasItemUIModel
-import com.example.composestarter.domain.model.SkinsItemUIModel
+import com.example.composestarter.domain.model.weapons.ChromasItemUIModel
+import com.example.composestarter.domain.model.weapons.SkinsItemUIModel
 import com.example.composestarter.presentation.agents.loadImage
 
 @Composable
