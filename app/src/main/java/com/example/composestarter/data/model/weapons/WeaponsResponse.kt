@@ -73,19 +73,19 @@ data class SkinsItem(
 data class DamageRangesItem(
 
 	@Json(name="rangeEndMeters")
-	val rangeEndMeters: Int? = null,
+	val rangeEndMeters: Double? = null,
 
 	@Json(name="headDamage")
-	val headDamage: Int? = null,
+	val headDamage: Double? = null,
 
 	@Json(name="bodyDamage")
-	val bodyDamage: Int? = null,
+	val bodyDamage: Double? = null,
 
 	@Json(name="legDamage")
-	val legDamage: Int? = null,
+	val legDamage: Double? = null,
 
 	@Json(name="rangeStartMeters")
-	val rangeStartMeters: Int? = null
+	val rangeStartMeters: Double? = null
 ) : Parcelable
 
 @Parcelize
@@ -180,7 +180,7 @@ data class ShopData(
 data class AdsStats(
 
 	@Json(name="fireRate")
-	val fireRate: Int? = null,
+	val fireRate: Double? = null,
 
 	@Json(name="burstCount")
 	val burstCount: Int? = null,
@@ -211,7 +211,7 @@ data class WeaponStats(
 	val adsStats: AdsStats? = null,
 
 	@Json(name="fireRate")
-	val fireRate: Int? = null,
+	val fireRate: Double? = null,
 
 	@Json(name="runSpeedMultiplier")
 	val runSpeedMultiplier: Double? = null,
@@ -223,7 +223,7 @@ data class WeaponStats(
 	val airBurstStats: AirBurstStats? = null,
 
 	@Json(name="reloadTimeSeconds")
-	val reloadTimeSeconds: Int? = null,
+	val reloadTimeSeconds: Double? = null,
 
 	@Json(name="wallPenetration")
 	val wallPenetration: String? = null,

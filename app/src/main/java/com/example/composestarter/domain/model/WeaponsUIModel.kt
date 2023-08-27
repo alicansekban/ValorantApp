@@ -76,11 +76,11 @@ data class WeaponStatsUIModel(
     val equipTimeSeconds: Double?,
     val shotgunPelletCount: Int?,
     val adsStats: AdsStatsUIModel?,
-    val fireRate: Int?,
+    val fireRate: Double?,
     val runSpeedMultiplier: Double?,
     val feature: String?,
     val airBurstStats: AirBurstStatsUIModel?,
-    val reloadTimeSeconds: Int?,
+    val reloadTimeSeconds: Double?,
     val wallPenetration: String?,
     val magazineSize: Int?,
     val fireMode: String?,
@@ -91,16 +91,16 @@ data class WeaponStatsUIModel(
 
 @Parcelize
 data class DamageRangesItemUIModel(
-    val rangeEndMeters: Int?,
-    val headDamage: Int?,
-    val bodyDamage: Int?,
-    val legDamage: Int?,
-    val rangeStartMeters: Int?
+    val rangeEndMeters: Double?,
+    val headDamage: Double?,
+    val bodyDamage: Double?,
+    val legDamage: Double?,
+    val rangeStartMeters: Double?
 ) : Parcelable
 
 @Parcelize
 data class AdsStatsUIModel(
-    val fireRate: Int?,
+    val fireRate: Double?,
     val burstCount: Int?,
     val runSpeedMultiplier: Double?,
     val zoomMultiplier: Double?,

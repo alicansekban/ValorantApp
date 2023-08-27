@@ -18,15 +18,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +46,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
+import com.example.composestarter.customViews.AgentsItem
 import com.example.composestarter.customViews.DotsIndicator
 import com.example.composestarter.customViews.LoadingDialog
 import com.example.composestarter.customViews.TopBarView
@@ -96,39 +96,32 @@ fun StatelessAgentsScreen(
 ) {
 
     Scaffold { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column(modifier = Modifier
+            .padding(padding)
+            .verticalScroll(enabled = true, state = rememberScrollState())) {
             TopBarView(
                 title = { "Agents" },
                 showBackButton = { false },
                 onBackClick = { },
             )
-
             if (agents.isNotEmpty()) {
-                val state = rememberLazyListState()
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    state = state
-                ) {
-                    items(
-                        items = agents.sortedByDescending { it.role?.displayName },
-                        key = { agents -> agents.uuid!! })
-                    { value ->
-                        val images = listOfNotNull(value.fullPortrait, value.fullPortraitV2)
+                val groupedAgents = agents.sortedBy { it.role?.displayName }
+                    .groupBy { it.role?.displayName }
 
-                        AgentsItem(value, images = images, openDetail = {
-                            openDetail(
-                                ScreenRoutes.AgentsDetailRoute.replace(
-                                    oldValue = "{id}",
-                                    newValue = it
-                                )
+                groupedAgents.forEach { (role, agentsInRole) ->
+
+                    AgentsItem(agents = agentsInRole, roleTitle =role.toString(),onAgentClicked = {
+                        openDetail(
+                            ScreenRoutes.AgentsDetailRoute.replace(
+                                oldValue = "{id}",
+                                newValue = it
                             )
-                        }
                         )
-                    }
+                    } )
                 }
             }
+
+
         }
 
     }
@@ -136,7 +129,7 @@ fun StatelessAgentsScreen(
 
 
 @Composable
-fun AgentsItem(agents: AgentsUIModel, openDetail: (String) -> Unit, images: List<String?>?) {
+fun AgentsItemOld(agents: AgentsUIModel, openDetail: (String) -> Unit, images: List<String?>?) {
 
 
     Card(
@@ -246,7 +239,7 @@ fun AgentsPager(images: List<String?>) {
                     .fillMaxWidth()
                     .height(200.dp)
                     .graphicsLayer {
-                        scaleX  = imageSize
+                        scaleX = imageSize
                         scaleY = imageSize
                     }
             )
@@ -280,7 +273,7 @@ fun loadImage(
     url: String, modifier: Modifier
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier, colors = CardDefaults.cardColors(containerColor = Color.White),
     ) {
         GlideImage(
             model = url,
