@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -77,17 +78,19 @@ fun StatelessBundlesScreen(
     Scaffold { paddingValues ->
 
         Column {
-            TopBarView(title = { "Bundles" }, showBackButton = { false }) {
-
-            }
-
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2), modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(top = 16.dp)
             ) {
-
+                item(
+                    span = {
+                        GridItemSpan(maxCurrentLineSpan)
+                    }
+                ) {
+                    TopBarView(title = { "Bundles" }, showBackButton = { false }) {
+                    }
+                }
 
                 items(
                     items = bundles,
