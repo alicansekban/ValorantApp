@@ -36,6 +36,7 @@ import com.example.composestarter.presentation.agents.AgentsScreen
 import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
+import com.example.composestarter.presentation.weapons.detail.WeaponDetailScreen
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.ScreenRoutes
 import com.example.composestarter.utils.theme.ComposeStarterTheme
@@ -61,9 +62,7 @@ class MainActivity : ComponentActivity() {
                             }
                             // Avoid multiple copies of the same destination when
                             // reselecting the same item
-                            launchSingleTop = true
                             // Restore state when reselecting a previously selected item
-                            restoreState = true
                         }
                     }
                 }
@@ -145,7 +144,7 @@ class MainActivity : ComponentActivity() {
                                 val id = entry.arguments?.getString("id")
                                 if (id?.isNotEmpty() == true) {
                                     AgentDetailScreen(
-                                        onBackPressed =  {
+                                        onBackPressed = {
                                             navigation(it)
                                         }
                                     )
@@ -153,7 +152,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(ScreenRoutes.MapsRoute) {
                                 MapsScreen(
-                                    openDetail =  {
+                                    openDetail = {
                                         navigation(it)
                                     }
                                 )
@@ -166,7 +165,7 @@ class MainActivity : ComponentActivity() {
                                 val id = entry.arguments?.getString("id")
                                 if (id?.isNotEmpty() == true) {
                                     MapsDetailScreen(
-                                        onBackPressed =  {
+                                        onBackPressed = {
                                             navigation(it)
                                         }
                                     )
@@ -174,10 +173,24 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(ScreenRoutes.WeaponsRoute) {
                                 WeaponsScreen(
-                                    openDetail =  {
-
+                                    openDetail = {
+                                        navigation(it)
                                     }
                                 )
+                            }
+                            composable(ScreenRoutes.WeaponsDetailRoute, arguments = listOf(
+                                navArgument("id") {
+                                    type = NavType.StringType
+                                }
+                            )) { entry ->
+                                val id = entry.arguments?.getString("id")
+                                if (id?.isNotEmpty() == true) {
+                                    WeaponDetailScreen(
+                                        onBackPressed = {
+                                            navigation(it)
+                                        }
+                                    )
+                                }
                             }
                         }
                     }

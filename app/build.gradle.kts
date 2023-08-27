@@ -105,6 +105,7 @@ dependencies {
 
     implementation("com.airbnb.android:lottie-compose:5.2.0")
 
+    implementation ("com.google.android.exoplayer:exoplayer:2.18.1")
 
     // Coroutine and Lifecycle
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")

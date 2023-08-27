@@ -270,10 +270,10 @@ fun AgentsPager(images: List<String?>) {
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun loadImage(
-    url: String, modifier: Modifier
+    url: String, modifier: Modifier,cardColor : Color = Color.White
 ) {
     Card(
-        modifier = modifier, colors = CardDefaults.cardColors(containerColor = Color.White),
+        modifier = modifier, colors = CardDefaults.cardColors(cardColor),
     ) {
         GlideImage(
             model = url,

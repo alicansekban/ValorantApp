@@ -26,5 +26,5 @@ interface ValorantService {
     suspend fun getWeapons() : BaseListResponse<WeaponsResponse>
 
     @GET("weapons/{weaponUuid}")
-    suspend fun getWeaponDetail(id: String) : BaseResponse<WeaponsResponse>
+    suspend fun getWeaponDetail(@Path("weaponUuid")id: String) : BaseResponse<WeaponsResponse>
 }

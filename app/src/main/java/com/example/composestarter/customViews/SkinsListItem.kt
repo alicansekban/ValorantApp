@@ -20,26 +20,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composestarter.domain.model.AgentsUIModel
+import com.example.composestarter.domain.model.ChromasItemUIModel
+import com.example.composestarter.domain.model.SkinsItemUIModel
 import com.example.composestarter.presentation.agents.loadImage
 
 @Composable
-fun AgentInformationItem(
-    agents : AgentsUIModel,
-    onAgentClicked : (String) -> Unit
+fun SkinsListItem(
+    skin : ChromasItemUIModel,
+    onSkinClicked: (String) -> Unit
 ) {
+
     Column(modifier = Modifier.clickable {
-        onAgentClicked(agents.uuid.toString())
+        onSkinClicked(skin.streamedVideo.toString())
     }) {
         loadImage(
-            url = agents.displayIcon.toString(),
+            url = skin.displayIcon.toString(),
             modifier = Modifier
                 .clip(CircleShape)
-                .width(72.dp)
-                .height(72.dp)
+                .width(82.dp)
+                .height(82.dp)
+
         )
         Text(
-            text = agents.displayName.toString(),
+            text = skin.displayName.toString(),
             fontSize = 11.sp,
             lineHeight = 13.sp,
             maxLines = 2,
@@ -51,15 +54,16 @@ fun AgentInformationItem(
     }
 }
 
+
 @Composable
-fun AgentsItem(
-    agents: List<AgentsUIModel>,
-    roleTitle : String,
-    onAgentClicked: (String) -> Unit
+fun SkinsItem(
+    skin: SkinsItemUIModel,
+    categoryTitle : String,
+    onSkinClicked: (String) -> Unit
 ) {
 
     Text(
-        text = roleTitle,
+        text = categoryTitle,
         style = MaterialTheme.typography.bodyLarge,
         modifier = Modifier.padding(top = 8.dp, start = 16.dp)
     )
@@ -69,19 +73,17 @@ fun AgentsItem(
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 8.dp)
     ) {
-        itemsIndexed(agents) { index, ability ->
+        itemsIndexed(skin.chromas!!) { index, skin ->
             Row(modifier = Modifier) {
                 if (index == 0) {
                     Spacer(modifier = Modifier.width(16.dp))
                 }
-                AgentInformationItem(ability) {
-                    onAgentClicked(it)
+                SkinsListItem(skin) {
+                    onSkinClicked(it)
                 }
                 Spacer(modifier = Modifier.width(10.dp))
             }
         }
     }
 }
-
-
 
