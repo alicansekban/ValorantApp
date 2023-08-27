@@ -11,4 +11,8 @@ object ScreenRoutes {
     const val WeaponsRoute = "Weapons"
     const val WeaponsDetailRoute = "Weapons/{id}"
 
+
+    const val BundleRoute = "Bundles"
+    const val RanksRoute = "Ranks"
+
 }

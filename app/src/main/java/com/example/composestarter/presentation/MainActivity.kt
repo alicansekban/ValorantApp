@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Album
+import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.More
 import androidx.compose.material.icons.outlined.Album
+import androidx.compose.material.icons.outlined.Computer
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.More
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -86,6 +88,18 @@ class MainActivity : ComponentActivity() {
                         selectedIcon = Icons.Filled.More,
                         unSelectedIcon = Icons.Outlined.More,
                         route = ScreenRoutes.WeaponsRoute
+                    ),
+                    BottomNavigationItem(
+                        title = "Bundles",
+                        selectedIcon = Icons.Filled.Album,
+                        unSelectedIcon = Icons.Outlined.Album,
+                        route = ScreenRoutes.BundleRoute
+                    ),
+                    BottomNavigationItem(
+                        title = "Ranks",
+                        selectedIcon = Icons.Filled.Computer,
+                        unSelectedIcon = Icons.Outlined.Computer,
+                        route = ScreenRoutes.RanksRoute
                     ),
                 )
                 var selectedItemIndex by rememberSaveable {
@@ -191,6 +205,18 @@ class MainActivity : ComponentActivity() {
                                         }
                                     )
                                 }
+                            }
+                            composable(
+                                route = ScreenRoutes.BundleRoute
+                            ) { entry ->
+
+
+                            }
+                            composable(
+                                route = ScreenRoutes.RanksRoute
+                            ) { entry ->
+
+
                             }
                         }
                     }
