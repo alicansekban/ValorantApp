@@ -3,7 +3,9 @@ package com.example.composestarter.data.remote
 import com.example.composestarter.data.base.BaseListResponse
 import com.example.composestarter.data.base.BaseResponse
 import com.example.composestarter.data.model.agent.AgentResponse
+import com.example.composestarter.data.model.bundles.BundleResponse
 import com.example.composestarter.data.model.map.MapsResponse
+import com.example.composestarter.data.model.ranks.RanksResponse
 import com.example.composestarter.data.model.weapons.WeaponsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -27,4 +29,10 @@ interface ValorantService {
 
     @GET("weapons/{weaponUuid}")
     suspend fun getWeaponDetail(@Path("weaponUuid")id: String) : BaseResponse<WeaponsResponse>
+
+    @GET("competitivetiers")
+    suspend fun getCompetitiveRanks() : BaseListResponse<RanksResponse>
+
+    @GET("bundles")
+    suspend fun getBundles() : BaseListResponse<BundleResponse>
 }

@@ -31,7 +31,7 @@ fun SkinsListItem(
 ) {
 
     Column(modifier = Modifier.clickable {
-        onSkinClicked(skin.streamedVideo.toString())
+        onSkinClicked(skin.streamedVideo ?: "")
     }) {
         loadImage(
             url = skin.displayIcon.toString(),
