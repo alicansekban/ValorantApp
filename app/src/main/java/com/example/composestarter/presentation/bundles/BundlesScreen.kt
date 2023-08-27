@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+
 
 package com.example.composestarter.presentation.bundles
 
@@ -70,13 +70,13 @@ fun BundlesScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatelessBundlesScreen(
     bundles: List<BundlesUIModel>
 ) {
 
     Scaffold { paddingValues ->
-
         Column {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2), modifier = Modifier
