@@ -19,6 +19,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,6 +37,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.SkinsItem
 import com.example.composestarter.customViews.TopBarView
+import com.example.composestarter.customViews.VideoPlay
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
@@ -73,8 +75,6 @@ fun WeaponDetailScreen(
             )
         }
     }
-
-    //  VideoPlay(videoURL = "https://valorant.dyn.riotcdn.net/x/videos/release-07.03/9520c794-4614-636d-8b87-0d94cd5af43a_default_universal.mp4")
 }
 
 @Composable
@@ -84,12 +84,13 @@ fun StatelessWeaponDetail(
 ) {
 
     val context = LocalContext.current
+    var previewUrl by remember {
+        mutableStateOf("")
+    }
     var isVideoShowable by remember {
         mutableStateOf(false)
     }
-    if (isVideoShowable) {
-        // TODO : show popup for video
-    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -150,6 +151,7 @@ fun StatelessWeaponDetail(
                         onSkinClicked = {
                             if (!it.isNullOrBlank()) {
                                 isVideoShowable = true
+                                previewUrl = it
                             } else {
                                 Toast.makeText(
                                     context,
@@ -168,5 +170,28 @@ fun StatelessWeaponDetail(
 
     }
 
+    if (isVideoShowable) {
+        showSkinPreview(mediaUrl =previewUrl ) {
+            isVideoShowable = false
+        }
+    }
+}
+
+@Composable
+fun showSkinPreview(
+    mediaUrl : String,
+    onBackPressed: () -> Unit
+) {
+
+    Surface(modifier = Modifier.fillMaxSize()) {
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            TopBarView(title = { "Skin Preview" }, showBackButton = { true }) {
+                onBackPressed()
+            }
+            VideoPlay(videoURL = mediaUrl)
+        }
+
+    }
 
 }
