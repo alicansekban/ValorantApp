@@ -78,8 +78,9 @@ fun StatelessRanksScreen(
 
             }
             val groupedRanks =
-                ranks[0].tiers?.filter { it.divisionName != "Unused1" && it.divisionName != "Unused2" && it.divisionName != "UNRANKED" }
-                    ?.groupBy { it.divisionName }
+                ranks[4].tiers?.filter { it.divisionName != "Unused1" && it.divisionName != "Unused2" && it.divisionName != "UNRANKED" }
+                    ?.groupBy { it.divisionName }?.entries?.reversed()
+
 
             groupedRanks?.forEach { (division, ranksInDivisioon) ->
 
