@@ -3,12 +3,15 @@
 package com.example.composestarter.presentation.weapons.detail
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -28,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -122,22 +126,30 @@ fun StatelessWeaponDetail(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(150.dp)
+                            .wrapContentHeight()
                             .padding(16.dp),
                         shape = RoundedCornerShape(5.dp),
-                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
+                        colors = CardDefaults.cardColors(Color.White),
                         elevation = CardDefaults.cardElevation(2.dp)
                     ) {
-                        GlideImage(
-                            model = weapon.displayIcon.toString(),
-                            contentDescription = "loadImage",
-                            modifier = Modifier.fillMaxSize()
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            it.error(R.drawable.ic_launcher_foreground)
-                                .placeholder(R.drawable.ic_launcher_foreground)
-                                .load(weapon.displayIcon.toString())
+                            GlideImage(
+                                model = weapon.displayIcon.toString(),
+                                contentDescription = "loadImage",
+                                modifier = Modifier.height(150.dp)
+                            ) {
+                                it.error(R.drawable.ic_launcher_foreground)
+                                    .placeholder(R.drawable.ic_launcher_foreground)
+                                    .load(weapon.displayIcon.toString())
 
+                            }
+                            WeaponDetailStats(
+                                weapon
+                            )
                         }
+
                     }
                 }
                 items(
@@ -174,6 +186,22 @@ fun StatelessWeaponDetail(
         showSkinPreview(mediaUrl =previewUrl ) {
             isVideoShowable = false
         }
+    }
+}
+
+@Composable
+fun WeaponDetailStats(
+    weapon: WeaponsUIModel
+) {
+    Column(
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.padding(start = 16.dp, top = 32.dp)
+    ) {
+        Text(text = "fireRate : ${weapon.weaponStats?.fireRate}", style = MaterialTheme.typography.bodyMedium )
+        Text(text = "magazineSize : ${weapon.weaponStats?.magazineSize}", style = MaterialTheme.typography.bodyMedium )
+        Text(text = "equipTimeSeconds : ${weapon.weaponStats?.equipTimeSeconds}", style = MaterialTheme.typography.bodyMedium )
+        Text(text = "reloadTimeSeconds : ${weapon.weaponStats?.reloadTimeSeconds}", style = MaterialTheme.typography.bodyMedium )
+        Text(text = "firstBulletAccuracy : ${weapon.weaponStats?.firstBulletAccuracy}", style = MaterialTheme.typography.bodyMedium )
     }
 }
 
