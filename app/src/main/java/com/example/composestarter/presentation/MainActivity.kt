@@ -36,6 +36,7 @@ import androidx.navigation.navArgument
 import com.example.composestarter.presentation.agents.AgentsScreen
 import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.presentation.bundles.BundlesScreen
+import com.example.composestarter.presentation.favorites.FavoritesScreen
 import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
 import com.example.composestarter.presentation.more.MoreScreen
@@ -239,6 +240,15 @@ class MainActivity : ComponentActivity() {
                                 route = ScreenRoutes.SeasonsRoute
                             ) { entry ->
                                 SeasonsScreen(
+                                    onBackClicked = {
+                                        navigation(it)
+                                    }
+                                )
+                            }
+                            composable(
+                                route = ScreenRoutes.FavoritesRoute
+                            ) { entry ->
+                                FavoritesScreen(
                                     onBackClicked = {
                                         navigation(it)
                                     }

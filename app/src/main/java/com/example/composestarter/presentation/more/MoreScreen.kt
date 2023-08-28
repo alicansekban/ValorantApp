@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Air
 import androidx.compose.material.icons.filled.AlarmOff
 import androidx.compose.material.icons.filled.AlarmOn
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -48,6 +49,11 @@ fun MoreScreen(
             name = "Competitive Seasons",
             icon = Icons.Filled.Air,
             route = ScreenRoutes.SeasonsRoute
+        ),
+        MoreScreenModel(
+            name = "Favorites",
+            icon = Icons.Filled.Favorite,
+            route = ScreenRoutes.FavoritesRoute
         ),
     )
 
