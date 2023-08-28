@@ -29,7 +29,7 @@ fun AgentInformationItem(
     onAgentClicked : (String,String) -> Unit
 ) {
     Column(modifier = Modifier.clickable {
-        onAgentClicked(agents.uuid.toString(),agents.voiceLine?.mediaList?.get(0)?.wave.toString())
+        onAgentClicked(agents.uuid.toString(),agents.voiceLine?.mediaList?.firstOrNull { it?.wave != null}?.wave.toString())
     }) {
         loadImage(
             url = agents.displayIcon.toString(),

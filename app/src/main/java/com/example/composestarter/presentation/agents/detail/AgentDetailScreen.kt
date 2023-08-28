@@ -112,7 +112,7 @@ fun StateLessAgentDetail(
                     .fillMaxWidth()
                     .height(200.dp)
                     .combinedClickable(onClick = {
-                        playSound(context,agent.voiceLine?.mediaList?.get(0)?.wave.toString())
+                        playSound(context,agent.voiceLine?.mediaList?.firstOrNull { it?.wave != null}?.wave.toString())
                     }, onLongClick = {
                         isAgentImageZoomable = true
                     }, onDoubleClick = {
