@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,6 +39,7 @@ import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.agents.AgentsUIModel
 import com.example.composestarter.presentation.agents.loadImage
+import com.example.composestarter.utils.playSound
 
 @Composable
 fun AgentDetailScreen(
@@ -85,6 +87,7 @@ fun StateLessAgentDetail(
             isAgentImageZoomable = false
         }
     }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -109,6 +112,7 @@ fun StateLessAgentDetail(
                     .fillMaxWidth()
                     .height(200.dp)
                     .combinedClickable(onClick = {
+                        playSound(context,agent.voiceLine?.mediaList?.get(0)?.wave.toString())
                     }, onLongClick = {
                         isAgentImageZoomable = true
                     }, onDoubleClick = {

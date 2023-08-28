@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -29,6 +30,7 @@ import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.agents.AgentsUIModel
 import com.example.composestarter.utils.ScreenRoutes
+import com.example.composestarter.utils.playSound
 
 
 @Composable
@@ -67,6 +69,7 @@ fun StatelessAgentsScreen(
     openDetail: (String) -> Unit
 ) {
 
+    val context = LocalContext.current
     Scaffold { padding ->
         Column(modifier = Modifier
             .padding(padding)
@@ -82,11 +85,12 @@ fun StatelessAgentsScreen(
 
                 groupedAgents.forEach { (role, agentsInRole) ->
 
-                    AgentsItem(agents = agentsInRole, roleTitle =role.toString(),onAgentClicked = {
+                    AgentsItem(agents = agentsInRole, roleTitle =role.toString(),onAgentClicked = { id, url ->
+                        playSound(context,url)
                         openDetail(
                             ScreenRoutes.AgentsDetailRoute.replace(
                                 oldValue = "{id}",
-                                newValue = it
+                                newValue = id
                             )
                         )
                     } )

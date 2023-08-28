@@ -26,10 +26,10 @@ import com.example.composestarter.presentation.agents.loadImage
 @Composable
 fun AgentInformationItem(
     agents : AgentsUIModel,
-    onAgentClicked : (String) -> Unit
+    onAgentClicked : (String,String) -> Unit
 ) {
     Column(modifier = Modifier.clickable {
-        onAgentClicked(agents.uuid.toString())
+        onAgentClicked(agents.uuid.toString(),agents.voiceLine?.mediaList?.get(0)?.wave.toString())
     }) {
         loadImage(
             url = agents.displayIcon.toString(),
@@ -55,7 +55,7 @@ fun AgentInformationItem(
 fun AgentsItem(
     agents: List<AgentsUIModel>,
     roleTitle : String,
-    onAgentClicked: (String) -> Unit
+    onAgentClicked: (String,String) -> Unit
 ) {
 
     Text(
@@ -74,8 +74,8 @@ fun AgentsItem(
                 if (index == 0) {
                     Spacer(modifier = Modifier.width(16.dp))
                 }
-                AgentInformationItem(ability) {
-                    onAgentClicked(it)
+                AgentInformationItem(ability) { id,url ->
+                    onAgentClicked(id,url)
                 }
                 Spacer(modifier = Modifier.width(10.dp))
             }
