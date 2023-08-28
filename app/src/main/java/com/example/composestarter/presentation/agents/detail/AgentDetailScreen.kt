@@ -1,7 +1,6 @@
 package com.example.composestarter.presentation.agents.detail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -109,7 +108,6 @@ fun StateLessAgentDetail(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .background(MaterialTheme.colorScheme.secondary)
                     .combinedClickable(onClick = {
                     }, onLongClick = {
                         isAgentImageZoomable = true

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package com.example.composestarter.customViews
 
 import androidx.compose.foundation.layout.Arrangement
@@ -19,8 +21,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.example.caseapp.R
 import com.example.composestarter.domain.model.agents.AbilitiesUIModel
-import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.utils.heightPercent
 
 @Composable
@@ -61,13 +65,26 @@ fun AgentSkillPopup(
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(top = 12.dp)
                 )
-                loadImage(
-                    url = ability.displayIcon.toString(),
+                Card(
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .height(100.dp)
-                        .width(100.dp)
-                )
+                        .width(100.dp),
+                ) {
+                    GlideImage(
+                        model = ability.displayIcon.toString(),
+                        contentDescription = "loadImage",
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                            .height(100.dp)
+                            .width(100.dp)
+                    ) {
+                        it.error(R.drawable.ic_launcher_foreground)
+                            .placeholder(R.drawable.ic_launcher_foreground)
+                            .load(ability.displayIcon.toString())
+
+                    }
+                }
                 Text(
                     text = ability.description.toString(),
                     style = MaterialTheme.typography.bodyMedium,
