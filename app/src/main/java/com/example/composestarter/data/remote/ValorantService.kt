@@ -6,6 +6,7 @@ import com.example.composestarter.data.model.agent.AgentResponse
 import com.example.composestarter.data.model.bundles.BundleResponse
 import com.example.composestarter.data.model.map.MapsResponse
 import com.example.composestarter.data.model.ranks.RanksResponse
+import com.example.composestarter.data.model.seasons.SeasonsResponse
 import com.example.composestarter.data.model.weapons.WeaponsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,4 +36,7 @@ interface ValorantService {
 
     @GET("bundles")
     suspend fun getBundles() : BaseListResponse<BundleResponse>
+
+    @GET("seasons")
+    suspend fun getCompetitiveSeasons() : BaseListResponse<SeasonsResponse>
 }

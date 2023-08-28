@@ -15,5 +15,6 @@ object ScreenRoutes {
     const val BundleRoute = "Bundles"
     const val RanksRoute = "Ranks"
     const val MoreRoute = "More"
+    const val SeasonsRoute = "Seasons"
 
 }

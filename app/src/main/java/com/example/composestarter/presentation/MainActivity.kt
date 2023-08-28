@@ -40,6 +40,7 @@ import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
 import com.example.composestarter.presentation.more.MoreScreen
 import com.example.composestarter.presentation.ranks.RanksScreen
+import com.example.composestarter.presentation.seasons.SeasonsScreen
 import com.example.composestarter.presentation.weapons.detail.WeaponDetailScreen
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.ScreenRoutes
@@ -230,6 +231,15 @@ class MainActivity : ComponentActivity() {
                             ) { entry ->
                                 MoreScreen(
                                     onItemClicked = {
+                                        navigation(it)
+                                    }
+                                )
+                            }
+                            composable(
+                                route = ScreenRoutes.SeasonsRoute
+                            ) { entry ->
+                                SeasonsScreen(
+                                    onBackClicked = {
                                         navigation(it)
                                     }
                                 )

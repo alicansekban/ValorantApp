@@ -24,7 +24,7 @@ class RanksViewModel @Inject constructor(
         getRanks()
     }
 
-    fun getRanks() {
+    private fun getRanks() {
         viewModelScope.launch(Dispatchers.IO) {
             useCase.invoke().collect { data ->
                 _ranks.emit(data)

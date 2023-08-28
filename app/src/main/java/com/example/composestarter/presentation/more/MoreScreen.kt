@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Air
 import androidx.compose.material.icons.filled.AlarmOff
 import androidx.compose.material.icons.filled.AlarmOn
 import androidx.compose.material3.Card
@@ -42,6 +43,11 @@ fun MoreScreen(
             name = "Bundles",
             icon = Icons.Filled.AlarmOff,
             route = ScreenRoutes.BundleRoute
+        ),
+        MoreScreenModel(
+            name = "Competitive Seasons",
+            icon = Icons.Filled.Air,
+            route = ScreenRoutes.SeasonsRoute
         ),
     )
 
