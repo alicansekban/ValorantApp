@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Album
-import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.More
 import androidx.compose.material.icons.outlined.Album
-import androidx.compose.material.icons.outlined.Computer
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.More
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,6 +38,7 @@ import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.presentation.bundles.BundlesScreen
 import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
+import com.example.composestarter.presentation.more.MoreScreen
 import com.example.composestarter.presentation.ranks.RanksScreen
 import com.example.composestarter.presentation.weapons.detail.WeaponDetailScreen
 import com.example.composestarter.utils.BottomNavigationItem
@@ -89,21 +88,15 @@ class MainActivity : ComponentActivity() {
                     ),
                     BottomNavigationItem(
                         title = "Weapons",
-                        selectedIcon = Icons.Filled.More,
-                        unSelectedIcon = Icons.Outlined.More,
+                        selectedIcon = Icons.Filled.Album,
+                        unSelectedIcon = Icons.Outlined.Album,
                         route = ScreenRoutes.WeaponsRoute
                     ),
                     BottomNavigationItem(
-                        title = "Bundles",
-                        selectedIcon = Icons.Filled.Album,
-                        unSelectedIcon = Icons.Outlined.Album,
-                        route = ScreenRoutes.BundleRoute
-                    ),
-                    BottomNavigationItem(
-                        title = "Ranks",
-                        selectedIcon = Icons.Filled.Computer,
-                        unSelectedIcon = Icons.Outlined.Computer,
-                        route = ScreenRoutes.RanksRoute
+                        title = "More",
+                        selectedIcon = Icons.Filled.More,
+                        unSelectedIcon = Icons.Outlined.More,
+                        route = ScreenRoutes.MoreRoute
                     ),
                 )
                 var selectedItemIndex by rememberSaveable {
@@ -116,7 +109,10 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         bottomBar = {
                             NavigationBar(
-                                modifier = Modifier.heightPercent(0.110f, LocalConfiguration.current)
+                                modifier = Modifier.heightPercent(
+                                    0.110f,
+                                    LocalConfiguration.current
+                                )
                             ) {
                                 items.forEachIndexed { index, item ->
                                     NavigationBarItem(
@@ -213,13 +209,30 @@ class MainActivity : ComponentActivity() {
                             composable(
                                 route = ScreenRoutes.BundleRoute
                             ) { entry ->
-                                BundlesScreen()
+                                BundlesScreen(
+                                    onBackClicked = {
+                                        navigation(it)
+                                    }
+                                )
 
                             }
                             composable(
                                 route = ScreenRoutes.RanksRoute
                             ) { entry ->
-                                RanksScreen()
+                                RanksScreen(
+                                    onBackClicked = {
+                                        navigation(it)
+                                    }
+                                )
+                            }
+                            composable(
+                                route = ScreenRoutes.MoreRoute
+                            ) { entry ->
+                                MoreScreen(
+                                    onItemClicked = {
+                                        navigation(it)
+                                    }
+                                )
                             }
                         }
                     }

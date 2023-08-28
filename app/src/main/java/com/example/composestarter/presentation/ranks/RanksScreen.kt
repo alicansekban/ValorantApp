@@ -23,10 +23,12 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.ranks.RanksUIModel
+import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun RanksScreen(
-    viewModel: RanksViewModel = hiltViewModel()
+    viewModel: RanksViewModel = hiltViewModel(),
+    onBackClicked : (String) -> Unit = {}
 ) {
 
     val ranks by viewModel.ranks.collectAsStateWithLifecycle()
@@ -51,7 +53,8 @@ fun RanksScreen(
             val response = (ranks as Success<List<RanksUIModel>>).response
 
             StatelessRanksScreen(
-                response
+                response,
+                onBackClicked
             )
         }
 
@@ -61,7 +64,8 @@ fun RanksScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatelessRanksScreen(
-    ranks: List<RanksUIModel>
+    ranks: List<RanksUIModel>,
+    onBackClicked : (String) -> Unit = {}
 ) {
 
     Scaffold { paddingValues ->
@@ -73,9 +77,9 @@ fun StatelessRanksScreen(
         ) {
 
             TopBarView(title = { "Ranks" }, showBackButton = {
-                false
+                true
             }) {
-
+                onBackClicked(ScreenRoutes.MoreRoute)
             }
             val groupedRanks =
                 ranks[4].tiers?.filter { it.divisionName != "Unused1" && it.divisionName != "Unused2" && it.divisionName != "UNRANKED" }

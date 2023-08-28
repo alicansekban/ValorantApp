@@ -37,10 +37,12 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.bundles.BundlesUIModel
+import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun BundlesScreen(
-    viewModel: BundlesViewModel = hiltViewModel()
+    viewModel: BundlesViewModel = hiltViewModel(),
+    onBackClicked : (String) -> Unit = {}
 ) {
 
     val bundles by viewModel.bundles.collectAsStateWithLifecycle()
@@ -64,7 +66,8 @@ fun BundlesScreen(
             val response = (bundles as Success<List<BundlesUIModel>>).response
 
             StatelessBundlesScreen(
-                response
+                response,
+                onBackClicked
             )
         }
     }
@@ -73,7 +76,8 @@ fun BundlesScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatelessBundlesScreen(
-    bundles: List<BundlesUIModel>
+    bundles: List<BundlesUIModel>,
+    onBackClicked : (String) -> Unit = {}
 ) {
 
     Scaffold { paddingValues ->
@@ -88,7 +92,8 @@ fun StatelessBundlesScreen(
                         GridItemSpan(maxCurrentLineSpan)
                     }
                 ) {
-                    TopBarView(title = { "Bundles" }, showBackButton = { false }) {
+                    TopBarView(title = { "Bundles" }, showBackButton = { true }) {
+                        onBackClicked(ScreenRoutes.MoreRoute)
                     }
                 }
 
