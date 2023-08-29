@@ -142,8 +142,8 @@ fun StatelessWeaponDetail(
                                 contentDescription = "loadImage",
                                 modifier = Modifier.height(150.dp)
                             ) {
-                                it.error(R.drawable.ic_launcher_foreground)
-                                    .placeholder(R.drawable.ic_launcher_foreground)
+                                it.error(R.drawable.ic_placeholder)
+                                    .placeholder(R.drawable.ic_placeholder)
                                     .load(weapon.displayIcon.toString())
 
                             }

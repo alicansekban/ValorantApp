@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalGlideComposeApi::class)
+@file:OptIn(ExperimentalGlideComposeApi::class, ExperimentalGlideComposeApi::class)
 
 package com.example.composestarter.customViews
 
@@ -79,8 +79,8 @@ fun AgentSkillPopup(
                             .height(100.dp)
                             .width(100.dp)
                     ) {
-                        it.error(R.drawable.ic_launcher_foreground)
-                            .placeholder(R.drawable.ic_launcher_foreground)
+                        it.error(R.drawable.ic_placeholder)
+                            .placeholder(R.drawable.ic_placeholder)
                             .load(ability.displayIcon.toString())
 
                     }

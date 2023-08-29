@@ -18,9 +18,9 @@ class AgentDetailUseCase @Inject constructor(private val repository: AgentsRepos
             emit(Loading())
             emit(
                 when(val response = repository.getAgentDetail(id)) {
-                    is ResultWrapper.GenericError -> Error("sorun yaşandı")
+                    is ResultWrapper.GenericError -> Error( "Error Occurred")
                     ResultWrapper.Loading -> Loading()
-                    ResultWrapper.NetworkError -> Error("hata")
+                    ResultWrapper.NetworkError -> Error("Network Error")
                     is ResultWrapper.Success -> Success(agentsMapper.mapAgentResponseToUIModel(response.value.data))
                 }
             )

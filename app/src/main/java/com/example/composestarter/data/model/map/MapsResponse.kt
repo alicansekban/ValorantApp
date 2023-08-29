@@ -13,6 +13,9 @@ data class MapsResponse(
 	@Json(name="displayName")
 	val displayName: String? = null,
 
+	@Json(name="narrativeDescription")
+	val narrativeDescription: String? = null,
+
 	@Json(name="listViewIcon")
 	val listViewIcon: String? = null,
 

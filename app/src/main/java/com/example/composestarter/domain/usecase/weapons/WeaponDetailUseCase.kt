@@ -22,9 +22,9 @@ class WeaponDetailUseCase @Inject constructor(
             emit(Loading())
             emit(
                 when(val response = repository.getWeaponDetail(id)) {
-                    is ResultWrapper.GenericError -> Error("sorun yaşandı")
+                    is ResultWrapper.GenericError -> Error( "Error Occurred")
                     ResultWrapper.Loading -> Loading()
-                    ResultWrapper.NetworkError -> Error("hata")
+                    ResultWrapper.NetworkError -> Error("Network Error")
                     is ResultWrapper.Success -> Success(mapper.mapResponseToUI(response.value.data))
                 }
             )

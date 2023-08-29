@@ -18,9 +18,9 @@ class MapDetailUseCase @Inject constructor(private val repository: MapsRepositor
             emit(Loading())
             emit(
                 when(val response = repository.getMapDetail(id)) {
-                    is ResultWrapper.GenericError -> Error("sorun yaşandı")
+                    is ResultWrapper.GenericError -> Error( "Error Occurred")
                     ResultWrapper.Loading -> Loading()
-                    ResultWrapper.NetworkError -> Error("hata")
+                    ResultWrapper.NetworkError -> Error("Network Error")
                     is ResultWrapper.Success -> Success(mapper.mapResponseToUIModel(response.value.data))
                 }
             )

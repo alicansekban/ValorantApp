@@ -1,8 +1,10 @@
 package com.example.composestarter.presentation.agents.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
@@ -32,7 +36,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composestarter.customViews.AgentAbilitiesItem
 import com.example.composestarter.customViews.AgentSkillPopup
 import com.example.composestarter.customViews.ImageFocusPopup
-import com.example.composestarter.customViews.LoadingDialog
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
@@ -47,15 +50,23 @@ fun AgentDetailScreen(
     viewModel: AgentDetailViewModel = hiltViewModel()
 ) {
     val agentData by viewModel.agent.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     when (agentData) {
-        is Error -> {}
+        is Error -> {
+            Toast.makeText(
+                context,
+                (agentData as Error<AgentsUIModel>).errorMessage,
+                Toast.LENGTH_LONG
+            ).show()
+        }
         is Loading -> {
-            LoadingDialog(isShowingDialog = { true })
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
         }
 
         is Success -> {
-            LoadingDialog(isShowingDialog = { false })
             val response = (agentData as Success<AgentsUIModel>).response
             StateLessAgentDetail(agent = response, onBackPressed = onBackPressed)
         }
@@ -179,5 +190,8 @@ fun StateLessAgentDetail(
                 }
             }
         }
+    }
+    if (showYouTubePlayer) {
+       // YoutubeScreen(videoId = "fKIw_j6xp4A", modifier = Modifier)
     }
 }

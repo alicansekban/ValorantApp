@@ -23,7 +23,7 @@ suspend fun <T> safeApiCall(
 
                 is HttpException -> {
                     val code = throwable.code()
-                    val errorResponse = convertErrorBody(throwable)
+                    val errorResponse = throwable.response()?.errorBody()?.string()
                     ResultWrapper.GenericError(code, errorResponse)
                 }
 

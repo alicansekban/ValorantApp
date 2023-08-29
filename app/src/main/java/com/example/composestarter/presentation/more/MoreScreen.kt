@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.AlarmOn
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -87,17 +86,13 @@ fun MoreScreenItems(item: MoreScreenModel, itemClicked: (String) -> Unit = {}) {
             },
         shape = RoundedCornerShape(15.dp),
         elevation = CardDefaults.cardElevation(2.dp),
-        colors = CardDefaults.cardColors(Color.LightGray)
+        colors = CardDefaults.cardColors(Color.White)
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = item.icon,
-                contentDescription = "",
-                modifier = Modifier.padding(start = 16.dp)
-            )
+
             Text(
                 text = item.name,
                 style = MaterialTheme.typography.bodyLarge,

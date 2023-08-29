@@ -9,6 +9,7 @@ data class MapsUIModel(
     val displayName: String? = null,
     val listViewIcon: String? = null,
     val coordinates: String? = null,
+    val narrativeDescription: String? = null,
     val yScalarToAdd: Double? = null,
     val yMultiplier: Double? = null,
     val uuid: String? = null,

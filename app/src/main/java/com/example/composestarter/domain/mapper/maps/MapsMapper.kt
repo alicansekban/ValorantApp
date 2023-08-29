@@ -17,6 +17,7 @@ class MapsMapper @Inject constructor() {
             displayName = response.displayName,
             listViewIcon = response.listViewIcon,
             coordinates = response.coordinates,
+            narrativeDescription = response.narrativeDescription,
             yScalarToAdd = response.yScalarToAdd,
             yMultiplier = response.yMultiplier,
             uuid = response.uuid,

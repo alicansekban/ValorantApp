@@ -21,9 +21,9 @@ class RanksUseCase @Inject constructor(
             emit(Loading())
             emit(
                 when(val response = repository.getCompetitiveRanks()) {
-                    is ResultWrapper.GenericError -> Error("sorun yaşandı")
+                    is ResultWrapper.GenericError -> Error( "Error Occurred")
                     ResultWrapper.Loading -> Loading()
-                    ResultWrapper.NetworkError -> Error("hata")
+                    ResultWrapper.NetworkError -> Error("Network Error")
                     is ResultWrapper.Success -> Success(response.value.data.map { ranksResponse ->
                         mapper.mapToUIModel(ranksResponse)
                     })

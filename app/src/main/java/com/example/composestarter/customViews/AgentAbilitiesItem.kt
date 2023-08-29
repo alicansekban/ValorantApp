@@ -42,8 +42,8 @@ fun AgentAbilitiesItem(
                     .width(72.dp)
                     .height(72.dp)
             ) {
-                it.error(R.drawable.ic_launcher_foreground)
-                    .placeholder(R.drawable.ic_launcher_foreground)
+                it.error(R.drawable.ic_placeholder)
+                    .placeholder(R.drawable.ic_placeholder)
                     .load(ability.displayIcon.toString())
 
             }

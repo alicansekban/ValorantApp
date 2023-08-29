@@ -2,18 +2,22 @@
 
 package com.example.composestarter.presentation.agents
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -23,7 +27,6 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.AgentsItem
-import com.example.composestarter.customViews.LoadingDialog
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
@@ -41,21 +44,24 @@ fun AgentsScreen(
 
     val agents by viewModel.agents.collectAsStateWithLifecycle()
 
-
+    val context = LocalContext.current
     when (agents) {
         is Error -> {
-
+            Toast.makeText(
+                context,
+                (agents as Error<List<AgentsUIModel>>).errorMessage,
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         is Loading -> {
-            LoadingDialog(isShowingDialog = { true })
-
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
         }
 
         is Success -> {
-            LoadingDialog(isShowingDialog = { false })
             val response = (agents as Success<List<AgentsUIModel>>).response
-
             StatelessAgentsScreen(response, openDetail = openDetail)
         }
     }
@@ -71,9 +77,11 @@ fun StatelessAgentsScreen(
 
     val context = LocalContext.current
     Scaffold { padding ->
-        Column(modifier = Modifier
-            .padding(padding)
-            .verticalScroll(enabled = true, state = rememberScrollState())) {
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .verticalScroll(enabled = true, state = rememberScrollState())
+        ) {
             TopBarView(
                 title = { "Agents" },
                 showBackButton = { false },
@@ -85,15 +93,18 @@ fun StatelessAgentsScreen(
 
                 groupedAgents.forEach { (role, agentsInRole) ->
 
-                    AgentsItem(agents = agentsInRole, roleTitle =role.toString(),onAgentClicked = { id, url ->
-                        playSound(context,url)
-                        openDetail(
-                            ScreenRoutes.AgentsDetailRoute.replace(
-                                oldValue = "{id}",
-                                newValue = id
+                    AgentsItem(
+                        agents = agentsInRole,
+                        roleTitle = role.toString(),
+                        onAgentClicked = { id, url ->
+                            playSound(context, url)
+                            openDetail(
+                                ScreenRoutes.AgentsDetailRoute.replace(
+                                    oldValue = "{id}",
+                                    newValue = id
+                                )
                             )
-                        )
-                    } )
+                        })
                 }
             }
 
@@ -104,11 +115,10 @@ fun StatelessAgentsScreen(
 }
 
 
-
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun loadImage(
-    url: String, modifier: Modifier,cardColor : Color = Color.White
+    url: String, modifier: Modifier, cardColor: Color = Color.White
 ) {
     Card(
         modifier = modifier, colors = CardDefaults.cardColors(cardColor),
@@ -118,16 +128,10 @@ fun loadImage(
             contentDescription = "loadImage",
             modifier = modifier
         ) {
-            it.error(R.drawable.ic_launcher_foreground)
-                .placeholder(R.drawable.ic_launcher_foreground)
+            it.error(R.drawable.ic_placeholder)
+                .placeholder(R.drawable.ic_placeholder)
                 .load(url)
 
         }
     }
-}
-
-// extension method for current page offset
-@OptIn(ExperimentalFoundationApi::class)
-fun PagerState.calculateCurrentOffsetForPage(page: Int): Float {
-    return (currentPage - page) + currentPageOffsetFraction
 }
