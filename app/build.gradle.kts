@@ -129,6 +129,8 @@ dependencies {
 
     implementation ("androidx.draganddrop:draganddrop:1.0.0")
 
+    // Youtube Player
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
 
 
     // Glide

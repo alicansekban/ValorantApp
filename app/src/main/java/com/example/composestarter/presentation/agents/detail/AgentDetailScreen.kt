@@ -69,12 +69,16 @@ fun StateLessAgentDetail(
     onBackPressed: (String) -> Unit
 ) {
     var isAgentImageZoomable by remember { mutableStateOf(false) }
+    var showYouTubePlayer by remember {
+        mutableStateOf(false)
+    }
     var isSkillPopUpClickable by remember {
         mutableStateOf(false)
     }
     var skillModelIndex by remember {
         mutableStateOf(0)
     }
+
 
     if (isSkillPopUpClickable) {
         AgentSkillPopup(agent.abilities[skillModelIndex] ) {
@@ -112,9 +116,12 @@ fun StateLessAgentDetail(
                     .fillMaxWidth()
                     .height(200.dp)
                     .combinedClickable(onClick = {
-                        playSound(context,agent.voiceLine?.mediaList?.firstOrNull { it?.wave != null}?.wave.toString())
+                        playSound(
+                            context,
+                            agent.voiceLine?.mediaList?.firstOrNull { it?.wave != null }?.wave.toString()
+                        )
                     }, onLongClick = {
-                        isAgentImageZoomable = true
+                        showYouTubePlayer = true
                     }, onDoubleClick = {
                         isAgentImageZoomable = true
                     })
