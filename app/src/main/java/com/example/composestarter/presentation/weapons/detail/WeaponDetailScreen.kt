@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -183,7 +185,7 @@ fun StatelessWeaponDetail(
     }
 
     if (isVideoShowable) {
-        showSkinPreview(mediaUrl =previewUrl ) {
+        showSkinPreview(mediaUrl = previewUrl) {
             isVideoShowable = false
         }
     }
@@ -193,21 +195,41 @@ fun StatelessWeaponDetail(
 fun WeaponDetailStats(
     weapon: WeaponsUIModel
 ) {
+
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.padding(start = 16.dp, top = 32.dp)
+        modifier = Modifier.padding(start = 16.dp, top = 16.dp)
     ) {
-        Text(text = "fireRate : ${weapon.weaponStats?.fireRate}", style = MaterialTheme.typography.bodyMedium )
-        Text(text = "magazineSize : ${weapon.weaponStats?.magazineSize}", style = MaterialTheme.typography.bodyMedium )
-        Text(text = "equipTimeSeconds : ${weapon.weaponStats?.equipTimeSeconds}", style = MaterialTheme.typography.bodyMedium )
-        Text(text = "reloadTimeSeconds : ${weapon.weaponStats?.reloadTimeSeconds}", style = MaterialTheme.typography.bodyMedium )
-        Text(text = "firstBulletAccuracy : ${weapon.weaponStats?.firstBulletAccuracy}", style = MaterialTheme.typography.bodyMedium )
+        Text(text = "Weapon Stats", style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.height(8.dp))
+        Divider(modifier = Modifier.padding(end = 8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "fireRate : ${weapon.weaponStats?.fireRate ?: ""}",
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = "magazineSize : ${weapon.weaponStats?.magazineSize ?: ""}",
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = "equipTime : ${weapon.weaponStats?.equipTimeSeconds ?: ""}",
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = "reloadTime : ${weapon.weaponStats?.reloadTimeSeconds ?: ""}",
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = "firstBulletAccuracy : ${weapon.weaponStats?.firstBulletAccuracy ?: ""}",
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
 @Composable
 fun showSkinPreview(
-    mediaUrl : String,
+    mediaUrl: String,
     onBackPressed: () -> Unit
 ) {
 
