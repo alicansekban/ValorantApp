@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalGlideComposeApi::class, ExperimentalGlideComposeApi::class)
+
 
 package com.example.composestarter.customViews
 
@@ -27,6 +27,7 @@ import com.example.caseapp.R
 import com.example.composestarter.domain.model.agents.AbilitiesUIModel
 import com.example.composestarter.utils.heightPercent
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun AgentSkillPopup(
     ability: AbilitiesUIModel,
