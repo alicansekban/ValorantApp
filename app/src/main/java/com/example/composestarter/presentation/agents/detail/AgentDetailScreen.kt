@@ -132,7 +132,7 @@ fun StateLessAgentDetail(
                             agent.voiceLine?.mediaList?.firstOrNull { it?.wave != null }?.wave.toString()
                         )
                     }, onLongClick = {
-                        showYouTubePlayer = true
+                        isAgentImageZoomable = true
                     }, onDoubleClick = {
                         isAgentImageZoomable = true
                     })
