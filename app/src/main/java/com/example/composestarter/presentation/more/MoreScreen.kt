@@ -84,8 +84,8 @@ fun MoreScreenItems(item: MoreScreenModel, itemClicked: (String) -> Unit = {}) {
             .clickable {
                 itemClicked(item.route)
             },
-        shape = RoundedCornerShape(15.dp),
-        elevation = CardDefaults.cardElevation(2.dp),
+        shape = RoundedCornerShape(10.dp),
+        elevation = CardDefaults.cardElevation(15.dp),
         colors = CardDefaults.cardColors(Color.White)
     ) {
         Row(

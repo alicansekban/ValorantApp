@@ -124,7 +124,6 @@ fun StatelessWeaponDetail(
                         onBackClick = { onBackPressed(ScreenRoutes.WeaponsRoute) })
                 }
                 item {
-
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
