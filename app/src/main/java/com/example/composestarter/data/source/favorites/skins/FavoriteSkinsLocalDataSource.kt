@@ -30,7 +30,7 @@ class FavoriteSkinsLocalDataSource @Inject constructor(
     fun getFavoriteSkins(searchQuery: String): ResultWrapper<List<FavoriteSkinsEntity>> {
         return try {
             ResultWrapper.Loading
-            ResultWrapper.Success(db.favoriteSkinsDao().getFavoriteMovies(searchQuery))
+            ResultWrapper.Success(db.favoriteSkinsDao().getFavoriteSkins(searchQuery))
 
         } catch (e: Exception) {
             ResultWrapper.GenericError(error = e.message)

@@ -42,6 +42,7 @@ import com.example.composestarter.presentation.agents.AgentsScreen
 import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.presentation.bundles.BundlesScreen
 import com.example.composestarter.presentation.favorites.FavoritesScreen
+import com.example.composestarter.presentation.favorites.agents.FavoriteAgentsScreen
 import com.example.composestarter.presentation.favorites.skins.FavoriteSkinsScreen
 import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
@@ -271,6 +272,15 @@ class MainActivity : ComponentActivity() {
                                 route = ScreenRoutes.FavoriteSkinsRoute
                             ) { entry ->
                                 FavoriteSkinsScreen(
+                                    onBackClicked = {
+                                        navigation(it)
+                                    }
+                                )
+                            }
+                            composable(
+                                route = ScreenRoutes.FavoriteAgentsRoute
+                            ) { entry ->
+                                FavoriteAgentsScreen(
                                     onBackClicked = {
                                         navigation(it)
                                     }

@@ -15,5 +15,5 @@ interface FavoriteSkinsDao {
     suspend fun isFavoriteAdded(id:String) : Int
 
     @Query("select * from favorite_skins Where displaySkinName LIKE '%' || :searchQuery || '%'")
-    fun getFavoriteMovies(searchQuery : String) : List<FavoriteSkinsEntity>
+    fun getFavoriteSkins(searchQuery : String) : List<FavoriteSkinsEntity>
 }
