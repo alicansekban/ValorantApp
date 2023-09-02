@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.More
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.More
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,6 +42,7 @@ import com.example.composestarter.presentation.agents.AgentsScreen
 import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.presentation.bundles.BundlesScreen
 import com.example.composestarter.presentation.favorites.FavoritesScreen
+import com.example.composestarter.presentation.favorites.skins.FavoriteSkinsScreen
 import com.example.composestarter.presentation.maps.MapsScreen
 import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
 import com.example.composestarter.presentation.more.MoreScreen
@@ -96,6 +99,12 @@ class MainActivity : ComponentActivity() {
                         selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_weapons_selected),
                         unSelectedIcon = ImageVector.vectorResource(id = R.drawable.ic_weapons_unselected),
                         route = ScreenRoutes.WeaponsRoute
+                    ),
+                    BottomNavigationItem(
+                        title = "Favorites",
+                        selectedIcon = Icons.Filled.Favorite,
+                        unSelectedIcon = Icons.Outlined.FavoriteBorder,
+                        route = ScreenRoutes.FavoritesRoute
                     ),
                     BottomNavigationItem(
                         title = "More",
@@ -253,6 +262,15 @@ class MainActivity : ComponentActivity() {
                                 route = ScreenRoutes.FavoritesRoute
                             ) { entry ->
                                 FavoritesScreen(
+                                    onItemClicked = {
+                                        navigation(it)
+                                    }
+                                )
+                            }
+                            composable(
+                                route = ScreenRoutes.FavoriteSkinsRoute
+                            ) { entry ->
+                                FavoriteSkinsScreen(
                                     onBackClicked = {
                                         navigation(it)
                                     }

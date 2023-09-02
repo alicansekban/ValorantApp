@@ -27,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,7 @@ import com.example.composestarter.customViews.VideoPlay
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
+import com.example.composestarter.domain.model.weapons.ChromasItemUIModel
 import com.example.composestarter.domain.model.weapons.WeaponsUIModel
 import com.example.composestarter.utils.ScreenRoutes
 
@@ -57,7 +59,7 @@ fun WeaponDetailScreen(
 ) {
 
     val weapon by viewModel.weapon.collectAsStateWithLifecycle()
-
+    val context = LocalContext.current
 
     when (weapon) {
         is Error -> {
@@ -77,16 +79,47 @@ fun WeaponDetailScreen(
 
             StatelessWeaponDetail(
                 response,
-                onBackPressed
+                onBackPressed,
+                addToFavoriteClicked = { item,name ->
+                    viewModel.addSkinToFavorite(item,name)
+                }
             )
         }
+    }
+
+    val state by viewModel.favoriteSkin.collectAsStateWithLifecycle()
+    when (state) {
+        is Error -> {
+            Toast.makeText(
+                context,
+                (state as Error<Any>).errorMessage,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        is Loading -> {
+
+        }
+        is Success -> {
+
+        }
+    }
+
+    val popupControl by remember { derivedStateOf { state is Success<*> } }
+    if (popupControl) {
+        viewModel.favoriteEmitted()
+        Toast.makeText(
+            context,
+            "Skin added to your favorites",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
 
 @Composable
 fun StatelessWeaponDetail(
     weapon: WeaponsUIModel,
-    onBackPressed: (String) -> Unit
+    onBackPressed: (String) -> Unit,
+    addToFavoriteClicked :(ChromasItemUIModel,String) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -172,7 +205,12 @@ fun StatelessWeaponDetail(
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
-                        })
+                        },
+                        onLongClicked = {
+                            addToFavoriteClicked(it,weapon.displayName.toString())
+                        }
+
+                    )
 
                 }
 

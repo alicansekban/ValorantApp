@@ -1,6 +1,8 @@
+
 package com.example.composestarter.customViews
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,15 +26,24 @@ import com.example.composestarter.domain.model.weapons.ChromasItemUIModel
 import com.example.composestarter.domain.model.weapons.SkinsItemUIModel
 import com.example.composestarter.presentation.agents.loadImage
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SkinsListItem(
-    skin : ChromasItemUIModel,
-    onSkinClicked: (String) -> Unit
+    skin: ChromasItemUIModel,
+    onSkinClicked: (String) -> Unit = {},
+    onLongClicked: (ChromasItemUIModel) -> Unit
 ) {
 
-    Column(modifier = Modifier.clickable {
-        onSkinClicked(skin.streamedVideo ?: "")
-    }) {
+    Column(modifier = Modifier.combinedClickable(
+        onClick = {
+            onSkinClicked(skin.streamedVideo ?: "")
+        },
+        onLongClick = {
+            onLongClicked(
+               skin
+            )
+        }
+    )) {
         loadImage(
             url = skin.displayIcon.toString(),
             modifier = Modifier
@@ -58,8 +69,9 @@ fun SkinsListItem(
 @Composable
 fun SkinsItem(
     skin: SkinsItemUIModel,
-    categoryTitle : String,
-    onSkinClicked: (String) -> Unit
+    categoryTitle: String,
+    onSkinClicked: (String) -> Unit,
+    onLongClicked: (ChromasItemUIModel) -> Unit
 ) {
 
     Text(
@@ -78,9 +90,14 @@ fun SkinsItem(
                 if (index == 0) {
                     Spacer(modifier = Modifier.width(16.dp))
                 }
-                SkinsListItem(skin) {
-                    onSkinClicked(it)
-                }
+                SkinsListItem(
+                    skin = skin,
+                    onSkinClicked = {
+                        onSkinClicked(it)
+                    },
+                    onLongClicked = {
+                        onLongClicked(it)
+                    })
                 Spacer(modifier = Modifier.width(10.dp))
             }
         }

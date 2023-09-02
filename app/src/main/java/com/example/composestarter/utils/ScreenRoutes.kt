@@ -17,5 +17,7 @@ object ScreenRoutes {
     const val MoreRoute = "More"
     const val SeasonsRoute = "Seasons"
     const val FavoritesRoute = "Favorites"
+    const val FavoriteSkinsRoute = "FavoriteSkins"
+    const val FavoriteAgentsRoute = "FavoritesAgents"
 
 }
