@@ -27,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.blankj.utilcode.util.SPUtils
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
@@ -60,6 +62,20 @@ fun WeaponDetailScreen(
 
     val weapon by viewModel.weapon.collectAsStateWithLifecycle()
     val context = LocalContext.current
+
+
+    SideEffect {
+        val isDialogShown = SPUtils.getInstance().getBoolean("isShown",false)
+        if (!isDialogShown) {
+            Toast.makeText(
+                context,
+                "You can add your skins to favorite by long clicking",
+                Toast.LENGTH_SHORT
+            ).show()
+            SPUtils.getInstance().put("isShown",true)
+        }
+    }
+
 
     when (weapon) {
         is Error -> {
@@ -129,6 +145,7 @@ fun StatelessWeaponDetail(
     var isVideoShowable by remember {
         mutableStateOf(false)
     }
+
 
     Scaffold(
         modifier = Modifier

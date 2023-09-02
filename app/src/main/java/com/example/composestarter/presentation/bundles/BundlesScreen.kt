@@ -52,8 +52,6 @@ fun BundlesScreen(
     onBackClicked: (String) -> Unit = {}
 ) {
 
-    var searchQuery by remember { mutableStateOf("") }
-
     val bundles by viewModel.bundles.collectAsStateWithLifecycle()
     val context = LocalContext.current
     when (bundles) {
