@@ -17,10 +17,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +51,15 @@ fun FavoriteSkinsScreen(
 ) {
 
     val favoriteSkins by viewModel.favoriteSkins.collectAsStateWithLifecycle()
+    val searchQuery: MutableState<String> = remember { mutableStateOf("") }
+    LaunchedEffect(key1 = searchQuery.value) {
+        if (searchQuery.value.length > 3) {
+            viewModel.getFavoriteSkins(searchQuery.value)
+        } else {
+            viewModel.getFavoriteSkins("")
+        }
+    }
+
     val context = LocalContext.current
     when (favoriteSkins) {
         is Error -> {
@@ -68,7 +83,11 @@ fun FavoriteSkinsScreen(
             val response = (favoriteSkins as Success<List<FavoriteSkinsEntity>>).response
             StatelessSkinsScreen(
                 response,
-                onBackClicked
+                onBackClicked,
+                searchQuery = searchQuery.value,
+                onSearchQueryChange = { newValue ->
+                    searchQuery.value = newValue
+                }
             )
 
 
@@ -76,10 +95,13 @@ fun FavoriteSkinsScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatelessSkinsScreen(
     skins: List<FavoriteSkinsEntity>,
-    onBackClicked: (String) -> Unit
+    onBackClicked: (String) -> Unit,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
 ) {
 
     val groupedSkins = skins.groupBy { it.weaponName }
@@ -92,6 +114,22 @@ fun StatelessSkinsScreen(
         TopBarView(title = { "Favorite Skins" }, showBackButton = { true }) {
             onBackClicked(ScreenRoutes.FavoritesRoute)
         }
+        OutlinedTextField(
+            value = searchQuery, onValueChange = {
+                onSearchQueryChange(it)
+
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            shape = CircleShape,
+            placeholder = {
+                Text(text = "Search...")
+            },
+            maxLines = 1,
+            singleLine = true
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         groupedSkins.forEach { (weaponName, skins) ->
             FavoriteSkinsItem(skin = skins, weaponName = weaponName)
         }
