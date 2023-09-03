@@ -23,8 +23,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.composestarter.customViews.RemoveFavoritePopUp
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.data.local.model.agents.FavoriteAgentsEntity
 import com.example.composestarter.domain.Error
@@ -87,10 +91,23 @@ fun StatelessFavoriteAgentsScreen(
     onBackClicked: (String) -> Unit,
     removeFavoriteClicked: (String) -> Unit
 ) {
+    var popupControl by remember {
+        mutableStateOf(false)
+    }
+    var removeAgentId by remember {
+        mutableStateOf("")
+    }
+    if (popupControl){
+        RemoveFavoritePopUp(onDismissRequest = { popupControl = false }, removeFromFavorites = {
+            popupControl = false
+            removeFavoriteClicked(removeAgentId)
+        }
+        )
+    }
 
     val context = LocalContext.current
     LazyColumn(
-        modifier = Modifier
+        modifier = Modifier.blur(if (popupControl)15.dp else 0.dp)
     ) {
         item {
             TopBarView(
@@ -111,7 +128,8 @@ fun StatelessFavoriteAgentsScreen(
                                     playSound(context, voiceLine)
                                 },
                                 removeFavoriteClicked =  {
-                                    removeFavoriteClicked(it)
+                                    removeAgentId = it
+                                    popupControl = true
                                 }
                             )
                         }

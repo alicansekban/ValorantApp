@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -43,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.composestarter.customViews.RemoveFavoritePopUp
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.data.local.model.skins.FavoriteSkinsEntity
 import com.example.composestarter.domain.Error
@@ -106,13 +108,16 @@ fun FavoriteSkinsScreen(
 
     val popupControl by remember { derivedStateOf { removeSkin is Success<*> } }
     if (popupControl) {
-        viewModel.removeFavoriteEmitted()
-        Toast.makeText(
-            context,
-            "Skin removed from your favorites",
-            Toast.LENGTH_LONG
-        ).show()
-        viewModel.getFavoriteSkins()
+        LaunchedEffect(key1 = popupControl) {
+            viewModel.removeFavoriteEmitted()
+            Toast.makeText(
+                context,
+                "Skin removed from your favorites",
+                Toast.LENGTH_LONG
+            ).show()
+            viewModel.getFavoriteSkins()
+        }
+
     }
 }
 
@@ -134,11 +139,24 @@ fun StatelessSkinsScreen(
     var isVideoShowable by remember {
         mutableStateOf(false)
     }
-
+    var popupControl by remember {
+        mutableStateOf(false)
+    }
+    var removeSkinId by remember {
+        mutableStateOf("")
+    }
+    if (popupControl){
+        RemoveFavoritePopUp(onDismissRequest = { popupControl = false }, removeFromFavorites = {
+            popupControl = false
+            removeFavoriteClicked(removeSkinId)
+        }
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .blur(if (popupControl) 15.dp else 0.dp)
     ) {
         TopBarView(title = { "Favorite Skins" }, showBackButton = { true }) {
             onBackClicked(ScreenRoutes.FavoritesRoute)
@@ -160,10 +178,18 @@ fun StatelessSkinsScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         groupedSkins.forEach { (weaponName, skins) ->
-            FavoriteSkinsItem(skin = skins, weaponName = weaponName, removeFavoriteClicked, onSkinClicked ={
-                previewUrl = it
-                isVideoShowable = true
-            } )
+            FavoriteSkinsItem(
+                skin = skins,
+                weaponName = weaponName,
+                removeFavoriteClicked = { id ->
+                    removeSkinId = id
+                    popupControl = true
+
+                },
+                onSkinClicked = {
+                    previewUrl = it
+                    isVideoShowable = true
+                })
         }
     }
     if (isVideoShowable) {
@@ -205,7 +231,9 @@ fun FavoriteSkinsItem(
                     }
                     FavoriteSkinsListItem(
                         skin = skin,
-                        removeFavoriteClicked,
+                        removeFavoriteClicked = {
+                            removeFavoriteClicked(it)
+                        },
                         onSkinClicked
                     )
                     Spacer(modifier = Modifier.width(10.dp))
