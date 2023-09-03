@@ -72,8 +72,24 @@ fun AgentsScreen(
                 })
         }
     }
-    val favoriteState by viewModel.favoriteAgent.collectAsStateWithLifecycle()
 
+    val favoriteState by viewModel.favoriteAgent.collectAsStateWithLifecycle()
+    when (favoriteState) {
+        is Error -> {
+            Toast.makeText(
+                context,
+                (favoriteState as Error<Any>).errorMessage,
+                Toast.LENGTH_LONG
+            ).show()
+            viewModel.favoriteEmitted()
+        }
+        is Loading -> {
+
+        }
+        is Success -> {
+
+        }
+    }
 
     val popupControl by remember { derivedStateOf { favoriteState is Success<*> } }
     if (popupControl) {

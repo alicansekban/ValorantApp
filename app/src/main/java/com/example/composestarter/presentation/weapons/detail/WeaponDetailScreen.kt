@@ -111,6 +111,7 @@ fun WeaponDetailScreen(
                 (state as Error<Any>).errorMessage,
                 Toast.LENGTH_LONG
             ).show()
+            viewModel.favoriteEmitted()
         }
         is Loading -> {
 

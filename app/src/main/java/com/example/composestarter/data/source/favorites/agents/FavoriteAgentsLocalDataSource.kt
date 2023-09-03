@@ -17,7 +17,7 @@ class FavoriteAgentsLocalDataSource @Inject constructor(
     suspend fun insertFavoriteAgent(agent: FavoriteAgentsEntity): ResultWrapper<Any> {
         return try {
             if (isFavoriteAgentExist(agent.id)) {
-                ResultWrapper.GenericError(error = "This skin has been added before.")
+                ResultWrapper.GenericError(error = "This agent has been added before.")
             } else {
                 ResultWrapper.Loading
                 ResultWrapper.Success(db.favoriteAgentsDao().insertFavoriteAgent(agent))
