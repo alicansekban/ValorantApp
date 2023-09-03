@@ -34,6 +34,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.AgentsItem
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
+import com.example.composestarter.customViews.FavoritePopUp
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
@@ -56,7 +57,9 @@ fun AgentsScreen(
 
 
     var isDialogShown by remember {
-        mutableStateOf( SPUtils.getInstance().getBoolean(Constant.IS_AGENT_FAVORITE_MESSAGE_SHOWED, false))
+        mutableStateOf(
+            SPUtils.getInstance().getBoolean(Constant.IS_AGENT_FAVORITE_MESSAGE_SHOWED, false)
+        )
     }
     if (!isDialogShown) {
         FavoriteFirstTimeMessagePopUp(
@@ -144,7 +147,7 @@ fun StatelessAgentsScreen(
                 .verticalScroll(enabled = true, state = rememberScrollState())
         ) {
             TopBarView(
-                title = stringResource(R.string.agents_title) ,
+                title = stringResource(R.string.agents_title),
                 showBackButton = { false },
                 onBackClick = { },
             )

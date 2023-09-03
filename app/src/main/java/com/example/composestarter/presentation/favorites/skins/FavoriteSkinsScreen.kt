@@ -178,7 +178,9 @@ fun StatelessSkinsScreen(
             .verticalScroll(rememberScrollState())
             .blur(if (popupControl) 15.dp else 0.dp)
     ) {
-        TopBarView(title = stringResource(R.string.favorite_skins_title) , showBackButton = { true }) {
+        TopBarView(
+            title = stringResource(R.string.favorite_skins_title),
+            showBackButton = { true }) {
             onBackClicked(ScreenRoutes.FavoritesRoute)
         }
         OutlinedTextField(
