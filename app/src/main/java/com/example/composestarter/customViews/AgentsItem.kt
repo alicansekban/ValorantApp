@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -76,50 +79,58 @@ fun AgentsItem(
     addAgentToFavorite: (String, String,AgentsUIModel) -> Unit,
 ) {
 
-    Row(
-        modifier = Modifier.padding(start = 12.dp)
+    Card(
+        modifier = Modifier.padding(12.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary)
     ) {
-        loadImage(
-            url = roleIcon,
+        Row(
+            modifier = Modifier.padding(start = 12.dp)
+        ) {
+            loadImage(
+                url = roleIcon,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .width(42.dp)
+                    .height(42.dp),
+                cardColor = MaterialTheme.colorScheme.error
+            )
+
+            Text(
+                text = roleTitle,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(top = 8.dp, start = 8.dp)
+            )
+
+        }
+
+        Divider(modifier = Modifier.padding(8.dp))
+        LazyRow(
             modifier = Modifier
-                .clip(CircleShape)
-                .width(42.dp)
-                .height(42.dp),
-            cardColor = MaterialTheme.colorScheme.error
-        )
-
-        Text(
-            text = roleTitle,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 8.dp, start = 8.dp)
-        )
-
-    }
-
-    Divider(modifier = Modifier.padding(8.dp))
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, bottom = 8.dp)
-    ) {
-        itemsIndexed(agents) { index, ability ->
-            Row(modifier = Modifier) {
-                if (index == 0) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                }
-                AgentInformationItem(
-                    ability,
-                    onAgentClicked = { id, url ->
-                        onAgentClicked(id, url)
-                    },
-                    addAgentToFavorite ={ id,voiceLine ->
-                        addAgentToFavorite(id,voiceLine,ability)
+                .fillMaxWidth()
+                .padding(top = 8.dp, bottom = 8.dp)
+        ) {
+            itemsIndexed(agents) { index, ability ->
+                Row(modifier = Modifier) {
+                    if (index == 0) {
+                        Spacer(modifier = Modifier.width(16.dp))
                     }
-                )
-                Spacer(modifier = Modifier.width(10.dp))
+                    AgentInformationItem(
+                        ability,
+                        onAgentClicked = { id, url ->
+                            onAgentClicked(id, url)
+                        },
+                        addAgentToFavorite ={ id,voiceLine ->
+                            addAgentToFavorite(id,voiceLine,ability)
+                        }
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
             }
         }
     }
+
 }
 
 

@@ -14,7 +14,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -142,28 +145,35 @@ fun FavoriteSkinsItem(
     skin: List<FavoriteSkinsEntity>,
     weaponName: String,
 ) {
-
-    Text(
-        text = weaponName,
-        style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(top = 8.dp, start = 16.dp)
-    )
-    Divider(modifier = Modifier.padding(8.dp))
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, bottom = 8.dp)
+    Card(
+        modifier = Modifier.padding(12.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary)
     ) {
-        itemsIndexed(skin) { index, skin ->
-            Row(modifier = Modifier) {
-                if (index == 0) {
-                    Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = weaponName,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(top = 8.dp, start = 16.dp)
+        )
+        Divider(modifier = Modifier.padding(8.dp))
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, bottom = 8.dp)
+        ) {
+            itemsIndexed(skin) { index, skin ->
+                Row(modifier = Modifier) {
+                    if (index == 0) {
+                        Spacer(modifier = Modifier.width(16.dp))
+                    }
+                    FavoriteSkinsListItem(skin = skin)
+                    Spacer(modifier = Modifier.width(10.dp))
                 }
-                FavoriteSkinsListItem(skin = skin)
-                Spacer(modifier = Modifier.width(10.dp))
             }
         }
     }
+
 }
 
 

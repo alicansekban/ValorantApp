@@ -45,7 +45,7 @@ class AgentsViewModel @Inject constructor(
     }
 
     fun addAgentToFavorite(model: AgentsUIModel, id: String, voiceLine: String) {
-      val requestModel =  FavoriteAgentsEntity(
+        val requestModel = FavoriteAgentsEntity(
             id = id,
             displayName = model.displayName ?: "Unknown Agent",
             role = model.role?.displayName ?: "Unknown Role",
