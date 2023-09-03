@@ -9,6 +9,7 @@ data class FavoriteAgentsEntity(
     val id: String,
     val displayName: String,
     val role: String,
+    val roleDisplayIcon: String,
     val fullPortrait: String,
     val displayIcon: String,
     val description: String,

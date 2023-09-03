@@ -16,7 +16,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -62,8 +64,25 @@ fun AgentsScreen(
 
         is Success -> {
             val response = (agents as Success<List<AgentsUIModel>>).response
-            StatelessAgentsScreen(response, openDetail = openDetail)
+            StatelessAgentsScreen(
+                response,
+                openDetail = openDetail,
+                addAgentToFavorite = { id, voiceLine, model ->
+                    viewModel.addAgentToFavorite(model, id, voiceLine)
+                })
         }
+    }
+    val favoriteState by viewModel.favoriteAgent.collectAsStateWithLifecycle()
+
+
+    val popupControl by remember { derivedStateOf { favoriteState is Success<*> } }
+    if (popupControl) {
+        viewModel.favoriteEmitted()
+        Toast.makeText(
+            context,
+            "Agent added to your favorites",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
 }
@@ -72,7 +91,8 @@ fun AgentsScreen(
 @Composable
 fun StatelessAgentsScreen(
     agents: List<AgentsUIModel>,
-    openDetail: (String) -> Unit
+    openDetail: (String) -> Unit,
+    addAgentToFavorite: (String, String, AgentsUIModel) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -88,24 +108,34 @@ fun StatelessAgentsScreen(
                 onBackClick = { },
             )
             if (agents.isNotEmpty()) {
-                val groupedAgents = agents.sortedBy { it.role?.displayName }
+                 agents.sortedBy { it.role?.displayName }
                     .groupBy { it.role?.displayName }
-
-                groupedAgents.forEach { (role, agentsInRole) ->
-
-                    AgentsItem(
-                        agents = agentsInRole,
-                        roleTitle = role.toString(),
-                        onAgentClicked = { id, url ->
-                            playSound(context, url)
-                            openDetail(
-                                ScreenRoutes.AgentsDetailRoute.replace(
-                                    oldValue = "{id}",
-                                    newValue = id
+                    .map { (role, agentsInRole) ->
+                        val roleIcons = agentsInRole
+                            .groupBy { it.role?.displayIcon }
+                            .map { (icon, items) ->
+                                AgentsItem(
+                                    agents = items,
+                                    roleTitle = role.toString(),
+                                    roleIcon = icon.toString(),
+                                    onAgentClicked = { id, url ->
+                                        playSound(context, url)
+                                        openDetail(
+                                            ScreenRoutes.AgentsDetailRoute.replace(
+                                                oldValue = "{id}",
+                                                newValue = id
+                                            )
+                                        )
+                                    },
+                                    addAgentToFavorite = { id, voiceLine, model ->
+                                        addAgentToFavorite(
+                                            id, voiceLine, model
+                                        )
+                                    }
                                 )
-                            )
-                        })
-                }
+                            }
+                        roleIcons
+                    }
             }
 
 

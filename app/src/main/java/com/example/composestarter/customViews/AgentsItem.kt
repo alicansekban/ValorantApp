@@ -1,6 +1,7 @@
 package com.example.composestarter.customViews
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,14 +24,29 @@ import androidx.compose.ui.unit.sp
 import com.example.composestarter.domain.model.agents.AgentsUIModel
 import com.example.composestarter.presentation.agents.loadImage
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AgentInformationItem(
-    agents : AgentsUIModel,
-    onAgentClicked : (String,String) -> Unit
+    agents: AgentsUIModel,
+    onAgentClicked: (String, String) -> Unit,
+    addAgentToFavorite: (String, String) -> Unit,
 ) {
-    Column(modifier = Modifier.clickable {
-        onAgentClicked(agents.uuid.toString(),agents.voiceLine?.mediaList?.firstOrNull { it?.wave != null}?.wave.toString())
-    }) {
+    Column(modifier = Modifier.combinedClickable
+        (
+        onClick = {
+            onAgentClicked(
+                agents.uuid.toString(),
+                agents.voiceLine?.mediaList?.firstOrNull { it?.wave != null }?.wave.toString()
+            )
+        },
+        onLongClick = {
+            addAgentToFavorite(
+                agents.uuid.toString(),
+                agents.voiceLine?.mediaList?.firstOrNull { it?.wave != null }?.wave.toString()
+            )
+        }
+
+    )) {
         loadImage(
             url = agents.displayIcon.toString(),
             modifier = Modifier
@@ -54,15 +70,32 @@ fun AgentInformationItem(
 @Composable
 fun AgentsItem(
     agents: List<AgentsUIModel>,
-    roleTitle : String,
-    onAgentClicked: (String,String) -> Unit
+    roleTitle: String,
+    roleIcon: String,
+    onAgentClicked: (String, String) -> Unit,
+    addAgentToFavorite: (String, String,AgentsUIModel) -> Unit,
 ) {
 
-    Text(
-        text = roleTitle,
-        style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(top = 8.dp, start = 16.dp)
-    )
+    Row(
+        modifier = Modifier.padding(start = 12.dp)
+    ) {
+        loadImage(
+            url = roleIcon,
+            modifier = Modifier
+                .clip(CircleShape)
+                .width(42.dp)
+                .height(42.dp),
+            cardColor = MaterialTheme.colorScheme.error
+        )
+
+        Text(
+            text = roleTitle,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(top = 8.dp, start = 8.dp)
+        )
+
+    }
+
     Divider(modifier = Modifier.padding(8.dp))
     LazyRow(
         modifier = Modifier
@@ -74,9 +107,15 @@ fun AgentsItem(
                 if (index == 0) {
                     Spacer(modifier = Modifier.width(16.dp))
                 }
-                AgentInformationItem(ability) { id,url ->
-                    onAgentClicked(id,url)
-                }
+                AgentInformationItem(
+                    ability,
+                    onAgentClicked = { id, url ->
+                        onAgentClicked(id, url)
+                    },
+                    addAgentToFavorite ={ id,voiceLine ->
+                        addAgentToFavorite(id,voiceLine,ability)
+                    }
+                )
                 Spacer(modifier = Modifier.width(10.dp))
             }
         }
