@@ -6,7 +6,7 @@ import com.example.composestarter.utils.ResultWrapper
 import javax.inject.Inject
 
 class FavoriteAgentsLocalDataSource @Inject constructor(
-    private val db : AppDatabase
+    private val db: AppDatabase
 ) {
 
     private suspend fun isFavoriteAgentExist(id: String): Boolean {
@@ -22,6 +22,16 @@ class FavoriteAgentsLocalDataSource @Inject constructor(
                 ResultWrapper.Loading
                 ResultWrapper.Success(db.favoriteAgentsDao().insertFavoriteAgent(agent))
             }
+        } catch (e: Exception) {
+            ResultWrapper.GenericError(error = e.message)
+        }
+    }
+
+    suspend fun removeAgentFromFavorites(id: String): ResultWrapper<Any> {
+        return try {
+            ResultWrapper.Loading
+            ResultWrapper.Success(db.favoriteAgentsDao().removeAgentFromFavorites(id))
+
         } catch (e: Exception) {
             ResultWrapper.GenericError(error = e.message)
         }

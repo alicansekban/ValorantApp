@@ -12,6 +12,9 @@ class FavoriteAgentsRepository @Inject constructor(
     suspend fun insertFavoriteAgent(skin: FavoriteAgentsEntity): ResultWrapper<Any> {
         return dataSource.insertFavoriteAgent(skin)
     }
+    suspend fun removeAgentFromFavorites(id: String): ResultWrapper<Any> {
+        return dataSource.removeAgentFromFavorites(id)
+    }
 
     fun getFavoriteAgents(): ResultWrapper<List<FavoriteAgentsEntity>> {
         return dataSource.getFavoriteAgents()

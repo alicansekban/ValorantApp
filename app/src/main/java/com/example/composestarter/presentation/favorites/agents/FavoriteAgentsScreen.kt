@@ -1,5 +1,6 @@
 package com.example.composestarter.presentation.favorites.agents
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
@@ -20,9 +21,12 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +39,7 @@ import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.utils.ScreenRoutes
+import com.example.composestarter.utils.playSound
 
 @Composable
 fun FavoriteAgentsScreen(
@@ -42,6 +47,7 @@ fun FavoriteAgentsScreen(
     onBackClicked: (String) -> Unit
 ) {
 
+    val context = LocalContext.current
     val agents by viewModel.favoriteAgents.collectAsStateWithLifecycle()
     when (agents) {
         is Error -> {
@@ -55,17 +61,34 @@ fun FavoriteAgentsScreen(
         is Success -> {
             val response = (agents as Success<List<FavoriteAgentsEntity>>).response
 
-            StatelessFavoriteAgentsScreen(response,onBackClicked)
+            StatelessFavoriteAgentsScreen(response, onBackClicked, removeFavoriteClicked =  {
+            viewModel.removeFavoriteAgent(it)
+            })
         }
+    }
+
+    val removeAgent by viewModel.removeAgent.collectAsStateWithLifecycle()
+
+    val popupControl by remember { derivedStateOf { removeAgent is Success<*> } }
+    if (popupControl) {
+        viewModel.removeFavoriteEmitted()
+        Toast.makeText(
+            context,
+            "Agent removed from your favorites",
+            Toast.LENGTH_LONG
+        ).show()
+        viewModel.getFavoriteAgents()
     }
 }
 
 @Composable
 fun StatelessFavoriteAgentsScreen(
     agents: List<FavoriteAgentsEntity>,
-    onBackClicked: (String) -> Unit
+    onBackClicked: (String) -> Unit,
+    removeFavoriteClicked: (String) -> Unit
 ) {
 
+    val context = LocalContext.current
     LazyColumn(
         modifier = Modifier
     ) {
@@ -73,18 +96,23 @@ fun StatelessFavoriteAgentsScreen(
             TopBarView(
                 title = { "Favorite Agents" },
                 showBackButton = { true },
-                onBackClick = { onBackClicked(ScreenRoutes.FavoritesRoute)},
+                onBackClick = { onBackClicked(ScreenRoutes.FavoritesRoute) },
             )
         }
         item {
             agents
                 .groupBy { it.role }
                 .map { (role, agents) ->
-                    val roleIcons = agents
+                    agents
                         .groupBy { it.roleDisplayIcon }
                         .map { (icon, items) ->
                             FavoriteAgentsItem(
-                                role, icon, agents, onAgentClicked = {}
+                                role, icon, agents, onAgentClicked = { id, voiceLine ->
+                                    playSound(context, voiceLine)
+                                },
+                                removeFavoriteClicked =  {
+                                    removeFavoriteClicked(it)
+                                }
                             )
                         }
                 }
@@ -100,7 +128,8 @@ fun FavoriteAgentsItem(
     role: String,
     roleIcon: String,
     agents: List<FavoriteAgentsEntity>,
-    onAgentClicked: () -> Unit,
+    onAgentClicked: (String, String) -> Unit,
+    removeFavoriteClicked: ( String) -> Unit,
 ) {
 
     Card(
@@ -142,9 +171,12 @@ fun FavoriteAgentsItem(
                     }
                     FavoriteAgentInformationItem(
                         ability,
-                        onAgentClicked = { id, url ->
-                            onAgentClicked()
+                        onAgentClicked = { id, voiceLine ->
+                            onAgentClicked(id, voiceLine)
                         },
+                        removeFavoriteClicked = {
+                            removeFavoriteClicked(it)
+                        }
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                 }
@@ -160,6 +192,7 @@ fun FavoriteAgentsItem(
 fun FavoriteAgentInformationItem(
     agent: FavoriteAgentsEntity,
     onAgentClicked: (String, String) -> Unit,
+    removeFavoriteClicked: (String) -> Unit
 ) {
 
     Column(modifier = Modifier.combinedClickable
@@ -171,7 +204,7 @@ fun FavoriteAgentInformationItem(
             )
         },
         onLongClick = {
-
+            removeFavoriteClicked(agent.id)
         }
 
     )) {

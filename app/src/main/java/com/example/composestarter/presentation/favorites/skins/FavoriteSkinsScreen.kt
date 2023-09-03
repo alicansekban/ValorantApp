@@ -1,6 +1,8 @@
 package com.example.composestarter.presentation.favorites.skins
 
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,9 +29,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +49,7 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.presentation.agents.loadImage
+import com.example.composestarter.presentation.weapons.detail.showSkinPreview
 import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
@@ -90,11 +95,24 @@ fun FavoriteSkinsScreen(
                 searchQuery = searchQuery.value,
                 onSearchQueryChange = { newValue ->
                     searchQuery.value = newValue
+                },
+                removeFavoriteClicked = {
+                    viewModel.removeFavoriteSkin(it)
                 }
             )
-
-
         }
+    }
+    val removeSkin by viewModel.removeSkin.collectAsStateWithLifecycle()
+
+    val popupControl by remember { derivedStateOf { removeSkin is Success<*> } }
+    if (popupControl) {
+        viewModel.removeFavoriteEmitted()
+        Toast.makeText(
+            context,
+            "Skin removed from your favorites",
+            Toast.LENGTH_LONG
+        ).show()
+        viewModel.getFavoriteSkins()
     }
 }
 
@@ -105,9 +123,17 @@ fun StatelessSkinsScreen(
     onBackClicked: (String) -> Unit,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
+    removeFavoriteClicked: (String) -> Unit
 ) {
 
     val groupedSkins = skins.groupBy { it.weaponName }
+
+    var previewUrl by remember {
+        mutableStateOf("")
+    }
+    var isVideoShowable by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier
@@ -134,7 +160,15 @@ fun StatelessSkinsScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         groupedSkins.forEach { (weaponName, skins) ->
-            FavoriteSkinsItem(skin = skins, weaponName = weaponName)
+            FavoriteSkinsItem(skin = skins, weaponName = weaponName, removeFavoriteClicked, onSkinClicked ={
+                previewUrl = it
+                isVideoShowable = true
+            } )
+        }
+    }
+    if (isVideoShowable) {
+        showSkinPreview(mediaUrl = previewUrl) {
+            isVideoShowable = false
         }
     }
 }
@@ -144,6 +178,8 @@ fun StatelessSkinsScreen(
 fun FavoriteSkinsItem(
     skin: List<FavoriteSkinsEntity>,
     weaponName: String,
+    removeFavoriteClicked: (String) -> Unit,
+    onSkinClicked: (String) -> Unit
 ) {
     Card(
         modifier = Modifier.padding(12.dp),
@@ -167,7 +203,11 @@ fun FavoriteSkinsItem(
                     if (index == 0) {
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                    FavoriteSkinsListItem(skin = skin)
+                    FavoriteSkinsListItem(
+                        skin = skin,
+                        removeFavoriteClicked,
+                        onSkinClicked
+                    )
                     Spacer(modifier = Modifier.width(10.dp))
                 }
             }
@@ -177,19 +217,28 @@ fun FavoriteSkinsItem(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FavoriteSkinsListItem(
-    skin: FavoriteSkinsEntity
+    skin: FavoriteSkinsEntity,
+    removeFavoriteClicked: (String) -> Unit,
+    onSkinClicked: (String) -> Unit
 ) {
 
-    Column(modifier = Modifier) {
+    Column(modifier = Modifier.combinedClickable(
+        onClick = {
+            onSkinClicked(skin.video)
+        },
+        onLongClick = {
+            removeFavoriteClicked(skin.id)
+        }
+    )) {
         loadImage(
             url = skin.displayIcon,
             modifier = Modifier
                 .clip(CircleShape)
                 .width(82.dp)
                 .height(82.dp)
-
         )
         Text(
             text = skin.displaySkinName,

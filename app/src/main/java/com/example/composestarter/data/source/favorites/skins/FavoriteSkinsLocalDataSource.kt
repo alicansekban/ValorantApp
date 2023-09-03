@@ -26,6 +26,15 @@ class FavoriteSkinsLocalDataSource @Inject constructor(
             ResultWrapper.GenericError(error = e.message)
         }
     }
+    suspend fun removeSkinFromFavorites(id: String): ResultWrapper<Any> {
+        return try {
+            ResultWrapper.Loading
+            ResultWrapper.Success(db.favoriteSkinsDao().removeSkinFromFavorites(id))
+
+        } catch (e: Exception) {
+            ResultWrapper.GenericError(error = e.message)
+        }
+    }
 
     fun getFavoriteSkins(searchQuery: String): ResultWrapper<List<FavoriteSkinsEntity>> {
         return try {

@@ -12,6 +12,9 @@ class FavoriteSkinsRepository @Inject constructor(
     suspend fun insertFavoriteSkin(skin: FavoriteSkinsEntity) : ResultWrapper<Any> {
         return dataSource.insertFavoriteSkin(skin)
     }
+    suspend fun removeSkinFromFavorites(id: String): ResultWrapper<Any> {
+        return dataSource.removeSkinFromFavorites(id)
+    }
     fun getFavoriteSkins(searchQuery:String): ResultWrapper<List<FavoriteSkinsEntity>> {
         return dataSource.getFavoriteSkins(searchQuery)
     }
