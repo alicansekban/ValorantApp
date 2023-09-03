@@ -27,7 +27,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +44,7 @@ import com.blankj.utilcode.util.SPUtils
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
+import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
 import com.example.composestarter.customViews.SkinsItem
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.customViews.VideoPlay
@@ -52,6 +53,7 @@ import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.weapons.ChromasItemUIModel
 import com.example.composestarter.domain.model.weapons.WeaponsUIModel
+import com.example.composestarter.utils.Constant
 import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
@@ -63,19 +65,20 @@ fun WeaponDetailScreen(
     val weapon by viewModel.weapon.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-
-    SideEffect {
-        val isDialogShown = SPUtils.getInstance().getBoolean("isShown",false)
-        if (!isDialogShown) {
-            Toast.makeText(
-                context,
-                "You can add your skins to favorite by long clicking",
-                Toast.LENGTH_SHORT
-            ).show()
-            SPUtils.getInstance().put("isShown",true)
-        }
+    var isDialogShown by remember {
+        mutableStateOf( SPUtils.getInstance().getBoolean(Constant.IS_SKIN_FAVORITE_MESSAGE_SHOWED, false))
     }
+    if (!isDialogShown) {
+        FavoriteFirstTimeMessagePopUp(
+            onDismissRequest = {
+                SPUtils.getInstance().put(Constant.IS_SKIN_FAVORITE_MESSAGE_SHOWED, true)
+                isDialogShown = true
 
+            },
+            message = stringResource(R.string.first_time_skin_favorite_desc)
+        )
+
+    }
 
     when (weapon) {
         is Error -> {
@@ -96,8 +99,8 @@ fun WeaponDetailScreen(
             StatelessWeaponDetail(
                 response,
                 onBackPressed,
-                addToFavoriteClicked = { item,name ->
-                    viewModel.addSkinToFavorite(item,name)
+                addToFavoriteClicked = { item, name ->
+                    viewModel.addSkinToFavorite(item, name)
                 }
             )
         }
@@ -113,9 +116,11 @@ fun WeaponDetailScreen(
             ).show()
             viewModel.favoriteEmitted()
         }
+
         is Loading -> {
 
         }
+
         is Success -> {
 
         }
@@ -126,8 +131,8 @@ fun WeaponDetailScreen(
         viewModel.favoriteEmitted()
         Toast.makeText(
             context,
-            "Skin added to your favorites",
-            Toast.LENGTH_LONG
+            stringResource(R.string.skin_added_to_favorites_success_message),
+            Toast.LENGTH_SHORT
         ).show()
     }
 }
@@ -136,7 +141,7 @@ fun WeaponDetailScreen(
 fun StatelessWeaponDetail(
     weapon: WeaponsUIModel,
     onBackPressed: (String) -> Unit,
-    addToFavoriteClicked :(ChromasItemUIModel,String) -> Unit
+    addToFavoriteClicked: (ChromasItemUIModel, String) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -170,7 +175,7 @@ fun StatelessWeaponDetail(
 
                 item {
                     TopBarView(
-                        title = { weapon.displayName ?: "Weapon Detail" },
+                        title = { weapon.displayName ?: context.getString(R.string.weapon_detail_title) },
                         showBackButton = { true },
                         onBackClick = { onBackPressed(ScreenRoutes.WeaponsRoute) })
                 }
@@ -219,13 +224,13 @@ fun StatelessWeaponDetail(
                             } else {
                                 Toast.makeText(
                                     context,
-                                    "Video preview is not available for this skin",
+                                    context.getString(R.string.skin_preview_not_available_message),
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
                         },
                         onLongClicked = {
-                            addToFavoriteClicked(it,weapon.displayName.toString())
+                            addToFavoriteClicked(it, weapon.displayName.toString())
                         }
 
                     )

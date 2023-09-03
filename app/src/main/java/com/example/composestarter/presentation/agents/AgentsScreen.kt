@@ -18,22 +18,28 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.blankj.utilcode.util.SPUtils
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.AgentsItem
+import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.agents.AgentsUIModel
+import com.example.composestarter.utils.Constant
 import com.example.composestarter.utils.ScreenRoutes
 import com.example.composestarter.utils.playSound
 
@@ -47,6 +53,23 @@ fun AgentsScreen(
     val agents by viewModel.agents.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
+
+
+    var isDialogShown by remember {
+        mutableStateOf( SPUtils.getInstance().getBoolean(Constant.IS_AGENT_FAVORITE_MESSAGE_SHOWED, false))
+    }
+    if (!isDialogShown) {
+        FavoriteFirstTimeMessagePopUp(
+            onDismissRequest = {
+                SPUtils.getInstance().put(Constant.IS_AGENT_FAVORITE_MESSAGE_SHOWED, true)
+                isDialogShown = true
+
+            },
+            message = stringResource(R.string.first_time_agent_favorite_desc)
+        )
+
+    }
+
     when (agents) {
         is Error -> {
             Toast.makeText(
@@ -79,13 +102,15 @@ fun AgentsScreen(
             Toast.makeText(
                 context,
                 (favoriteState as Error<Any>).errorMessage,
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
             viewModel.favoriteEmitted()
         }
+
         is Loading -> {
 
         }
+
         is Success -> {
 
         }
@@ -96,7 +121,7 @@ fun AgentsScreen(
         viewModel.favoriteEmitted()
         Toast.makeText(
             context,
-            "Agent added to your favorites",
+            stringResource(R.string.agent_added_to_favorites_success),
             Toast.LENGTH_LONG
         ).show()
     }
@@ -124,7 +149,7 @@ fun StatelessAgentsScreen(
                 onBackClick = { },
             )
             if (agents.isNotEmpty()) {
-                 agents.sortedBy { it.role?.displayName }
+                agents.sortedBy { it.role?.displayName }
                     .groupBy { it.role?.displayName }
                     .map { (role, agentsInRole) ->
                         val roleIcons = agentsInRole

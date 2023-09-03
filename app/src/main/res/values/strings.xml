@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Valorant</string>
+    <string name="first_time_agent_favorite_desc">You can add your agents to favorite by long clicking</string>
+    <string name="first_time_skin_favorite_desc">You can add your skins to favorite by long clicking</string>
+    <string name="skin_added_to_favorites_success_message">Skin added to your favorites</string>
+    <string name="skin_preview_not_available_message">Video preview is not available for this skin</string>
+    <string name="weapon_detail_title">Weapon Detail</string>
+    <string name="agent_added_to_favorites_success">Agent added to your favorites</string>
 </resources>

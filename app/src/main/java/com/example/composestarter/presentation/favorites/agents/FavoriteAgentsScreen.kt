@@ -79,7 +79,7 @@ fun FavoriteAgentsScreen(
         Toast.makeText(
             context,
             "Agent removed from your favorites",
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
         viewModel.getFavoriteAgents()
     }

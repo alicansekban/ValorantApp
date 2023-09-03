@@ -108,16 +108,13 @@ fun FavoriteSkinsScreen(
 
     val popupControl by remember { derivedStateOf { removeSkin is Success<*> } }
     if (popupControl) {
-        LaunchedEffect(key1 = popupControl) {
-            viewModel.removeFavoriteEmitted()
-            Toast.makeText(
-                context,
-                "Skin removed from your favorites",
-                Toast.LENGTH_LONG
-            ).show()
-            viewModel.getFavoriteSkins()
-        }
-
+        viewModel.removeFavoriteEmitted()
+        Toast.makeText(
+            context,
+            "Skin removed from your favorites",
+            Toast.LENGTH_SHORT
+        ).show()
+        viewModel.getFavoriteSkins()
     }
 }
 
@@ -145,7 +142,7 @@ fun StatelessSkinsScreen(
     var removeSkinId by remember {
         mutableStateOf("")
     }
-    if (popupControl){
+    if (popupControl) {
         RemoveFavoritePopUp(onDismissRequest = { popupControl = false }, removeFromFavorites = {
             popupControl = false
             removeFavoriteClicked(removeSkinId)
