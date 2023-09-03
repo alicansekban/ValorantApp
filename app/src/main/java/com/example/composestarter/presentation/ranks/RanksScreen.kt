@@ -15,8 +15,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.caseapp.R
 import com.example.composestarter.customViews.RanksItem
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
@@ -76,7 +78,7 @@ fun StatelessRanksScreen(
                 .verticalScroll(rememberScrollState())
         ) {
 
-            TopBarView(title = { "Ranks" }, showBackButton = {
+            TopBarView(title = stringResource(R.string.ranks_title) , showBackButton = {
                 true
             }) {
                 onBackClicked(ScreenRoutes.MoreRoute)

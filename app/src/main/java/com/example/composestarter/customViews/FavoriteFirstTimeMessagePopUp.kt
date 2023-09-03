@@ -35,10 +35,10 @@ fun FavoriteFirstTimeMessagePopUp(
         onDismissRequest()
     }
     ) {
-        (LocalView.current.parent as DialogWindowProvider).window.setDimAmount(0.15f)
+        (LocalView.current.parent as DialogWindowProvider).window.setDimAmount(0.50f)
 
         Surface(
-            shape = RoundedCornerShape(5.dp),
+            shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .heightPercent(0.20f, configuration)
         ) {

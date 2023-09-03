@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -84,7 +85,7 @@ fun MapsDetailScreen(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun stateLessMapDetail(
     onBackPressed: (String) -> Unit,
@@ -106,7 +107,7 @@ fun stateLessMapDetail(
                 .blur(if (isMapImageZoomable) 15.dp else 0.dp)
         ) {
             TopBarView(
-                title = { "Map Detail" },
+                title = stringResource(R.string.map_detail_title) ,
                 showBackButton = { true },
                 onBackClick = { onBackPressed(ScreenRoutes.MapsRoute) },
             )

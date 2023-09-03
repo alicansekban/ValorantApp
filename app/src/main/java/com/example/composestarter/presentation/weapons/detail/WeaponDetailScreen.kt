@@ -66,7 +66,9 @@ fun WeaponDetailScreen(
     val context = LocalContext.current
 
     var isDialogShown by remember {
-        mutableStateOf( SPUtils.getInstance().getBoolean(Constant.IS_SKIN_FAVORITE_MESSAGE_SHOWED, false))
+        mutableStateOf(
+            SPUtils.getInstance().getBoolean(Constant.IS_SKIN_FAVORITE_MESSAGE_SHOWED, false)
+        )
     }
     if (!isDialogShown) {
         FavoriteFirstTimeMessagePopUp(
@@ -175,11 +177,22 @@ fun StatelessWeaponDetail(
 
                 item {
                     TopBarView(
-                        title = { weapon.displayName ?: context.getString(R.string.weapon_detail_title) },
+                        title = stringResource(R.string.weapon_detail_title),
                         showBackButton = { true },
                         onBackClick = { onBackPressed(ScreenRoutes.WeaponsRoute) })
                 }
                 item {
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = weapon.displayName ?: "",
+                            style = MaterialTheme.typography.headlineMedium,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -187,7 +200,7 @@ fun StatelessWeaponDetail(
                             .padding(16.dp),
                         shape = RoundedCornerShape(5.dp),
                         colors = CardDefaults.cardColors(Color.White),
-                        elevation = CardDefaults.cardElevation(2.dp)
+                        elevation = CardDefaults.cardElevation(10.dp)
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween
@@ -296,7 +309,9 @@ fun showSkinPreview(
     Surface(modifier = Modifier.fillMaxSize()) {
 
         Column(modifier = Modifier.fillMaxSize()) {
-            TopBarView(title = { "Skin Preview" }, showBackButton = { true }) {
+            TopBarView(
+                title = stringResource(R.string.skin_preview_title),
+                showBackButton = { true }) {
                 onBackPressed()
             }
             VideoPlay(videoURL = mediaUrl)

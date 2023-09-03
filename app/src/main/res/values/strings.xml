@@ -6,4 +6,16 @@
     <string name="skin_preview_not_available_message">Video preview is not available for this skin</string>
     <string name="weapon_detail_title">Weapon Detail</string>
     <string name="agent_added_to_favorites_success">Agent added to your favorites</string>
+    <string name="competitive_seasons_title">Competitive Seasons</string>
+    <string name="agents_title">Agents</string>
+    <string name="agent_detail_title">Agent Detail</string>
+    <string name="bundles_title">Bundles</string>
+    <string name="more_content_title">More Content</string>
+    <string name="favorite_agents_title">Favorite Agents</string>
+    <string name="favorite_skins_title">Favorite Skins</string>
+    <string name="maps_title">Maps</string>
+    <string name="map_detail_title">Map Detail</string>
+    <string name="ranks_title">Ranks</string>
+    <string name="weapons_title">Weapons</string>
+    <string name="skin_preview_title">Skin Preview</string>
 </resources>

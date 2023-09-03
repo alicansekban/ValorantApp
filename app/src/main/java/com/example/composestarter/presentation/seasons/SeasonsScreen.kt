@@ -13,8 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.caseapp.R
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
@@ -66,7 +68,7 @@ fun StatelessSeasonsScreen(
     Scaffold { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             TopBarView(
-                title = { "Competitive Seasons" },
+                title = stringResource(R.string.competitive_seasons_title) ,
                 showBackButton = { true },
                 onBackClick = { onBackClicked(ScreenRoutes.MoreRoute) })
         }

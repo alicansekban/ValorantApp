@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -103,7 +104,7 @@ fun StatelessBundlesScreen(
                         GridItemSpan(maxCurrentLineSpan)
                     }
                 ) {
-                    TopBarView(title = { "Bundles" }, showBackButton = { true }) {
+                    TopBarView(title = stringResource(R.string.bundles_title) , showBackButton = { true }) {
                         onBackClicked(ScreenRoutes.MoreRoute)
                     }
                 }

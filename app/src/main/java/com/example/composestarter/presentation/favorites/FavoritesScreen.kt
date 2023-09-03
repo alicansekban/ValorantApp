@@ -9,6 +9,8 @@ import androidx.compose.material.icons.filled.AlarmOff
 import androidx.compose.material.icons.filled.AlarmOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.caseapp.R
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.presentation.more.MoreScreenItems
 import com.example.composestarter.utils.MoreScreenModel
@@ -35,7 +37,7 @@ fun FavoritesScreen(
     LazyColumn(modifier = Modifier.fillMaxSize(), state = state) {
 
         item {
-            TopBarView(title = { "More Content" }, showBackButton = { false }, onBackClick = {})
+            TopBarView(title = stringResource(R.string.more_content_title) , showBackButton = { false }, onBackClick = {})
         }
 
         items(

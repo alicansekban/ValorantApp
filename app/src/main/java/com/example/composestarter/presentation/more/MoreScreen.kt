@@ -22,7 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.caseapp.R
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.utils.MoreScreenModel
 import com.example.composestarter.utils.ScreenRoutes
@@ -54,7 +56,7 @@ fun MoreScreen(
     LazyColumn(modifier = Modifier.fillMaxSize(), state = state) {
 
         item {
-            TopBarView(title = { "More Content" }, showBackButton = { false }, onBackClick = {})
+            TopBarView(title = stringResource(id = R.string.more_content_title) , showBackButton = { false }, onBackClick = {})
         }
 
         items(

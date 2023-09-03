@@ -26,9 +26,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.caseapp.R
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
@@ -94,7 +96,7 @@ fun StatelessMapScreen(
                 ) {
                     item {
                         TopBarView(
-                            title = { "Maps" },
+                            title = stringResource(R.string.maps_title) ,
                             showBackButton = { false },
                             onBackClick = { },
                         )

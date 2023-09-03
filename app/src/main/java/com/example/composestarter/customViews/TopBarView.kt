@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Filter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -27,7 +26,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TopBarView(
-    title: () -> String,
+    title:String,
     showBackButton: () -> Boolean,
     onBackClick: () -> Unit,
 ) {
@@ -57,7 +56,7 @@ fun TopBarView(
             }
 
             Text(
-                text = title(),
+                text = title,
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 style = TextStyle(

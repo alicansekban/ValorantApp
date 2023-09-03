@@ -144,7 +144,7 @@ fun StatelessAgentsScreen(
                 .verticalScroll(enabled = true, state = rememberScrollState())
         ) {
             TopBarView(
-                title = { "Agents" },
+                title = stringResource(R.string.agents_title) ,
                 showBackButton = { false },
                 onBackClick = { },
             )

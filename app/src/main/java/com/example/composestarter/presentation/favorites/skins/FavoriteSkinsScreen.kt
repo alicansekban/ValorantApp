@@ -39,11 +39,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.caseapp.R
 import com.example.composestarter.customViews.RemoveFavoritePopUp
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.data.local.model.skins.FavoriteSkinsEntity
@@ -155,7 +157,7 @@ fun StatelessSkinsScreen(
             .verticalScroll(rememberScrollState())
             .blur(if (popupControl) 15.dp else 0.dp)
     ) {
-        TopBarView(title = { "Favorite Skins" }, showBackButton = { true }) {
+        TopBarView(title = stringResource(R.string.favorite_skins_title) , showBackButton = { true }) {
             onBackClicked(ScreenRoutes.FavoritesRoute)
         }
         OutlinedTextField(

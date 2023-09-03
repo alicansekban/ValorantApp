@@ -30,9 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.caseapp.R
 import com.example.composestarter.customViews.AgentAbilitiesItem
 import com.example.composestarter.customViews.AgentSkillPopup
 import com.example.composestarter.customViews.ImageFocusPopup
@@ -112,7 +114,7 @@ fun StateLessAgentDetail(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         TopBarView(
-            title = { agent.displayName.toString() },
+            title =  stringResource(R.string.agent_detail_title) ,
             showBackButton = { true },
             onBackClick = { onBackPressed("-1") },
         )

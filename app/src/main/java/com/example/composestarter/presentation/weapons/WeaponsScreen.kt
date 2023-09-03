@@ -15,8 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.caseapp.R
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.customViews.WeaponsItem
 import com.example.composestarter.domain.Error
@@ -59,6 +61,7 @@ fun WeaponsScreen(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StateLessWeaponsScreen(weapons: List<WeaponsUIModel>, openDetail: (String) -> Unit) {
 
@@ -73,7 +76,7 @@ fun StateLessWeaponsScreen(weapons: List<WeaponsUIModel>, openDetail: (String) -
                 .verticalScroll(rememberScrollState())
         ) {
 
-            TopBarView(title = { "Weapons" }, showBackButton = {
+            TopBarView(title = stringResource(R.string.weapons_title) , showBackButton = {
                 false
             }, onBackClick = {})
 
