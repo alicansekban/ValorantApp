@@ -36,7 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.blankj.utilcode.util.SPUtils
 import com.example.caseapp.R
+import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
 import com.example.composestarter.customViews.RemoveFavoritePopUp
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.data.local.model.agents.FavoriteAgentsEntity
@@ -44,6 +46,7 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.presentation.agents.loadImage
+import com.example.composestarter.utils.Constant
 import com.example.composestarter.utils.ScreenRoutes
 import com.example.composestarter.utils.playSound
 
@@ -73,6 +76,23 @@ fun FavoriteAgentsScreen(
         }
     }
 
+    var isDialogShown by remember {
+        mutableStateOf(
+            SPUtils.getInstance().getBoolean(Constant.IS_AGENT_FAVORITE_REMOVE_MESSAGE_SHOWED, false)
+        )
+    }
+    if (!isDialogShown) {
+        FavoriteFirstTimeMessagePopUp(
+            onDismissRequest = {
+                SPUtils.getInstance().put(Constant.IS_AGENT_FAVORITE_REMOVE_MESSAGE_SHOWED, true)
+                isDialogShown = true
+
+            },
+            message = stringResource(R.string.remove_agent_from_favorite_message)
+        )
+
+    }
+
     val removeAgent by viewModel.removeAgent.collectAsStateWithLifecycle()
 
     val popupControl by remember { derivedStateOf { removeAgent is Success<*> } }
@@ -80,7 +100,7 @@ fun FavoriteAgentsScreen(
         viewModel.removeFavoriteEmitted()
         Toast.makeText(
             context,
-            "Agent removed from your favorites",
+            stringResource(R.string.agent_removed_from_your_favorites_message),
             Toast.LENGTH_SHORT
         ).show()
         viewModel.getFavoriteAgents()
