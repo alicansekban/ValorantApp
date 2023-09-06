@@ -172,6 +172,7 @@ fun StatelessSkinsScreen(
         }
         )
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

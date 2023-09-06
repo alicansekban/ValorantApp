@@ -26,19 +26,6 @@ fun VideoPlay(
         verticalArrangement = Arrangement.Center
     ) {
         val mContext = LocalContext.current
-//        val mExoPlayer = remember(mContext) {
-//            ExoPlayer.Builder(mContext).build().apply {
-//                val mediaItem = MediaItem.Builder().setUri(Uri.parse(videoURL)).build()
-//                setMediaItem(mediaItem)
-//                playWhenReady = true
-//                prepare()
-//            }
-//        }
-//        AndroidView(factory = { context ->
-//            StyledPlayerView(context).apply {
-//                player = mExoPlayer
-//            }
-//        })
 
         val exoPlayer = ExoPlayer.Builder(mContext).build()
         val mediaItem = MediaItem.fromUri(Uri.parse(videoURL))

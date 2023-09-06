@@ -55,11 +55,17 @@ fun FavoriteFirstTimeMessagePopUp(
                 modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.Center
             ) {
-
+                Text(
+                    text = "First Time Information",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(top = 12.dp),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.error
+                )
                 Text(
                     text = message,
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 12.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     textAlign = TextAlign.Center
                 )
 
@@ -67,7 +73,7 @@ fun FavoriteFirstTimeMessagePopUp(
                     Text(
                         text = "OK",
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(top = 12.dp).clickable { onDismissRequest() },
+                        modifier = Modifier.padding(top = 8.dp).clickable { onDismissRequest() },
                         textAlign = TextAlign.Center,
                         color = Color.Blue
                     )

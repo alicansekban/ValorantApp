@@ -16,6 +16,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,9 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blankj.utilcode.util.SPUtils
@@ -34,7 +37,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.AgentsItem
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
-import com.example.composestarter.customViews.FavoritePopUp
+import com.example.composestarter.customViews.FocusPopUpAgent
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
@@ -139,11 +142,43 @@ fun StatelessAgentsScreen(
     addAgentToFavorite: (String, String, AgentsUIModel) -> Unit
 ) {
 
+    var focusPopUp by remember {
+        mutableStateOf(false)
+    }
+    var voiceLineHolder by remember {
+        mutableStateOf("")
+    }
+    var agentModel: MutableState<AgentsUIModel> = remember {
+        mutableStateOf(value = agents[0])
+    }
+
+    if (focusPopUp) {
+        FocusPopUpAgent(
+            model = agentModel.value,
+            onDismissRequest = { focusPopUp = false },
+            goToDetail = {
+                focusPopUp = false
+                openDetail(
+                    ScreenRoutes.AgentsDetailRoute.replace(
+                        oldValue = "{id}",
+                        newValue = it.uuid.toString()
+                    )
+                )
+            },
+            addToMyFavorite = {
+                focusPopUp = false
+
+                addAgentToFavorite(it.uuid.toString(), voiceLineHolder, it)
+
+            })
+    }
+
     val context = LocalContext.current
     Scaffold { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
+                .blur(if (focusPopUp) 15.dp else 0.dp)
                 .verticalScroll(enabled = true, state = rememberScrollState())
         ) {
             TopBarView(
@@ -172,9 +207,10 @@ fun StatelessAgentsScreen(
                                         )
                                     },
                                     addAgentToFavorite = { id, voiceLine, model ->
-                                        addAgentToFavorite(
-                                            id, voiceLine, model
-                                        )
+                                        voiceLineHolder = voiceLine
+                                        agentModel.value = model
+                                        focusPopUp = true
+
                                     }
                                 )
                             }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Valorant</string>
-    <string name="first_time_agent_favorite_desc">You can add your agents to favorite by long clicking</string>
-    <string name="first_time_skin_favorite_desc">You can add your skins to favorite by long clicking</string>
+    <string name="first_time_agent_favorite_desc">You can add zoom your agents by long clicking</string>
+    <string name="first_time_skin_favorite_desc">You can zoom your skins by long clicking</string>
     <string name="remove_skin_from_favorite_message">You can remove skins from your favorites by long clicking</string>
     <string name="remove_agent_from_favorite_message">You can remove agents from your favorites by long clicking</string>
     <string name="skin_added_to_favorites_success_message">Skin added to your favorites</string>
@@ -22,4 +22,7 @@
     <string name="skin_preview_title">Skin Preview</string>
     <string name="skin_removed_from_your_favorites_message">Skin removed from your favorites</string>
     <string name="agent_removed_from_your_favorites_message">Agent removed from your favorites</string>
+    <string name="go_to_detail">Go to detail</string>
+    <string name="add_to_my_favorites">Add to my favorites</string>
+    <string name="watch_preview_video">Watch Preview Video</string>
 </resources>

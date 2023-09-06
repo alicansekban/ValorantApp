@@ -27,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -45,6 +47,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
+import com.example.composestarter.customViews.FocusPopUpSkin
 import com.example.composestarter.customViews.SkinsItem
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.customViews.VideoPlay
@@ -139,6 +142,7 @@ fun WeaponDetailScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun StatelessWeaponDetail(
     weapon: WeaponsUIModel,
@@ -153,11 +157,41 @@ fun StatelessWeaponDetail(
     var isVideoShowable by remember {
         mutableStateOf(false)
     }
+    var focusPopUp by remember {
+        mutableStateOf(false)
+    }
 
+    var skinModel: MutableState<ChromasItemUIModel> = remember {
+        mutableStateOf(value = weapon.skins!![0].chromas!![0])
+    }
+    if (focusPopUp) {
+        FocusPopUpSkin(
+            model = skinModel.value,
+            onDismissRequest = { focusPopUp = false },
+            watchtPreviewVideo = {
+                if (!it.streamedVideo.isNullOrBlank()) {
+                    isVideoShowable = true
+                    previewUrl = it.streamedVideo
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.skin_preview_not_available_message),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            },
+            addToMyFavorite = {
+                focusPopUp = false
+                addToFavoriteClicked(it, weapon.displayName.toString())
+
+            }
+        )
+    }
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .blur(if (focusPopUp) 15.dp else 0.dp)
     ) { paddingValues ->
 
         Column(
@@ -243,7 +277,9 @@ fun StatelessWeaponDetail(
                             }
                         },
                         onLongClicked = {
-                            addToFavoriteClicked(it, weapon.displayName.toString())
+                            //  addToFavoriteClicked(it, weapon.displayName.toString())
+                            focusPopUp = true
+                            skinModel.value = it
                         }
 
                     )
