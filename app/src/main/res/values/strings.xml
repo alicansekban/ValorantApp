@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Valorant</string>
-    <string name="first_time_agent_favorite_desc">You can add zoom your agents by long clicking</string>
+    <string name="first_time_agent_favorite_desc">You can zoom your agents by long clicking</string>
     <string name="first_time_skin_favorite_desc">You can zoom your skins by long clicking</string>
     <string name="remove_skin_from_favorite_message">You can remove skins from your favorites by long clicking</string>
     <string name="remove_agent_from_favorite_message">You can remove agents from your favorites by long clicking</string>

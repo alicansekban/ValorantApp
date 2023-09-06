@@ -151,13 +151,15 @@ fun StatelessAgentsScreen(
     var agentModel: MutableState<AgentsUIModel> = remember {
         mutableStateOf(value = agents[0])
     }
-
+    val context = LocalContext.current
     if (focusPopUp) {
         FocusPopUpAgent(
             model = agentModel.value,
             onDismissRequest = { focusPopUp = false },
             goToDetail = {
                 focusPopUp = false
+
+                playSound(context, voiceLineHolder)
                 openDetail(
                     ScreenRoutes.AgentsDetailRoute.replace(
                         oldValue = "{id}",
@@ -167,13 +169,11 @@ fun StatelessAgentsScreen(
             },
             addToMyFavorite = {
                 focusPopUp = false
-
                 addAgentToFavorite(it.uuid.toString(), voiceLineHolder, it)
 
             })
     }
 
-    val context = LocalContext.current
     Scaffold { padding ->
         Column(
             modifier = Modifier
