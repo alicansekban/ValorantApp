@@ -25,4 +25,5 @@
     <string name="go_to_detail">Go to detail</string>
     <string name="add_to_my_favorites">Add to my favorites</string>
     <string name="watch_preview_video">Watch Preview Video</string>
+    <string name="favorites_title">Favorites</string>
 </resources>

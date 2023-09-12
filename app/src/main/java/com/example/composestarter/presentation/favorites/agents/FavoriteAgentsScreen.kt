@@ -40,14 +40,13 @@ import com.blankj.utilcode.util.SPUtils
 import com.example.caseapp.R
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
 import com.example.composestarter.customViews.RemoveFavoritePopUp
-import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.data.local.model.agents.FavoriteAgentsEntity
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.presentation.agents.loadImage
+import com.example.composestarter.presentation.favorites.skins.EmptyScreen
 import com.example.composestarter.utils.Constant
-import com.example.composestarter.utils.ScreenRoutes
 import com.example.composestarter.utils.playSound
 
 @Composable
@@ -69,16 +68,20 @@ fun FavoriteAgentsScreen(
 
         is Success -> {
             val response = (agents as Success<List<FavoriteAgentsEntity>>).response
-
-            StatelessFavoriteAgentsScreen(response, onBackClicked, removeFavoriteClicked =  {
-            viewModel.removeFavoriteAgent(it)
-            })
+            if (response.isEmpty()) {
+                EmptyScreen()
+            } else {
+                StatelessFavoriteAgentsScreen(response, onBackClicked, removeFavoriteClicked = {
+                    viewModel.removeFavoriteAgent(it)
+                })
+            }
         }
     }
 
     var isDialogShown by remember {
         mutableStateOf(
-            SPUtils.getInstance().getBoolean(Constant.IS_AGENT_FAVORITE_REMOVE_MESSAGE_SHOWED, false)
+            SPUtils.getInstance()
+                .getBoolean(Constant.IS_AGENT_FAVORITE_REMOVE_MESSAGE_SHOWED, false)
         )
     }
     if (!isDialogShown) {
@@ -119,7 +122,7 @@ fun StatelessFavoriteAgentsScreen(
     var removeAgentId by remember {
         mutableStateOf("")
     }
-    if (popupControl){
+    if (popupControl) {
         RemoveFavoritePopUp(onDismissRequest = { popupControl = false }, removeFromFavorites = {
             popupControl = false
             removeFavoriteClicked(removeAgentId)
@@ -129,15 +132,8 @@ fun StatelessFavoriteAgentsScreen(
 
     val context = LocalContext.current
     LazyColumn(
-        modifier = Modifier.blur(if (popupControl)15.dp else 0.dp)
+        modifier = Modifier.blur(if (popupControl) 15.dp else 0.dp)
     ) {
-        item {
-            TopBarView(
-                title = stringResource(R.string.favorite_agents_title) ,
-                showBackButton = { true },
-                onBackClick = { onBackClicked(ScreenRoutes.FavoritesRoute) },
-            )
-        }
         item {
             agents
                 .groupBy { it.role }
@@ -149,7 +145,7 @@ fun StatelessFavoriteAgentsScreen(
                                 role, icon, agents, onAgentClicked = { id, voiceLine ->
                                     playSound(context, voiceLine)
                                 },
-                                removeFavoriteClicked =  {
+                                removeFavoriteClicked = {
                                     removeAgentId = it
                                     popupControl = true
                                 }
@@ -169,7 +165,7 @@ fun FavoriteAgentsItem(
     roleIcon: String,
     agents: List<FavoriteAgentsEntity>,
     onAgentClicked: (String, String) -> Unit,
-    removeFavoriteClicked: ( String) -> Unit,
+    removeFavoriteClicked: (String) -> Unit,
 ) {
 
     Card(

@@ -49,7 +49,6 @@ import com.blankj.utilcode.util.SPUtils
 import com.example.caseapp.R
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
 import com.example.composestarter.customViews.RemoveFavoritePopUp
-import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.data.local.model.skins.FavoriteSkinsEntity
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
@@ -57,7 +56,6 @@ import com.example.composestarter.domain.Success
 import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.presentation.weapons.detail.showSkinPreview
 import com.example.composestarter.utils.Constant
-import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun FavoriteSkinsScreen(
@@ -113,17 +111,21 @@ fun FavoriteSkinsScreen(
 
         is Success -> {
             val response = (favoriteSkins as Success<List<FavoriteSkinsEntity>>).response
-            StatelessSkinsScreen(
-                response,
-                onBackClicked,
-                searchQuery = searchQuery.value,
-                onSearchQueryChange = { newValue ->
-                    searchQuery.value = newValue
-                },
-                removeFavoriteClicked = {
-                    viewModel.removeFavoriteSkin(it)
-                }
-            )
+            if (response.isEmpty()) {
+                EmptyScreen()
+            } else {
+                StatelessSkinsScreen(
+                    response,
+                    onBackClicked,
+                    searchQuery = searchQuery.value,
+                    onSearchQueryChange = { newValue ->
+                        searchQuery.value = newValue
+                    },
+                    removeFavoriteClicked = {
+                        viewModel.removeFavoriteSkin(it)
+                    }
+                )
+            }
         }
     }
     val removeSkin by viewModel.removeSkin.collectAsStateWithLifecycle()
@@ -138,6 +140,13 @@ fun FavoriteSkinsScreen(
         ).show()
         searchQuery.value = ""
         viewModel.getFavoriteSkins()
+    }
+}
+
+@Composable
+fun EmptyScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "You don't have any favorites yet.")
     }
 }
 
@@ -179,11 +188,6 @@ fun StatelessSkinsScreen(
             .verticalScroll(rememberScrollState())
             .blur(if (popupControl) 15.dp else 0.dp)
     ) {
-        TopBarView(
-            title = stringResource(R.string.favorite_skins_title),
-            showBackButton = { true }) {
-            onBackClicked(ScreenRoutes.FavoritesRoute)
-        }
         OutlinedTextField(
             value = searchQuery, onValueChange = {
                 onSearchQueryChange(it)
