@@ -48,7 +48,6 @@ import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.maps.MapsUIModel
 import com.example.composestarter.presentation.agents.loadImage
-import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun MapsDetailScreen(
@@ -109,7 +108,7 @@ fun stateLessMapDetail(
             TopBarView(
                 title = stringResource(R.string.map_detail_title) ,
                 showBackButton = { true },
-                onBackClick = { onBackPressed(ScreenRoutes.MapsRoute) },
+                onBackClick = { onBackPressed("-1") },
             )
 
             Column(

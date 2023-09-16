@@ -22,7 +22,6 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.seasons.SeasonsUIModel
-import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun SeasonsScreen(
@@ -70,7 +69,7 @@ fun StatelessSeasonsScreen(
             TopBarView(
                 title = stringResource(R.string.competitive_seasons_title) ,
                 showBackButton = { true },
-                onBackClick = { onBackClicked(ScreenRoutes.MoreRoute) })
+                onBackClick = { onBackClicked("-1") })
         }
 
     }

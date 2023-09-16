@@ -45,7 +45,6 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.bundles.BundlesUIModel
-import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun BundlesScreen(
@@ -105,7 +104,7 @@ fun StatelessBundlesScreen(
                     }
                 ) {
                     TopBarView(title = stringResource(R.string.bundles_title) , showBackButton = { true }) {
-                        onBackClicked(ScreenRoutes.MoreRoute)
+                        onBackClicked("-1")
                     }
                 }
                 item(

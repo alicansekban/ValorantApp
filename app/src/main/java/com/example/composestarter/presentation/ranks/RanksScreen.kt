@@ -81,7 +81,7 @@ fun StatelessRanksScreen(
             TopBarView(title = stringResource(R.string.ranks_title) , showBackButton = {
                 true
             }) {
-                onBackClicked(ScreenRoutes.MoreRoute)
+                onBackClicked("-1")
             }
             val groupedRanks =
                 ranks[4].tiers?.filter { it.divisionName != "Unused1" && it.divisionName != "Unused2" && it.divisionName != "UNRANKED" }

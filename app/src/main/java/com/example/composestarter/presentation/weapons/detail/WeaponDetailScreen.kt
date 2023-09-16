@@ -57,7 +57,6 @@ import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.weapons.ChromasItemUIModel
 import com.example.composestarter.domain.model.weapons.WeaponsUIModel
 import com.example.composestarter.utils.Constant
-import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun WeaponDetailScreen(
@@ -213,7 +212,7 @@ fun StatelessWeaponDetail(
                     TopBarView(
                         title = stringResource(R.string.weapon_detail_title),
                         showBackButton = { true },
-                        onBackClick = { onBackPressed(ScreenRoutes.WeaponsRoute) })
+                        onBackClick = { onBackPressed("-1") })
                 }
                 item {
                     Row(
