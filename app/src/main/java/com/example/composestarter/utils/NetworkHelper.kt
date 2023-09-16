@@ -1,8 +1,5 @@
 package com.example.composestarter.utils
 
-import com.example.composestarter.data.model.ErrorResponse
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -26,26 +23,10 @@ suspend fun <T> safeApiCall(
                     val errorResponse = throwable.response()?.errorBody()?.string()
                     ResultWrapper.GenericError(code, errorResponse)
                 }
-
                 else -> {
                     ResultWrapper.GenericError(null, null)
                 }
             }
         }
-    }
-}
-
-private fun convertErrorBody(throwable: HttpException): ErrorResponse? {
-    return try {
-        throwable.response()?.errorBody()?.string()?.let {
-            val moshiAdapter = Moshi
-                .Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-                .adapter(ErrorResponse::class.java)
-            moshiAdapter.fromJson(it)
-        }
-    } catch (exception: Exception) {
-        null
     }
 }
