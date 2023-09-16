@@ -1,6 +1,5 @@
 package com.example.composestarter.presentation
 
-import WeaponsScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,25 +30,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.example.caseapp.R
-import com.example.composestarter.presentation.agents.AgentsScreen
-import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
-import com.example.composestarter.presentation.bundles.BundlesScreen
-import com.example.composestarter.presentation.favorites.FavoritesScreen
-import com.example.composestarter.presentation.favorites.agents.FavoriteAgentsScreen
-import com.example.composestarter.presentation.favorites.skins.FavoriteSkinsScreen
-import com.example.composestarter.presentation.maps.MapsScreen
-import com.example.composestarter.presentation.maps.detail.MapsDetailScreen
-import com.example.composestarter.presentation.more.MoreScreen
-import com.example.composestarter.presentation.ranks.RanksScreen
-import com.example.composestarter.presentation.seasons.SeasonsScreen
-import com.example.composestarter.presentation.weapons.detail.WeaponDetailScreen
+import com.example.composestarter.graphs.agentsNavGraph
+import com.example.composestarter.graphs.favoritesNavGraph
+import com.example.composestarter.graphs.mapsNavGraph
+import com.example.composestarter.graphs.moreNavGraph
+import com.example.composestarter.graphs.weaponsNavGraph
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.ScreenRoutes
 import com.example.composestarter.utils.heightPercent
@@ -151,163 +139,11 @@ class MainActivity : ComponentActivity() {
                             startDestination = ScreenRoutes.AgentsRouteNavHost,
                             modifier = Modifier.padding(paddingValues)
                         ) {
-                            navigation(
-                                startDestination = ScreenRoutes.AgentsRoute,
-                                route = ScreenRoutes.AgentsRouteNavHost
-                            ) {
-                                composable(
-                                    route = ScreenRoutes.AgentsRoute
-                                ) { entry ->
-
-                                    AgentsScreen(openDetail = {
-                                        navigation(it)
-                                    })
-                                }
-                                composable(ScreenRoutes.AgentsDetailRoute, arguments = listOf(
-                                    navArgument("id") {
-                                        type = NavType.StringType
-                                    }
-                                )) { entry ->
-                                    val id = entry.arguments?.getString("id")
-                                    if (id?.isNotEmpty() == true) {
-                                        AgentDetailScreen(
-                                            onBackPressed = {
-                                                navigation(it)
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                            navigation(
-                                startDestination = ScreenRoutes.MapsRoute,
-                                route = ScreenRoutes.MapsRouteNavHost
-                            ) {
-                                composable(ScreenRoutes.MapsRoute) {
-                                    MapsScreen(
-                                        openDetail = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-                                composable(ScreenRoutes.MapsDetailRoute, arguments = listOf(
-                                    navArgument("id") {
-                                        type = NavType.StringType
-                                    }
-                                )) { entry ->
-                                    val id = entry.arguments?.getString("id")
-                                    if (id?.isNotEmpty() == true) {
-                                        MapsDetailScreen(
-                                            onBackPressed = {
-                                                navigation(it)
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                            navigation(
-                                startDestination = ScreenRoutes.WeaponsRoute,
-                                route = ScreenRoutes.WeaponsRouteNavHost
-                            ) {
-                                composable(ScreenRoutes.WeaponsRoute) {
-                                    WeaponsScreen(
-                                        openDetail = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-                                composable(ScreenRoutes.WeaponsDetailRoute, arguments = listOf(
-                                    navArgument("id") {
-                                        type = NavType.StringType
-                                    }
-                                )) { entry ->
-                                    val id = entry.arguments?.getString("id")
-                                    if (id?.isNotEmpty() == true) {
-                                        WeaponDetailScreen(
-                                            onBackPressed = {
-                                                navigation(it)
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                            navigation(
-                                startDestination = ScreenRoutes.FavoritesRoute,
-                                route = ScreenRoutes.FavoritesRouteNavHost
-                            ) {
-                                composable(
-                                    route = ScreenRoutes.FavoritesRoute
-                                ) { entry ->
-                                    FavoritesScreen(
-                                        onItemClicked = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-                                composable(
-                                    route = ScreenRoutes.FavoriteSkinsRoute
-                                ) { entry ->
-                                    FavoriteSkinsScreen(
-                                        onBackClicked = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-                                composable(
-                                    route = ScreenRoutes.FavoriteAgentsRoute
-                                ) { entry ->
-                                    FavoriteAgentsScreen(
-                                        onBackClicked = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-                            }
-
-                            navigation(
-                                startDestination = ScreenRoutes.MoreRoute,
-                                route = ScreenRoutes.MoreRouteNavHost
-                            ) {
-                                composable(
-                                    route = ScreenRoutes.MoreRoute
-                                ) { entry ->
-                                    MoreScreen(
-                                        onItemClicked = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-                                composable(
-                                    route = ScreenRoutes.BundleRoute
-                                ) { entry ->
-                                    BundlesScreen(
-                                        onBackClicked = {
-                                            navigation(it)
-                                        }
-                                    )
-
-                                }
-                                composable(
-                                    route = ScreenRoutes.RanksRoute
-                                ) { entry ->
-                                    RanksScreen(
-                                        onBackClicked = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-
-                                composable(
-                                    route = ScreenRoutes.SeasonsRoute
-                                ) { entry ->
-                                    SeasonsScreen(
-                                        onBackClicked = {
-                                            navigation(it)
-                                        }
-                                    )
-                                }
-                            }
-
-
+                            agentsNavGraph(navController)
+                            mapsNavGraph(navController)
+                            weaponsNavGraph(navController)
+                            favoritesNavGraph(navController)
+                            moreNavGraph(navController)
                         }
                     }
 
