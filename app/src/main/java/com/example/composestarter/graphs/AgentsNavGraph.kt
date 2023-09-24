@@ -1,5 +1,6 @@
 package com.example.composestarter.graphs
 
+import androidx.compose.foundation.ScrollState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -10,7 +11,7 @@ import com.example.composestarter.presentation.agents.AgentsScreen
 import com.example.composestarter.presentation.agents.detail.AgentDetailScreen
 import com.example.composestarter.utils.ScreenRoutes
 
-fun NavGraphBuilder.agentsNavGraph(navController: NavController) {
+fun NavGraphBuilder.agentsNavGraph(navController: NavController, scrollState: ScrollState) {
     val navigation: (String) -> Unit = { route ->
         if (route == "-1") {
             navController.popBackStack()
@@ -26,9 +27,12 @@ fun NavGraphBuilder.agentsNavGraph(navController: NavController) {
             route = ScreenRoutes.AgentsRoute
         ) { entry ->
 
-            AgentsScreen(openDetail = {
-                navigation(it)
-            })
+            AgentsScreen(
+                openDetail = {
+                    navigation(it)
+                },
+                scrollState = scrollState
+            )
         }
         composable(
             ScreenRoutes.AgentsDetailRoute, arguments = listOf(
@@ -41,7 +45,8 @@ fun NavGraphBuilder.agentsNavGraph(navController: NavController) {
                 AgentDetailScreen(
                     onBackPressed = {
                         navigation(it)
-                    }
+                    },
+                    scrollState
                 )
             }
         }

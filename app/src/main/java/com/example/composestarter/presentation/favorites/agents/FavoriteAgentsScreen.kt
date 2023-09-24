@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -52,7 +53,7 @@ import com.example.composestarter.utils.playSound
 @Composable
 fun FavoriteAgentsScreen(
     viewModel: FavoriteAgentsViewModel = hiltViewModel(),
-    onBackClicked: (String) -> Unit
+    state: LazyListState,
 ) {
 
     val context = LocalContext.current
@@ -71,9 +72,9 @@ fun FavoriteAgentsScreen(
             if (response.isEmpty()) {
                 EmptyScreen()
             } else {
-                StatelessFavoriteAgentsScreen(response, onBackClicked, removeFavoriteClicked = {
+                StatelessFavoriteAgentsScreen(response, removeFavoriteClicked = {
                     viewModel.removeFavoriteAgent(it)
-                })
+                }, state = state)
             }
         }
     }
@@ -113,7 +114,7 @@ fun FavoriteAgentsScreen(
 @Composable
 fun StatelessFavoriteAgentsScreen(
     agents: List<FavoriteAgentsEntity>,
-    onBackClicked: (String) -> Unit,
+    state: LazyListState,
     removeFavoriteClicked: (String) -> Unit
 ) {
     var popupControl by remember {
@@ -132,7 +133,8 @@ fun StatelessFavoriteAgentsScreen(
 
     val context = LocalContext.current
     LazyColumn(
-        modifier = Modifier.blur(if (popupControl) 15.dp else 0.dp)
+        modifier = Modifier.blur(if (popupControl) 15.dp else 0.dp),
+        state = state
     ) {
         item {
             agents

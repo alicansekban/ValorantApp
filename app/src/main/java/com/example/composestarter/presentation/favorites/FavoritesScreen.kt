@@ -1,8 +1,10 @@
 package com.example.composestarter.presentation.favorites
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlarmOff
 import androidx.compose.material.icons.filled.AlarmOn
@@ -23,7 +25,8 @@ import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun FavoritesScreen(
-    onItemClicked: (String) -> Unit = {}
+    scrollState: ScrollState,
+    lazyListState: LazyListState
 ) {
 
     var tabIndex by remember {
@@ -52,8 +55,8 @@ fun FavoritesScreen(
             }
         }
         when (tabIndex) {
-            0 -> FavoriteAgentsScreen(onBackClicked = {})
-            1 -> FavoriteSkinsScreen(onBackClicked = {})
+            0 -> FavoriteAgentsScreen(state = lazyListState)
+            1 -> FavoriteSkinsScreen(scrollState = scrollState)
         }
     }
 }

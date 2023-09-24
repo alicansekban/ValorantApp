@@ -4,11 +4,11 @@ package com.example.composestarter.presentation.agents
 
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -51,6 +51,7 @@ import com.example.composestarter.utils.playSound
 @Composable
 fun AgentsScreen(
     viewModel: AgentsViewModel = hiltViewModel(),
+    scrollState : ScrollState,
     openDetail: (String) -> Unit
 ) {
 
@@ -98,7 +99,8 @@ fun AgentsScreen(
                 openDetail = openDetail,
                 addAgentToFavorite = { id, voiceLine, model ->
                     viewModel.addAgentToFavorite(model, id, voiceLine)
-                })
+                },
+                scrollState = scrollState)
         }
     }
 
@@ -138,6 +140,7 @@ fun AgentsScreen(
 @Composable
 fun StatelessAgentsScreen(
     agents: List<AgentsUIModel>,
+    scrollState : ScrollState,
     openDetail: (String) -> Unit,
     addAgentToFavorite: (String, String, AgentsUIModel) -> Unit
 ) {
@@ -179,7 +182,7 @@ fun StatelessAgentsScreen(
             modifier = Modifier
                 .padding(padding)
                 .blur(if (focusPopUp) 15.dp else 0.dp)
-                .verticalScroll(enabled = true, state = rememberScrollState())
+                .verticalScroll(enabled = true, state = scrollState)
         ) {
             TopBarView(
                 title = stringResource(R.string.agents_title),

@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Air
@@ -31,7 +31,8 @@ import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun MoreScreen(
-    onItemClicked: (String) -> Unit = {}
+    onItemClicked: (String) -> Unit = {},
+    lazyListState: LazyListState
 ) {
 
     val items = listOf(
@@ -52,8 +53,7 @@ fun MoreScreen(
         )
     )
 
-    val state = rememberLazyListState()
-    LazyColumn(modifier = Modifier.fillMaxSize(), state = state) {
+    LazyColumn(modifier = Modifier.fillMaxSize(), state = lazyListState) {
 
         item {
             TopBarView(title = stringResource(id = R.string.more_content_title) , showBackButton = { false }, onBackClick = {})

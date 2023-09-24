@@ -1,11 +1,11 @@
 package com.example.composestarter.presentation.ranks
 
 import android.widget.Toast
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,12 +25,12 @@ import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.ranks.RanksUIModel
-import com.example.composestarter.utils.ScreenRoutes
 
 @Composable
 fun RanksScreen(
     viewModel: RanksViewModel = hiltViewModel(),
-    onBackClicked : (String) -> Unit = {}
+    onBackClicked : (String) -> Unit = {},
+    scrollState: ScrollState
 ) {
 
     val ranks by viewModel.ranks.collectAsStateWithLifecycle()
@@ -56,7 +56,8 @@ fun RanksScreen(
 
             StatelessRanksScreen(
                 response,
-                onBackClicked
+                onBackClicked,
+                scrollState
             )
         }
 
@@ -67,7 +68,8 @@ fun RanksScreen(
 @Composable
 fun StatelessRanksScreen(
     ranks: List<RanksUIModel>,
-    onBackClicked : (String) -> Unit = {}
+    onBackClicked : (String) -> Unit = {},
+    scrollState: ScrollState
 ) {
 
     Scaffold { paddingValues ->
@@ -75,7 +77,7 @@ fun StatelessRanksScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
 
             TopBarView(title = stringResource(R.string.ranks_title) , showBackButton = {

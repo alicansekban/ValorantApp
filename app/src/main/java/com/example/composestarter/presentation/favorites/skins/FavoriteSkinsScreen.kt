@@ -2,6 +2,7 @@ package com.example.composestarter.presentation.favorites.skins
 
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -60,7 +60,7 @@ import com.example.composestarter.utils.Constant
 @Composable
 fun FavoriteSkinsScreen(
     viewModel: FavoriteSkinsViewModel = hiltViewModel(),
-    onBackClicked: (String) -> Unit
+    scrollState: ScrollState
 ) {
 
     val favoriteSkins by viewModel.favoriteSkins.collectAsStateWithLifecycle()
@@ -116,14 +116,14 @@ fun FavoriteSkinsScreen(
             } else {
                 StatelessSkinsScreen(
                     response,
-                    onBackClicked,
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { newValue ->
                         searchQuery.value = newValue
                     },
                     removeFavoriteClicked = {
                         viewModel.removeFavoriteSkin(it)
-                    }
+                    },
+                    scrollState
                 )
             }
         }
@@ -154,10 +154,10 @@ fun EmptyScreen() {
 @Composable
 fun StatelessSkinsScreen(
     skins: List<FavoriteSkinsEntity>,
-    onBackClicked: (String) -> Unit,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
-    removeFavoriteClicked: (String) -> Unit
+    removeFavoriteClicked: (String) -> Unit,
+    scrollState: ScrollState
 ) {
 
     val groupedSkins = skins.groupBy { it.weaponName }
@@ -185,7 +185,7 @@ fun StatelessSkinsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
             .blur(if (popupControl) 15.dp else 0.dp)
     ) {
         OutlinedTextField(

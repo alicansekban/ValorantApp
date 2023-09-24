@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -43,6 +43,7 @@ import com.example.composestarter.utils.ScreenRoutes
 @Composable
 fun MapsScreen(
     viewModel: MapsViewModel = hiltViewModel(),
+    scrollState: LazyListState,
     openDetail: (String) -> Unit
 
 ) {
@@ -69,7 +70,8 @@ fun MapsScreen(
             val response = (maps as Success<List<MapsUIModel>>).response
             StatelessMapScreen(
                 response,
-                openDetail
+                scrollState,
+                openDetail,
             )
         }
     }
@@ -80,23 +82,21 @@ fun MapsScreen(
 @Composable
 fun StatelessMapScreen(
     maps: List<MapsUIModel>,
+    scrollState: LazyListState,
     openDetail: (String) -> Unit
 ) {
 
     Scaffold { padding ->
         Column(modifier = Modifier.padding(padding)) {
-
-
             if (maps.isNotEmpty()) {
-                val state = rememberLazyListState()
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
-                    state = state
+                    state = scrollState
                 ) {
                     item {
                         TopBarView(
-                            title = stringResource(R.string.maps_title) ,
+                            title = stringResource(R.string.maps_title),
                             showBackButton = { false },
                             onBackClick = { },
                         )

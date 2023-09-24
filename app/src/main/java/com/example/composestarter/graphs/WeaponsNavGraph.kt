@@ -1,6 +1,8 @@
 package com.example.composestarter.graphs
 
 import WeaponsScreen
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -10,7 +12,11 @@ import androidx.navigation.navigation
 import com.example.composestarter.presentation.weapons.detail.WeaponDetailScreen
 import com.example.composestarter.utils.ScreenRoutes
 
-fun NavGraphBuilder.weaponsNavGraph(navController: NavController) {
+fun NavGraphBuilder.weaponsNavGraph(
+    navController: NavController,
+    scrollState: ScrollState,
+    lazyListState: LazyListState
+) {
     val navigation: (String) -> Unit = { route ->
         if (route == "-1") {
             navController.popBackStack()
@@ -26,21 +32,23 @@ fun NavGraphBuilder.weaponsNavGraph(navController: NavController) {
             WeaponsScreen(
                 openDetail = {
                     navigation(it)
-                }
+                },
+                scrollState = scrollState
             )
         }
         composable(
             ScreenRoutes.WeaponsDetailRoute, arguments = listOf(
-            navArgument("id") {
-                type = NavType.StringType
-            }
-        )) { entry ->
+                navArgument("id") {
+                    type = NavType.StringType
+                }
+            )) { entry ->
             val id = entry.arguments?.getString("id")
             if (id?.isNotEmpty() == true) {
                 WeaponDetailScreen(
                     onBackPressed = {
                         navigation(it)
-                    }
+                    },
+                    lazyListState
                 )
             }
         }

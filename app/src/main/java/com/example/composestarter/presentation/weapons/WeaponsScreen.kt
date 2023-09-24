@@ -1,11 +1,11 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +32,8 @@ import com.example.composestarter.utils.ScreenRoutes
 @Composable
 fun WeaponsScreen(
     openDetail: (String) -> Unit,
-    viewModel: WeaponsViewModel = hiltViewModel()
+    viewModel: WeaponsViewModel = hiltViewModel(),
+    scrollState: ScrollState
 ) {
 
     val weapons by viewModel.weapons.collectAsStateWithLifecycle()
@@ -54,7 +55,8 @@ fun WeaponsScreen(
                 (weapons as Success<List<WeaponsUIModel>>).response
             StateLessWeaponsScreen(
                 response,
-                openDetail
+                openDetail,
+                scrollState
             )
         }
     }
@@ -63,7 +65,11 @@ fun WeaponsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StateLessWeaponsScreen(weapons: List<WeaponsUIModel>, openDetail: (String) -> Unit) {
+fun StateLessWeaponsScreen(
+    weapons: List<WeaponsUIModel>,
+    openDetail: (String) -> Unit,
+    scrollState: ScrollState
+) {
 
 
     Scaffold(
@@ -73,10 +79,10 @@ fun StateLessWeaponsScreen(weapons: List<WeaponsUIModel>, openDetail: (String) -
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
 
-            TopBarView(title = stringResource(R.string.weapons_title) , showBackButton = {
+            TopBarView(title = stringResource(R.string.weapons_title), showBackButton = {
                 false
             }, onBackClick = {})
 

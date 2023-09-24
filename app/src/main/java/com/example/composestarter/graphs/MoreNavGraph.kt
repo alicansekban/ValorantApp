@@ -1,5 +1,8 @@
 package com.example.composestarter.graphs
 
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -10,7 +13,12 @@ import com.example.composestarter.presentation.ranks.RanksScreen
 import com.example.composestarter.presentation.seasons.SeasonsScreen
 import com.example.composestarter.utils.ScreenRoutes
 
-fun NavGraphBuilder.moreNavGraph(navController: NavController) {
+fun NavGraphBuilder.moreNavGraph(
+    navController: NavController,
+    lazyListState: LazyListState,
+    lazyGridState: LazyGridState,
+    scrollState: ScrollState
+) {
     val navigation: (String) -> Unit = { route ->
         if (route == "-1") {
             navController.popBackStack()
@@ -28,7 +36,8 @@ fun NavGraphBuilder.moreNavGraph(navController: NavController) {
             MoreScreen(
                 onItemClicked = {
                     navigation(it)
-                }
+                },
+                lazyListState
             )
         }
         composable(
@@ -37,7 +46,8 @@ fun NavGraphBuilder.moreNavGraph(navController: NavController) {
             BundlesScreen(
                 onBackClicked = {
                     navigation(it)
-                }
+                },
+                state = lazyGridState
             )
 
         }
@@ -47,7 +57,8 @@ fun NavGraphBuilder.moreNavGraph(navController: NavController) {
             RanksScreen(
                 onBackClicked = {
                     navigation(it)
-                }
+                },
+                scrollState = scrollState
             )
         }
 

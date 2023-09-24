@@ -3,9 +3,13 @@ package com.example.composestarter.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -21,8 +25,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -96,7 +102,13 @@ class MainActivity : ComponentActivity() {
                     ),
                 )
                 var selectedItemIndex by rememberSaveable {
-                    mutableStateOf(0)
+                    mutableIntStateOf(0)
+                }
+                val lazyListState = rememberLazyListState()
+                val lazyGridState = rememberLazyGridState()
+                val scrollState = rememberScrollState()
+                val isScrolling by remember(lazyListState, lazyGridState, scrollState) {
+                    derivedStateOf { lazyListState.isScrollInProgress || lazyGridState.isScrollInProgress || scrollState.isScrollInProgress }
                 }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -104,33 +116,38 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         bottomBar = {
-                            NavigationBar(
-                                modifier = Modifier.heightPercent(
-                                    0.110f,
-                                    LocalConfiguration.current
-                                )
+                            AnimatedVisibility(
+                                visible = !isScrolling,
                             ) {
-                                items.forEachIndexed { index, item ->
-                                    NavigationBarItem(
-                                        selected = selectedItemIndex == index,
-                                        onClick = {
-                                            selectedItemIndex = index
-                                            navigation(item.route)
-                                        },
-                                        label = {
-                                            Text(
-                                                text = item.title
-                                            )
-                                        },
-                                        icon = {
-                                            Icon(
-                                                modifier = Modifier.size(24.dp),
-                                                imageVector = if (index == selectedItemIndex) item.selectedIcon else item.unSelectedIcon,
-                                                contentDescription = item.title
-                                            )
-                                        })
+                                NavigationBar(
+                                    modifier = Modifier.heightPercent(
+                                        0.110f,
+                                        LocalConfiguration.current
+                                    )
+                                ) {
+                                    items.forEachIndexed { index, item ->
+                                        NavigationBarItem(
+                                            selected = selectedItemIndex == index,
+                                            onClick = {
+                                                selectedItemIndex = index
+                                                navigation(item.route)
+                                            },
+                                            label = {
+                                                Text(
+                                                    text = item.title
+                                                )
+                                            },
+                                            icon = {
+                                                Icon(
+                                                    modifier = Modifier.size(24.dp),
+                                                    imageVector = if (index == selectedItemIndex) item.selectedIcon else item.unSelectedIcon,
+                                                    contentDescription = item.title
+                                                )
+                                            })
+                                    }
                                 }
                             }
+
                         }
                     ) { paddingValues ->
 
@@ -139,11 +156,11 @@ class MainActivity : ComponentActivity() {
                             startDestination = ScreenRoutes.AgentsRouteNavHost,
                             modifier = Modifier.padding(paddingValues)
                         ) {
-                            agentsNavGraph(navController)
-                            mapsNavGraph(navController)
-                            weaponsNavGraph(navController)
-                            favoritesNavGraph(navController)
-                            moreNavGraph(navController)
+                            agentsNavGraph(navController, scrollState)
+                            mapsNavGraph(navController, lazyListState)
+                            weaponsNavGraph(navController, scrollState, lazyListState)
+                            favoritesNavGraph(lazyListState, scrollState)
+                            moreNavGraph(navController, lazyListState, lazyGridState, scrollState)
                         }
                     }
 

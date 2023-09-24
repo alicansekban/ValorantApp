@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
@@ -49,7 +50,8 @@ import com.example.composestarter.domain.model.bundles.BundlesUIModel
 @Composable
 fun BundlesScreen(
     viewModel: BundlesViewModel = hiltViewModel(),
-    onBackClicked: (String) -> Unit = {}
+    onBackClicked: (String) -> Unit = {},
+    state : LazyGridState
 ) {
 
     val bundles by viewModel.bundles.collectAsStateWithLifecycle()
@@ -74,7 +76,8 @@ fun BundlesScreen(
 
             StatelessBundlesScreen(
                 response,
-                onBackClicked
+                onBackClicked,
+                state
             )
         }
     }
@@ -85,6 +88,7 @@ fun BundlesScreen(
 fun StatelessBundlesScreen(
     bundles: List<BundlesUIModel>,
     onBackClicked: (String) -> Unit = {},
+    state : LazyGridState
 ) {
 
     var searchQuery by remember { mutableStateOf("") }
@@ -96,7 +100,8 @@ fun StatelessBundlesScreen(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2), modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
+                    .padding(paddingValues),
+                state = state
             ) {
                 item(
                     span = {

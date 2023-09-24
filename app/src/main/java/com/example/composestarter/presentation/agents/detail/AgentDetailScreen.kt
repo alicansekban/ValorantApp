@@ -2,6 +2,7 @@ package com.example.composestarter.presentation.agents.detail
 
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -49,6 +49,7 @@ import com.example.composestarter.utils.playSound
 @Composable
 fun AgentDetailScreen(
     onBackPressed: (String) -> Unit,
+    scrollState : ScrollState,
     viewModel: AgentDetailViewModel = hiltViewModel()
 ) {
     val agentData by viewModel.agent.collectAsStateWithLifecycle()
@@ -70,7 +71,7 @@ fun AgentDetailScreen(
 
         is Success -> {
             val response = (agentData as Success<AgentsUIModel>).response
-            StateLessAgentDetail(agent = response, onBackPressed = onBackPressed)
+            StateLessAgentDetail(agent = response, onBackPressed = onBackPressed, scrollState = scrollState)
         }
     }
 }
@@ -79,6 +80,7 @@ fun AgentDetailScreen(
 @Composable
 fun StateLessAgentDetail(
     agent: AgentsUIModel,
+    scrollState : ScrollState,
     onBackPressed: (String) -> Unit
 ) {
     var isAgentImageZoomable by remember { mutableStateOf(false) }
@@ -110,7 +112,7 @@ fun StateLessAgentDetail(
         modifier = Modifier
             .fillMaxSize()
             .blur(if (isAgentImageZoomable || isSkillPopUpClickable) 15.dp else 0.dp)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         TopBarView(
