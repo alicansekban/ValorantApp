@@ -7,6 +7,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -25,9 +27,11 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -105,11 +109,13 @@ class MainActivity : ComponentActivity() {
                     mutableIntStateOf(0)
                 }
                 val lazyListState = rememberLazyListState()
+                val scrollingUp = lazyListState.isScrollingUp()
                 val lazyGridState = rememberLazyGridState()
                 val scrollState = rememberScrollState()
-                val isScrolling by remember(lazyListState, lazyGridState, scrollState) {
-                    derivedStateOf { lazyListState.isScrollInProgress || lazyGridState.isScrollInProgress || scrollState.isScrollInProgress }
+                val isScrolling by remember(scrollingUp, lazyGridState, scrollState) {
+                    derivedStateOf { scrollingUp || lazyGridState.isScrollInProgress || scrollState.isScrollInProgress }
                 }
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -117,7 +123,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         bottomBar = {
                             AnimatedVisibility(
-                                visible = !isScrolling,
+                                visible = isScrolling,
                             ) {
                                 NavigationBar(
                                     modifier = Modifier.heightPercent(
@@ -165,7 +171,45 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
+
             }
         }
     }
+}
+
+@Composable
+private fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
+}
+
+
+@Composable
+private fun LazyGridState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
 }
