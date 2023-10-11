@@ -1,8 +1,5 @@
 package com.example.composestarter.graphs
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -42,21 +39,15 @@ fun NavGraphBuilder.moreNavGraph(
             enterTransition = {
                 fadeIn(
                     animationSpec = tween(
-                        300, easing = LinearEasing
+                        500, easing = LinearEasing
                     )
-                ) + slideIntoContainer(
-                    animationSpec = tween(500, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
                 )
             },
             exitTransition = {
                 fadeOut(
                     animationSpec = tween(
-                        300, easing = LinearEasing
+                        500, easing = LinearEasing
                     )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(500, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
                 )
             }
         ) { entry ->
@@ -69,26 +60,6 @@ fun NavGraphBuilder.moreNavGraph(
         }
         composable(
             route = ScreenRoutes.BundleRoute,
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(500, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(500, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            }
         ) { entry ->
             BundlesScreen(
                 onBackClicked = {
@@ -99,27 +70,7 @@ fun NavGraphBuilder.moreNavGraph(
 
         }
         composable(
-            route = ScreenRoutes.RanksRoute,
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(500, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(500, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            }
+            route = ScreenRoutes.RanksRoute
         ) { entry ->
             RanksScreen(
                 onBackClicked = {
@@ -130,27 +81,7 @@ fun NavGraphBuilder.moreNavGraph(
         }
 
         composable(
-            route = ScreenRoutes.SeasonsRoute,
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(500, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(500, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            }
+            route = ScreenRoutes.SeasonsRoute
         ) { entry ->
             SeasonsScreen(
                 onBackClicked = {

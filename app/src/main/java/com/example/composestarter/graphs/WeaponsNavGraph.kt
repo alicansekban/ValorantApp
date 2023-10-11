@@ -1,9 +1,6 @@
 package com.example.composestarter.graphs
 
 import WeaponsScreen
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -39,21 +36,15 @@ fun NavGraphBuilder.weaponsNavGraph(
             enterTransition = {
                 fadeIn(
                     animationSpec = tween(
-                        300, easing = LinearEasing
+                        500, easing = LinearEasing
                     )
-                ) + slideIntoContainer(
-                    animationSpec = tween(500, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
                 )
             },
             exitTransition = {
                 fadeOut(
                     animationSpec = tween(
-                        300, easing = LinearEasing
+                        500, easing = LinearEasing
                     )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(500, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
                 )
             }) {
             WeaponsScreen(
@@ -68,27 +59,7 @@ fun NavGraphBuilder.weaponsNavGraph(
                 navArgument("id") {
                     type = NavType.StringType
                 }
-            ),
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(500, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(500, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            }) { entry ->
+            )) { entry ->
             val id = entry.arguments?.getString("id")
             if (id?.isNotEmpty() == true) {
                 WeaponDetailScreen(
