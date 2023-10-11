@@ -88,8 +88,8 @@ dependencies {
     // Optional - Integration with RxJava
     implementation ("androidx.compose.runtime:runtime-rxjava2")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1.")
-    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
-    implementation ("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation("androidx.navigation:navigation-compose:2.7.4")
 
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
 

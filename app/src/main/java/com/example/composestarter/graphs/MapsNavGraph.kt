@@ -1,5 +1,12 @@
 package com.example.composestarter.graphs
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -26,7 +33,27 @@ fun NavGraphBuilder.mapsNavGraph(
         startDestination = ScreenRoutes.MapsRoute,
         route = ScreenRoutes.MapsRouteNavHost
     ) {
-        composable(ScreenRoutes.MapsRoute) {
+        composable(ScreenRoutes.MapsRoute,
+            enterTransition = {
+                fadeIn(
+                    animationSpec = tween(
+                        300, easing = LinearEasing
+                    )
+                ) + slideIntoContainer(
+                    animationSpec = tween(500, easing = EaseIn),
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+                )
+            },
+            exitTransition = {
+                fadeOut(
+                    animationSpec = tween(
+                        300, easing = LinearEasing
+                    )
+                ) + slideOutOfContainer(
+                    animationSpec = tween(500, easing = EaseOut),
+                    towards = AnimatedContentTransitionScope.SlideDirection.End
+                )
+            }) {
             MapsScreen(
                 openDetail = {
                     navigation(it)
@@ -39,7 +66,27 @@ fun NavGraphBuilder.mapsNavGraph(
                 navArgument("id") {
                     type = NavType.StringType
                 }
-            )) { entry ->
+            ),
+            enterTransition = {
+                fadeIn(
+                    animationSpec = tween(
+                        300, easing = LinearEasing
+                    )
+                ) + slideIntoContainer(
+                    animationSpec = tween(500, easing = EaseIn),
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+                )
+            },
+            exitTransition = {
+                fadeOut(
+                    animationSpec = tween(
+                        300, easing = LinearEasing
+                    )
+                ) + slideOutOfContainer(
+                    animationSpec = tween(500, easing = EaseOut),
+                    towards = AnimatedContentTransitionScope.SlideDirection.End
+                )
+            }) { entry ->
             val id = entry.arguments?.getString("id")
             if (id?.isNotEmpty() == true) {
                 MapsDetailScreen(
