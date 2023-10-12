@@ -30,7 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.composestarter.bottomBar.BottomBar
+import com.example.composestarter.bottomBar.AppNavigationBar
 import com.example.composestarter.graphs.agentsNavGraph
 import com.example.composestarter.graphs.favoritesNavGraph
 import com.example.composestarter.graphs.mapsNavGraph
@@ -61,11 +61,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         bottomBar = {
-                            BottomBar(
+                            AppNavigationBar(
                                 navController = navController,
-                                scrollState,
-                                lazyGridState,
-                                scrollingUp
                             )
 
                         }

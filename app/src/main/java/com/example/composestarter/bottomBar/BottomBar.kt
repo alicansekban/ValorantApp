@@ -28,6 +28,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.caseapp.R
 import com.example.composestarter.utils.BottomNavigationItem
 import com.example.composestarter.utils.ScreenRoutes
@@ -40,6 +43,10 @@ fun BottomBar(
     lazyGridState: LazyGridState,
     scrollingUp: Boolean,
 ) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
 
     val navigation: (String) -> Unit = { route ->
         if (route == "-1") {
@@ -100,10 +107,21 @@ fun BottomBar(
         ) {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
-                    selected = selectedItemIndex == index,
+                    selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                     onClick = {
-                        selectedItemIndex = index
-                        navigation(item.route)
+                        navController.navigate(item.route) {
+                            // Pop up to the start destination of the graph to
+                            // avoid building up a large stack of destinations
+                            // on the back stack as users select items
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
+                        }
                     },
                     label = {
                         Text(
