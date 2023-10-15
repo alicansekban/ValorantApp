@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalGlideComposeApi::class)
 
 package com.example.composestarter.customViews
 
@@ -21,9 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.composestarter.domain.model.ranks.UIModelTiersItem
-import com.example.composestarter.presentation.agents.loadImage
 
 @Composable
 fun RanksItemDetail(

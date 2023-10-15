@@ -21,7 +21,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -80,7 +80,7 @@ internal fun AppNavigationBar(
     val currentTopLevelDestination by navController.currentTabItemAsState()
 
     NavigationBar {
-        bottomBarItems.forEach { item ->
+        bottomBarItems.forEachIndexed { index, item ->
             val isTabSelected = item == currentTopLevelDestination
             NavigationBarItem(
                 icon = {
@@ -109,7 +109,7 @@ internal fun AppNavigationBar(
  */
 @Composable
 private fun NavController.currentTabItemAsState(): State<TabItem> {
-    val selectedItem = remember { mutableStateOf(TabItem.Agents) }
+    val selectedItem = rememberSaveable { mutableStateOf(TabItem.Agents) }
 
     DisposableEffect(this) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
@@ -119,7 +119,7 @@ private fun NavController.currentTabItemAsState(): State<TabItem> {
                 }
 
                 destination.hierarchy.any { it.route == TabItem.Maps.route } -> {
-                    selectedItem.value = TabItem.Maps
+                    if (selectedItem.value != TabItem.Maps) selectedItem.value = TabItem.Maps
                 }
 
                 destination.hierarchy.any { it.route == TabItem.Weapons.route } -> {

@@ -19,15 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil.compose.AsyncImage
 import com.example.caseapp.R
 import com.example.composestarter.domain.model.agents.AbilitiesUIModel
 import com.example.composestarter.utils.heightPercent
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun AgentSkillPopup(
     ability: AbilitiesUIModel,
@@ -72,19 +71,16 @@ fun AgentSkillPopup(
                         .height(100.dp)
                         .width(100.dp),
                 ) {
-                    GlideImage(
+                    AsyncImage(
                         model = ability.displayIcon.toString(),
                         contentDescription = "loadImage",
                         modifier = Modifier
                             .padding(top = 12.dp)
                             .height(100.dp)
-                            .width(100.dp)
-                    ) {
-                        it.error(R.drawable.ic_placeholder)
-                            .placeholder(R.drawable.ic_placeholder)
-                            .load(ability.displayIcon.toString())
-
-                    }
+                            .width(100.dp),
+                        placeholder = painterResource(id = R.drawable.ic_placeholder),
+                        error = painterResource(id = R.drawable.ic_placeholder)
+                    )
                 }
                 Text(
                     text = ability.description.toString(),

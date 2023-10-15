@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composestarter.domain.model.weapons.ChromasItemUIModel
 import com.example.composestarter.domain.model.weapons.SkinsItemUIModel
-import com.example.composestarter.presentation.agents.loadImage
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

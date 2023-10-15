@@ -38,9 +38,7 @@ class AgentsViewModel @Inject constructor(
 
     private fun getAgents() {
         viewModelScope.launch(Dispatchers.IO) {
-            useCase.invoke().collect { data ->
-                _agents.emit(data)
-            }
+            _agents.emit(useCase.invoke())
         }
     }
 

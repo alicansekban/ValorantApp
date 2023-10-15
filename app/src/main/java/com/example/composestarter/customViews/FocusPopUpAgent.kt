@@ -34,7 +34,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogWindowProvider
 import com.example.caseapp.R
 import com.example.composestarter.domain.model.agents.AgentsUIModel
-import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.utils.bounceClick
 import com.example.composestarter.utils.heightPercent
 import com.example.composestarter.utils.widthPercent

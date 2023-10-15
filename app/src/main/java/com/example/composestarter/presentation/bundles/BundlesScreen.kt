@@ -33,13 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil.compose.AsyncImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.TopBarView
 import com.example.composestarter.domain.Error
@@ -159,7 +159,6 @@ fun filterBundles(bundles: List<BundlesUIModel>, query: String): List<BundlesUIM
 }
 
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun BundleItem(
     bundle: BundlesUIModel
@@ -182,16 +181,14 @@ fun BundleItem(
                 modifier = Modifier.padding(8.dp)
             )
             Spacer(modifier = Modifier.height(4.dp))
-            GlideImage(
-                model = bundle.displayIcon.toString(),
+            AsyncImage(
+                model = bundle.displayIcon,
                 contentDescription = "Bundle Image",
-                contentScale = ContentScale.Crop
-            ) {
-                it.error(R.drawable.ic_placeholder)
-                    .placeholder(R.drawable.ic_placeholder)
-                    .load(bundle.displayIcon)
+                contentScale = ContentScale.Crop,
+                error = painterResource(id = R.drawable.ic_placeholder),
+                placeholder = painterResource(id = R.drawable.ic_placeholder),
 
-            }
+                )
         }
 
     }

@@ -127,17 +127,13 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 
-    implementation ("androidx.draganddrop:draganddrop:1.0.0")
+    implementation("androidx.draganddrop:draganddrop:1.0.0")
 
     // Youtube Player
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
 
-
-    // Glide
-    val glideVersion = "4.12.0"
-    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")
-    ksp("com.github.bumptech.glide:compiler:$glideVersion")
-
+    // Coil ImageLoader
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Room
     implementation("androidx.room:room-runtime:2.5.0")

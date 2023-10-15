@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalGlideComposeApi::class)
 
 package com.example.composestarter.customViews
 
@@ -19,7 +18,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.composestarter.utils.heightPercent
 
 @Composable

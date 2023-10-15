@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.example.composestarter.presentation.weapons.detail
 
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -42,9 +43,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import com.blankj.utilcode.util.SPUtils
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
 import com.example.composestarter.customViews.FocusPopUpSkin
@@ -143,7 +145,7 @@ fun WeaponDetailScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatelessWeaponDetail(
     weapon: WeaponsUIModel,
@@ -201,10 +203,6 @@ fun StatelessWeaponDetail(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
-
-
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -239,17 +237,23 @@ fun StatelessWeaponDetail(
                         elevation = CardDefaults.cardElevation(10.dp)
                     ) {
                         Row(
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(16.dp)
                         ) {
-                            GlideImage(
+                            SubcomposeAsyncImage(
                                 model = weapon.displayIcon.toString(),
                                 contentDescription = "loadImage",
-                                modifier = Modifier.height(150.dp)
+                                modifier = Modifier
+                                    .height(100.dp)
+                                    .width(200.dp),
                             ) {
-                                it.error(R.drawable.ic_placeholder)
-                                    .placeholder(R.drawable.ic_placeholder)
-                                    .load(weapon.displayIcon.toString())
-
+                                val state = painter.state
+                                if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
+                                    CircularProgressIndicator()
+                                } else {
+                                    SubcomposeAsyncImageContent()
+                                }
                             }
                             WeaponDetailStats(
                                 weapon

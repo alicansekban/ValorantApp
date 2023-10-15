@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -25,15 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blankj.utilcode.util.SPUtils
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.AgentsItem
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
@@ -51,7 +46,7 @@ import com.example.composestarter.utils.playSound
 @Composable
 fun AgentsScreen(
     viewModel: AgentsViewModel = hiltViewModel(),
-    scrollState : ScrollState,
+    scrollState: ScrollState,
     openDetail: (String) -> Unit
 ) {
 
@@ -100,7 +95,8 @@ fun AgentsScreen(
                 addAgentToFavorite = { id, voiceLine, model ->
                     viewModel.addAgentToFavorite(model, id, voiceLine)
                 },
-                scrollState = scrollState)
+                scrollState = scrollState
+            )
         }
     }
 
@@ -140,7 +136,7 @@ fun AgentsScreen(
 @Composable
 fun StatelessAgentsScreen(
     agents: List<AgentsUIModel>,
-    scrollState : ScrollState,
+    scrollState: ScrollState,
     openDetail: (String) -> Unit,
     addAgentToFavorite: (String, String, AgentsUIModel) -> Unit
 ) {
@@ -224,27 +220,5 @@ fun StatelessAgentsScreen(
 
         }
 
-    }
-}
-
-
-@OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun loadImage(
-    url: String, modifier: Modifier, cardColor: Color = Color.White
-) {
-    Card(
-        modifier = modifier, colors = CardDefaults.cardColors(cardColor),
-    ) {
-        GlideImage(
-            model = url,
-            contentDescription = "loadImage",
-            modifier = modifier
-        ) {
-            it.error(R.drawable.ic_placeholder)
-                .placeholder(R.drawable.ic_placeholder)
-                .load(url)
-
-        }
     }
 }

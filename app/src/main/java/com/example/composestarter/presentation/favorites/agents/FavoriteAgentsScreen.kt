@@ -41,11 +41,11 @@ import com.blankj.utilcode.util.SPUtils
 import com.example.caseapp.R
 import com.example.composestarter.customViews.FavoriteFirstTimeMessagePopUp
 import com.example.composestarter.customViews.RemoveFavoritePopUp
+import com.example.composestarter.customViews.loadImage
 import com.example.composestarter.data.local.model.agents.FavoriteAgentsEntity
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
-import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.presentation.favorites.skins.EmptyScreen
 import com.example.composestarter.utils.Constant
 import com.example.composestarter.utils.playSound

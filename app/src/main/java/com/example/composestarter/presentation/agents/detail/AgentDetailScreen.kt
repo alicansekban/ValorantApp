@@ -39,11 +39,11 @@ import com.example.composestarter.customViews.AgentAbilitiesItem
 import com.example.composestarter.customViews.AgentSkillPopup
 import com.example.composestarter.customViews.ImageFocusPopup
 import com.example.composestarter.customViews.TopBarView
+import com.example.composestarter.customViews.loadImage
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.agents.AgentsUIModel
-import com.example.composestarter.presentation.agents.loadImage
 import com.example.composestarter.utils.playSound
 
 @Composable

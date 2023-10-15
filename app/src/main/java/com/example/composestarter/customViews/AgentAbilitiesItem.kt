@@ -11,15 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil.compose.AsyncImage
 import com.example.caseapp.R
 import com.example.composestarter.domain.model.agents.AbilitiesUIModel
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun AgentAbilitiesItem(
     ability : AbilitiesUIModel,
@@ -34,19 +33,16 @@ fun AgentAbilitiesItem(
                 .width(72.dp)
                 .height(72.dp),
         ) {
-            GlideImage(
+            AsyncImage(
                 model = ability.displayIcon.toString(),
                 contentDescription = "loadImage",
                 modifier = Modifier
                     .clip(CircleShape)
                     .width(72.dp)
-                    .height(72.dp)
-            ) {
-                it.error(R.drawable.ic_placeholder)
-                    .placeholder(R.drawable.ic_placeholder)
-                    .load(ability.displayIcon.toString())
-
-            }
+                    .height(72.dp),
+                placeholder = painterResource(id = R.drawable.ic_placeholder),
+                error = painterResource(id = R.drawable.ic_placeholder),
+            )
         }
         Text(
             text = ability.displayName.toString(),

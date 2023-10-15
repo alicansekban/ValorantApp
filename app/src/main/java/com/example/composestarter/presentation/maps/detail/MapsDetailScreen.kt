@@ -1,6 +1,5 @@
 @file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
-    ExperimentalGlideComposeApi::class
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 
 package com.example.composestarter.presentation.maps.detail
@@ -34,20 +33,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil.compose.AsyncImage
 import com.example.caseapp.R
 import com.example.composestarter.customViews.ImageFocusPopup
 import com.example.composestarter.customViews.TopBarView
+import com.example.composestarter.customViews.loadImage
 import com.example.composestarter.domain.Error
 import com.example.composestarter.domain.Loading
 import com.example.composestarter.domain.Success
 import com.example.composestarter.domain.model.maps.MapsUIModel
-import com.example.composestarter.presentation.agents.loadImage
 
 @Composable
 fun MapsDetailScreen(
@@ -84,7 +83,7 @@ fun MapsDetailScreen(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun stateLessMapDetail(
     onBackPressed: (String) -> Unit,
@@ -106,7 +105,7 @@ fun stateLessMapDetail(
                 .blur(if (isMapImageZoomable) 15.dp else 0.dp)
         ) {
             TopBarView(
-                title = stringResource(R.string.map_detail_title) ,
+                title = stringResource(R.string.map_detail_title),
                 showBackButton = { true },
                 onBackClick = { onBackPressed("-1") },
             )
@@ -128,16 +127,13 @@ fun stateLessMapDetail(
                             isMapImageZoomable = true
                         })
                 ) {
-                    GlideImage(
+                    AsyncImage(
                         model = map.splash,
                         contentDescription = "loadImage",
-                        contentScale = ContentScale.FillBounds
-                    ) {
-                        it.error(R.drawable.ic_placeholder)
-                            .placeholder(R.drawable.ic_placeholder)
-                            .load(map.splash)
-
-                    }
+                        contentScale = ContentScale.FillBounds,
+                        error = painterResource(id = R.drawable.ic_placeholder),
+                        placeholder = painterResource(id = R.drawable.ic_placeholder)
+                    )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 

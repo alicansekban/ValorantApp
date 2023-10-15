@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalGlideComposeApi::class)
 
 package com.example.composestarter.customViews
 
@@ -17,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil.compose.AsyncImage
 import com.example.caseapp.R
 import com.example.composestarter.utils.heightPercent
 
@@ -57,17 +56,14 @@ fun ImageFocusPopup(
                 Card(
                     modifier = Modifier.fillMaxSize(), shape = RoundedCornerShape(10.dp),
                 ) {
-                    GlideImage(
-                        model =image,
+                    AsyncImage(
+                        model = image,
                         contentDescription = "loadImage",
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    ) {
-                        it.error(R.drawable.ic_placeholder)
-                            .placeholder(R.drawable.ic_placeholder)
-                            .load(image)
-
-                    }
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(id = R.drawable.ic_placeholder),
+                        error = painterResource(id = R.drawable.ic_placeholder),
+                    )
                 }
 
             }
