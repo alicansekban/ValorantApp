@@ -1,6 +1,10 @@
 package com.example.composestarter.bottomBar
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Dangerous
 import androidx.compose.material.icons.filled.Favorite
@@ -19,8 +23,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -75,30 +81,40 @@ private val bottomBarItems =
 
 @Composable
 internal fun AppNavigationBar(
-    navController: NavHostController
+    navController: NavHostController,
+    scrollState: ScrollState,
+    lazyGridState: LazyGridState,
+    lazyListState: LazyListState
 ) {
     val currentTopLevelDestination by navController.currentTabItemAsState()
 
-    NavigationBar {
-        bottomBarItems.forEachIndexed { index, item ->
-            val isTabSelected = item == currentTopLevelDestination
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        imageVector = if (isTabSelected) item.selectedIcon else item.unSelectedIcon,
-                        contentDescription = item.title
-                    )
-                },
-                label = { Text(item.title) },
-                selected = isTabSelected,
-                onClick = {
-                    navController.navigateToTabItem(
-                        item = item,
-                        restoreTabStack = !isTabSelected,
-                    )
-                }
-            )
+    val isScrolling by remember(lazyListState, lazyGridState, scrollState) {
+        derivedStateOf { lazyListState.isScrollInProgress || lazyGridState.isScrollInProgress || scrollState.isScrollInProgress }
+    }
+
+    AnimatedVisibility(visible = !isScrolling) {
+
+        NavigationBar {
+            bottomBarItems.forEachIndexed { index, item ->
+                val isTabSelected = item == currentTopLevelDestination
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            modifier = Modifier.size(24.dp),
+                            imageVector = if (isTabSelected) item.selectedIcon else item.unSelectedIcon,
+                            contentDescription = item.title
+                        )
+                    },
+                    label = { Text(item.title) },
+                    selected = isTabSelected,
+                    onClick = {
+                        navController.navigateToTabItem(
+                            item = item,
+                            restoreTabStack = !isTabSelected,
+                        )
+                    }
+                )
+            }
         }
     }
 }

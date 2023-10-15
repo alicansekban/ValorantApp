@@ -60,6 +60,7 @@ class MainActivity : ComponentActivity() {
                         bottomBar = {
                             AppNavigationBar(
                                 navController = navController,
+                                scrollState, lazyGridState, lazyListState
                             )
 
                         }
