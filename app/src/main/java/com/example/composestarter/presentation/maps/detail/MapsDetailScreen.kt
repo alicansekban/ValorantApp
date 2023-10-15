@@ -6,6 +6,7 @@ package com.example.composestarter.presentation.maps.detail
 
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -51,6 +51,7 @@ import com.example.composestarter.domain.model.maps.MapsUIModel
 @Composable
 fun MapsDetailScreen(
     onBackPressed: (String) -> Unit,
+    scrollState: ScrollState,
     viewModel: MapsDetailViewModel = hiltViewModel()
 ) {
 
@@ -74,8 +75,9 @@ fun MapsDetailScreen(
         is Success -> {
             val response = (mapDetail as Success<MapsUIModel>).response
             stateLessMapDetail(
-                onBackPressed,
-                response
+                onBackPressed = onBackPressed,
+                map = response,
+                scrollState = scrollState
             )
         }
     }
@@ -87,7 +89,8 @@ fun MapsDetailScreen(
 @Composable
 fun stateLessMapDetail(
     onBackPressed: (String) -> Unit,
-    map: MapsUIModel
+    map: MapsUIModel,
+    scrollState: ScrollState
 ) {
     var isMapImageZoomable by remember { mutableStateOf(false) }
 
@@ -101,7 +104,7 @@ fun stateLessMapDetail(
         Column(
             modifier = Modifier
                 .padding(padding)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
                 .blur(if (isMapImageZoomable) 15.dp else 0.dp)
         ) {
             TopBarView(

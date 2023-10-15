@@ -4,6 +4,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,7 +18,8 @@ import com.example.composestarter.utils.ScreenRoutes
 
 fun NavGraphBuilder.mapsNavGraph(
     navController: NavController,
-    scrollState: LazyListState,
+    lazyScrollState: LazyListState,
+    scrollState: ScrollState
 ) {
     val navigation: (String) -> Unit = { route ->
         if (route == "-1") {
@@ -49,7 +51,7 @@ fun NavGraphBuilder.mapsNavGraph(
                 openDetail = {
                     navigation(it)
                 },
-                scrollState = scrollState
+                scrollState = lazyScrollState
             )
         }
         composable(
@@ -63,7 +65,8 @@ fun NavGraphBuilder.mapsNavGraph(
                 MapsDetailScreen(
                     onBackPressed = {
                         navigation(it)
-                    }
+                    },
+                    scrollState = scrollState
                 )
             }
         }

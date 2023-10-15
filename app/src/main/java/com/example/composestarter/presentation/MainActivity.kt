@@ -84,11 +84,30 @@ class MainActivity : ComponentActivity() {
                             }
 
                         ) {
-                            agentsNavGraph(navController, scrollState)
-                            mapsNavGraph(navController, lazyListState)
-                            weaponsNavGraph(navController, scrollState, lazyListState)
-                            favoritesNavGraph(lazyListState, scrollState)
-                            moreNavGraph(navController, lazyListState, lazyGridState, scrollState)
+                            agentsNavGraph(
+                                navController = navController,
+                                scrollState = scrollState
+                            )
+                            mapsNavGraph(
+                                navController = navController,
+                                lazyScrollState = lazyListState,
+                                scrollState = scrollState
+                            )
+                            weaponsNavGraph(
+                                navController = navController,
+                                scrollState = scrollState,
+                                lazyListState = lazyListState
+                            )
+                            favoritesNavGraph(
+                                lazyListState = lazyListState,
+                                scrollState = scrollState
+                            )
+                            moreNavGraph(
+                                navController = navController,
+                                lazyListState = lazyListState,
+                                lazyGridState = lazyGridState,
+                                scrollState = scrollState
+                            )
                         }
                     }
 

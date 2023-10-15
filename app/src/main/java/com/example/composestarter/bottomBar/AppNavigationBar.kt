@@ -93,7 +93,6 @@ internal fun AppNavigationBar(
     }
 
     AnimatedVisibility(visible = !isScrolling) {
-
         NavigationBar {
             bottomBarItems.forEachIndexed { index, item ->
                 val isTabSelected = item == currentTopLevelDestination
